@@ -1,0 +1,98 @@
+import BigInteger from '../jslibs/libSrpJsbn';
+
+const GlobalObj = {
+  Vars: {
+    contact_center_within_uae: '',
+    isCPSConsentRequired: '',
+    CUST_CID: '',
+    OPEN_NEW_ACCOUNT: '',
+    WAKALA_DEPOSITE_ALLOWED: '',
+    ACC_OPENING_ALLOWED: '',
+    PIL_TOPUP_ALLOWED: '',
+    IS_STAFF: '',
+    INVESTMENT_ALLOWED: '',
+    PIL_PROD_TYPE: '',
+    HERO_BANNER_SHOW: true,
+    BCP_PPP_TAX: '',
+    rVal: null,
+    regRand: null,
+    enc_key: '',
+    enc_salt: '',
+    handshakeKey: '',
+    SERVICE_CALL_TIME_OUT: 60,
+    isHandShakeSuccess: false,
+    gSalt: null,
+  },
+  Constants: {
+    SRP_RADIX: '16',
+    //constant N value used in SRP
+    SRP_N_VAL: new BigInteger(
+      '67023974718585348279895058792978999237671946155900853150421207619504873984279879743086720171651385477085462359692627418829874042895872317850584447392346203595033284363473295191819842794703178813665259187563807365820304038063562221166705855009787750514191624821367415799540987140489321799001611323806258702385'
+      // "167609434410335061345139523764350090260135525329813904557420930309800865859473551531551523800013916573891864789934747039010546328480848979516637673776605610374669426214776197828492691384519453218253702788022233205683635831626913357154941914129985489522629902540768368409482248290641036967659389658897350067939"
+    ),
+    SRP_ONE_VAL: new BigInteger('1', 16),
+    SRP_TWO_VAL: new BigInteger('2', 16),
+    SRP_G_VAL: new BigInteger('2'),
+    REG_G_VAL: new BigInteger('5'),
+    OTP_EXCEED: '3',
+    REG_P_VAL: new BigInteger(
+      '992C0121D709541C5AC7A5314928A29EAF83379FA173855797656F7E8D619ABF4E78B674A9124EBCB3EFA03C06794A756B64D466DC0BE599B6072031F979E8CD2201860AA628338484A63B11E12264AD3DF8202C44C238B895A0F5BBEE4A877B3812628E3E5B088AB827B7D5F1A16EF0292E9A539DE2153F97CB50EA364659CF',
+      16
+    ),
+    //constant k value used in SRP
+    SRP_K_VAL: new BigInteger('-4174333886048273630600358811582879996793440717662458513923749301055011587842'),
+    SRP_TYPES: {
+      PWD: 0,
+      BIO: 1,
+      PRELGN: 2,
+    },
+    OPERIDS: {
+      // INQ_PRE_FALCON_TOKEN_URL: 'inq_pre_falcon_token_url',
+
+      // INQ_FALCON_TOKEN_URL: 'inq_falcon_token_url',
+      OPER_INQ_HANDSHAKE: 'inq_handshake',
+      // OPER_INQ_APP_LAUNCH: 'inq_mib_applaunch',
+
+      // OPER_INQ_REG_START: 'inq_mib_reg_start',
+      // OPER_SUB_REG_REQUEST: 'sub_mib_reg_request',
+      // OPER_SUB_PWD_SETUP: 'sub_mib_pwd_setup',
+      // OPER_SUB_AUTH: 'sub_auth',
+      // OPER_SUB_DEVICE_ACTIVATION: 'sub_device_activation',
+
+      // OPER_INQ_PRE_CUST_INFO_DTL: 'inq_cust_info_dtl',
+      // OPER_SUB_LOGOUT: 'sub_logout',
+      // OPER_INQ_FT_MASTER: 'inq_ft_txn_master',
+      // INQ_CAMPAIGN_DTLS: 'inq_campaign_dtls',
+      // INQ_PUSH_TOKENIZED_CID: 'inq_push_tokenized_cid',
+      // OPER_INQ_FT_PAYEE_LANDING: 'inq_ft_payee_landing',
+
+      // OPER_SUB_SERV_REQ_INIT_NEW: 'scm_initialize',
+    },
+    OTP_SERVICE_INVOKED: true,
+    SERVICE_CALL_TIME_OUT: 60,
+    RESOURCE_DOWNLOAD_TIME_OUT: 180,
+    CONSTANT_APP_ID: 'DreamHomePortal',
+    ENCRYPT_KEY_SIZE: 256,
+    ENCRYPT_ITER_COUNT: 1,
+    IS_ENCRYPT_REQ: true,
+    ENCRYPT_IV: 'F27D5C9927726BCEFE7510B1BDD3D126',
+
+    //variable for storing dynamic salt(received from server as part of SRP)
+    gSalt: null,
+    //variable for storing static salt
+    AUTH_SALT: '3FF2EC019C627B945225DEBAD71A01B6985FE84C95A70EB132882F88C0A59A44',
+    AUTH_STEP: {
+      PRE_AUTH: 'pre_auth',
+      REGISTER: 'register',
+      POST_AUTH: 'post_auth',
+      PRE_AUTH_SESSION_EXT: 'pre_auth_session_ext',
+      PRE_EDW: 'pre_edw',
+    },
+    SERVICE_CALLOUT_QUICK_SERVICEID: {
+      inq_handshake: 10,
+      // inq_mib_applaunch: 10,
+    },
+  },
+};
+
+export default GlobalObj;

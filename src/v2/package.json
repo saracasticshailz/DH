@@ -1,0 +1,21 @@
+{
+  "name": "ADCBMIB",
+  "version": "1.0.0",
+  "description": "Common package for web and mobile",
+  "license": "ISC",
+  "author": "Ashish Ramtekkar",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "android": "cd mobile && npm run android ",
+    "ios": "cd mobile && npm run ios ",
+    "web": "cd web && ENV=dev npm run dev",
+    "web-uat": "cd web && ENV=uat npm run dev"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "md5": "^2.3.0",
+    "path": "^0.12.7"
+  }
+}

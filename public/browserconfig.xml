@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <tile>
+        <square150x150logo src="/img/favicon/custom-icon.png" />
+        <TileColor>#2d89ef</TileColor>
+    </tile>
+</browserconfig>

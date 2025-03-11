@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    /* Settings for Jest only, it doesn't work with tsconfig references correctly :( */
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@store/*": ["./store/*", "store/*"]
+    },
+    "target": "ES2022",
+    "types": ["vite/client" /* required to get import.meta working */, "@testing-library/jest-dom"]
+  },
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+}

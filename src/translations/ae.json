@@ -1,0 +1,23 @@
+{
+  "header": {
+    "language": "اللغة"
+  },
+  "footer": {
+    "copyRight": "حقوق النشر © 2025 بنك أبوظبي التجاري. جميع الحقوق محفوظة.",
+    "termsConditions": "الشروط والأحكام",
+    "privacyPolicy": "سياسة الخصوصية"
+  },
+  "signUpScreen": {
+    "name": "الاسم",
+    "enterYourName": "أدخل اسمك",
+    "enterYourEmail": "أدخل عنوان بريدك الإلكتروني",
+    "title": "التسجيل",
+    "email": "البريد الإلكتروني",
+    "signIn": "تسجيل الدخول",
+    "alreadyAMember": "هل لديك حساب بالفعل؟",
+    "phoneNumber": "رقم الهاتف",
+    "eId": "الهوية الإماراتية",
+    "enterYourEid": "أدخل رقم هويتك الإماراتية",
+    "createYourProfile": "أنشئ ملفك الشخصي"
+  }
+}

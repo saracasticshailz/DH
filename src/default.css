@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+* {
+  outline: 1px;
+}
+
+@font-face {
+  font-family: 'proximanova-regular-webfont';
+  src: url('./assets/fonts/proximanova-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  /* color: #f4f5f5; */
+}
+
+body {
+  margin: 0;
+  color: #273239;
+  background-color: #f4f5f5 !important;
+  font-family:
+    'proximanova-regular-webfont',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.footer-link {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-link li {
+  display: inline-flex;
+  font-weight: 600;
+}
+
+.footer-link li a {
+  color: inherit;
+  text-decoration: none;
+}

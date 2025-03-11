@@ -1,0 +1,260 @@
+{
+  "common": {
+    "noOptions": "No Options Found",
+    "loading": "Loading"
+  },
+  "header": {
+    "language": "Language"
+  },
+  "footer": {
+    "copyRight": "Copyright © 2025 ADCB. All rights reserved.",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy"
+  },
+  "signUpScreen": {
+    "name": "Name",
+    "enterYourName": "Enter your name",
+    "enterYourEmail": "Enter your email address",
+    "title": "Sign Up",
+    "email": "Email",
+    "signIn": "Sign In",
+    "alreadyAMember": "Already a member?",
+    "phoneNumber": "Phone Number",
+    "eId": "Emirates ID",
+    "enterYourEid": "Enter your Emirates ID",
+    "createYourProfile": "CREATE YOUR PROFILE"
+  },
+  "otpModal": {
+    "oneTimePassword": "One Time Password",
+    "aSecureOne": "A secure one time password (OTP) will be sent to your registered mobile number.",
+    "pleaseEnter": "Please enter this OTP to continue.",
+    "otpFor": "OTP for number {{phone}}",
+    "validFor": "Valid for {{min}} min {{sec}} seconds",
+    "resend": "Resend OTP",
+    "back": "Back"
+  },
+  "loginScreen": {
+    "title": "Login",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "dontHaveProfile": "Don't have a profile?",
+    "letsGetYouStarted": "LET'S GET YOU STARTED",
+    "proceed": "PROCEED"
+  },
+  "dashboardScreen": {
+    "hero": {
+      "welcome": "WELCOME SALIM",
+      "title": "Your Mortgage Dashboard"
+    },
+    "steps": {
+      "preApproval": {
+        "title": "1. Pre-approval",
+        "description": "Find out your loan eligibility in under 10 minutes.",
+        "subDescription": "Please keep your Emirates ID and Passport details handy to complete your application process.",
+        "inProgressDescription": "Thank you! Your application has been submitted and is under process. You can check back for updates. Once it’s ready, we’ll email it to your registered address.",
+        "apply": "APPLY",
+        "resend": "Resend"
+      },
+      "propertyValuation": {
+        "title": "2. Property Valuation",
+        "description": "Our independent third-party review will help determine your property's true value, ensuring a fair price and providing you peace of mind.",
+        "requestCalculation": "REQUEST VALUATION"
+      },
+      "finalOffer": {
+        "title": "3. Final Offer Letter",
+        "description": "Watch this space for another exciting digital journey that will soon be revealed to you."
+      }
+    },
+    "guide": {
+      "title": "Dream Home Buying Guide",
+      "description": "Our guidebook is designed to help you navigate every step of your home-buying journey.",
+      "button": "DOWNLOAD"
+    },
+    "deals": {
+      "title": "Deals and Discount",
+      "viewAll": "View All",
+      "description": "Discover home deals and discounts, curated to support you on your dream home journey.",
+      "items": {
+        "truck": {
+          "title": "800Truck",
+          "description": "30% discount on moving services at 800Truck"
+        },
+        "legal": {
+          "title": "Just Wills",
+          "description": "50% discount on will drafting services at JW Legal Consultants"
+        }
+      }
+    }
+  },
+  "preApproval": {
+    "hero": {
+      "step": "Step 1 of 3",
+      "title": "Pre-approval"
+    },
+    "loanDetails": {
+      "title": "Loan Details",
+      "description": "You can now choose from one of our flexible pricing options to suit your individual needs. Your monthly instalment and the eligible finance amount will be determined based on the pricing option you choose. Default rate will be applied to your Pre-Approval eligibility calculation if a choice is not made at this step.",
+      "specialPricing": "Based on your profile, you may be considered for special pricing on your Pre-approval letter.",
+      "loanPreference": {
+        "label": "Loan preference",
+        "options": {
+          "conventional": "ADCB",
+          "islamic": "ADCB Islamic"
+        }
+      },
+      "financePricing": {
+        "label": "Finance Pricing Options",
+        "learnMore": "Learn More",
+        "options": {
+          "threeYear": {
+            "title": "3 Year applicable fixed interest / Ijarah rate p.a. for first 3 years",
+            "description": "followed by 3 month Eibor plus applicable margins thereafter. Hybrid pricing structure."
+          },
+          "fiveYear": {
+            "title": "5 Year applicable fixed interest / Ijarah rate p.a. for first 5 years",
+            "description": "followed by 3 month Eibor plus applicable margins thereafter. Hybrid pricing structure."
+          },
+          "variable": {
+            "title": "Variable 1 month EIBOR",
+            "description": "plus applicable interest / Ijarah rate. Variable pricing structure."
+          }
+        }
+      },
+      "purchaseType": {
+        "label": "Type of purchase",
+        "placeholder": "Please select"
+      },
+      "loanAmount": {
+        "label": "Requested loan in AED",
+        "placeholder": "250,000 up to 24,000,000",
+        "currency": "AED"
+      },
+      "loanTenure": {
+        "label": "Loan tenure",
+        "placeholder": "1 to 25 years"
+      },
+      "specialistCode": {
+        "label": "Your mortgage specialist code (optional)",
+        "placeholder": "Please enter code"
+      },
+      "note": "Note: Rates may change at the time of your application.",
+
+      "buttons": {
+        "cancel": "CANCEL",
+        "continue": "CONTINUE"
+      }
+    },
+
+    "employmentDetails": {
+      "title": "Employment Details",
+      "employmentType": {
+        "label": "Employment type",
+        "options": {
+          "salaried": "Salaried",
+          "selfEmployed": "Self employed",
+          "pensioner": "Pensioner (UAE nationals only)"
+        }
+      },
+      "employerName": {
+        "label": "Employer name",
+        "placeholder": "Please enter"
+      },
+      "joiningDate": {
+        "label": "Date of joining current employer",
+        "placeholder": "DD/MM/YYYY"
+      },
+      "buttons": {
+        "back": "BACK",
+        "cancel": "CANCEL",
+        "continue": "CONTINUE"
+      },
+      "validation": {
+        "employmentType": {
+          "required": "Employment type is required",
+          "invalid": "Please select a valid employment type"
+        },
+        "employerName": {
+          "required": "Employer name is required"
+        },
+        "joiningDate": {
+          "required": "Joining date is required",
+          "format": "Date must be in DD/MM/YYYY format"
+        }
+      }
+    },
+    "incomeDetails": {
+      "title": "Income Details",
+      "fixedMonthlyIncome": {
+        "fixedMonthlyIncome": "Fixed monthly income",
+        "placeholder": "0 up to 99,000,000",
+        "helperText": "Basic salary and/or housing rent allowance",
+        "currency": "AED",
+        "errors": {
+          "required": "Required",
+          "min": "Must be 0 or greater",
+          "max": "Cannot exceed 99,000,000"
+        }
+      },
+      "accommodation": {
+        "label": "Staying in company provided accommodation",
+        "options": {
+          "yes": "Yes",
+          "no": "No"
+        },
+        "errors": {
+          "required": "Required"
+        }
+      },
+      "annualRentalIncome": {
+        "annualRentalIncome": "Annual rental income",
+        "placeholder": "0 up to 99,000,000",
+        "currency": "AED",
+        "errors": {
+          "required": "Required",
+          "min": "Must be 0 or greater",
+          "max": "Cannot exceed 99,000,000"
+        }
+      },
+      "otherMonthlyIncome": {
+        "placeholder": "0 up to 9,000,000",
+        "helperText": "Travel and/or Education Allowance",
+        "currency": "AED",
+        "errors": {
+          "required": "Required",
+          "min": "Must be 0 or greater",
+          "max": "Cannot exceed 9,000,000"
+        },
+        "otherMonthlyIncome": "Other Monthly Income"
+      },
+      "termsAndConditions": {
+        "text": "I agree to the",
+        "link": "Terms & Conditions",
+        "errors": {
+          "required": "Required",
+          "accept": "You must accept the terms and conditions"
+        }
+      },
+      "buttons": {
+        "back": "BACK",
+        "cancel": "CANCEL",
+        "submit": "SUBMIT"
+      }
+    }
+  },
+  "valuation": {
+    "payment": {
+      "title": "Payment Details",
+      "description": "Congratulations! You've reached the final step of your valuation process. Please proceed to pay your valuation fee to complete your application.",
+      "discountCode": "Enter Discount Code",
+      "applyDiscount": "Apply",
+      "standardFees": "STANDARD FEES",
+      "vat": "VAT (5%)",
+      "totalPayable": "TOTAL PAYABLE",
+      "discountApplied": "Discount has been successfully applied to your order",
+      "errors": {
+        "noDiscountCode": "Please enter a discount code",
+        "invalidDiscount": "Invalid discount code"
+      }
+    }
+  }
+}
