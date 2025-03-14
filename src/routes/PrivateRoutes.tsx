@@ -10,6 +10,7 @@ import LoanDetails from '@/views/Dashboard/Preapproval/LoanDetails';
 import PreApprovalPage from '@/views/Dashboard/Preapproval/PreApprovalPage';
 import PropertyDetailsForm from '@/views/Dashboard/PropertyValuation/PropertyDetailsForm';
 import PropertyValuation from '@/views/Dashboard/PropertyValuation';
+import RmLoginScreen from '@/views/Auth/RM/RmLogin';
 const MortgageDashboard = lazy(() => import('@/views/Dashboard/MortgageDashboard/MortgageDashboard'));
 
 const PRIVATE_ROUTES = [
@@ -46,6 +47,10 @@ const PRIVATE_ROUTES = [
       {
         path: '/PreApprovalPage',
         element: <PreApprovalPage />,
+      },
+      {
+        path: './RmLogin',
+        element: <RmLoginScreen />,
       },
     ],
   },
