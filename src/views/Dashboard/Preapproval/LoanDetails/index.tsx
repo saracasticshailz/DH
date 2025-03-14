@@ -12,6 +12,11 @@ import FinancingOptionsGroup from '@/components/PreApproval/FinancingOptionsGrou
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '@/store';
 import { styled } from '@mui/system';
+import { useEffect } from 'react';
+import API from '@/utils/apiEnpoints';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import { updateRMDetails } from '@/store/slices/CustomerAuthSlice';
 
 interface FormValues {
   loanPreference: 'ADCB' | 'ADCB Islamic';
@@ -97,6 +102,46 @@ export default function LoanDetails() {
   const handleBack = () => {
     dispatch(setPreApprovalStep(0));
   };
+
+  const getRmDetails = () => {
+    modNetwork(
+      API.FETCH_RM_DETAILS,
+
+      {
+        searchParameterType: 'RMCODE',
+        searchParameterValue: values.specialistCode,
+      },
+      (res: any) => {
+        // "oprstatus": 0,
+        // "returnCode": "0",
+        // "httpStatusCode": 0,
+        // "rmDetails": [
+        // "rmCode": "C106794"
+        // "rmMobile": "971562910316",
+        // "rmEmailld": "HeenaRajwani.ext@adcb.com",
+        // "rmName": "MAHJOOB MUSTAFA"
+        // },
+        // "rmCode": "C109094",
+        // "rmMobile": "971562910316",
+        // "rmEmailld": "hr.ext@adcb.com",
+        // "rmName":
+        console.log('FETCH_RM_DETAILS', res);
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          dispatch(updateRMDetails(res.rmDetails[0]));
+        } else {
+          alert(res.errmsg[1]);
+        }
+      },
+      '',
+      '',
+      '',
+      'register'
+    );
+  };
+  useEffect(() => {
+    getRmDetails();
+  }, [values.specialistCode]);
+
   return (
     <Box sx={{ bgcolor: '#F5F5F5', minHeight: '100vh' }}>
       <Container maxWidth="lg">

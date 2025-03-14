@@ -1,7 +1,7 @@
-import GlobalObj from "./appGlobal";
-import appUtils from "./appUtils";
+import GlobalObj from './appGlobal';
+import appUtils from './appUtils';
 
-import modNetwork, { mfconnector } from "./modNetwork";
+import modNetwork, { mfconnector } from './modNetwork';
 
 const modMIBInit = {
   regHandShakeServiceCall: function (handShakeDataCallback) {
@@ -17,9 +17,9 @@ const modMIBInit = {
       GlobalObj.Constants.OPERIDS.OPER_INQ_HANDSHAKE,
       inputParamObj,
       handShakeDataCallback,
-      "",
-      "",
-      "",
+      '',
+      '',
+      '',
       GlobalObj.Constants.AUTH_STEP.PRE_AUTH
     );
   },

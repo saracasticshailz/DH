@@ -7,6 +7,13 @@ export interface PreApprovalState {
   activeStep: number;
   maxSteps: number;
   completedSteps: number[];
+
+  createCustomerProfile: {
+    name: string;
+    phoneNumber: string;
+    email: string;
+    emiratesId: string;
+  };
   personalDetails: {
     customerName: string;
     gender: string;

@@ -188,7 +188,7 @@ export const Invoker = () => {
       }
 
       const data = await response.json();
-      console.log('DATA', data);
+      // console.log('DATA', data);
 
       if (onSuccessCallBack) {
         onSuccessCallBack(data); // Call the success callback with the response data

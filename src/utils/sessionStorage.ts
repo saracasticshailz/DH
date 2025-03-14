@@ -2,9 +2,6 @@ import { IS_SERVER } from './environment';
 
 type StorageValue = string | number | boolean | object | bigint;
 
-/**
- * Smartly reads value from sessionStorage
- */
 export function sessionStorageGet(name: string, defaultValue: unknown = ''): StorageValue {
   if (IS_SERVER) {
     return defaultValue as StorageValue; // We don't have access to sessionStorage on the server

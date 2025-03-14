@@ -4,6 +4,15 @@ import Typography from '@mui/material/Typography';
 import { IMG } from '@/assets/images';
 import { IconButton } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import AppButton from '../AppButton';
+import DownloadButton from '../DownloadButton/DownloadButton';
+import MiniButton from '../MiniButton/MiniButton';
+import { EditIcon } from 'lucide-react';
+import { Logout } from '@mui/icons-material';
+import { useEventLogout, useIsAuthenticated } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { logout, selectAuth } from '@/store/slices/CustomerAuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AuthHeader: FC = () => {
   const { i18n, t } = useTranslation();
@@ -11,6 +20,16 @@ const AuthHeader: FC = () => {
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'ae' : 'en';
     i18n.changeLanguage(newLang);
+  };
+  const { isAuthenticated } = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    alert('Sure Want to logout?');
+    // useEventLogout();
+    dispatch(logout());
+    navigate('/Login', { replace: true });
   };
 
   return (
@@ -39,9 +58,16 @@ const AuthHeader: FC = () => {
           </Typography>
         </IconButton>
 
-        {/* <AppButton withBorder onClick={() => console.log('logout')} size={'small'}>
+        {/* <AppButton
+          style={{ borderRadius: 12 }}
+          withBorder
+          fullWidth={false}
+          onClick={() => console.log('logout')}
+          size={'small'}
+        >
           LOGOUT
         </AppButton> */}
+        {isAuthenticated && <MiniButton text="Logout" icon={<Logout />} onPress={handleLogout} />}
       </Grid>
     </Grid>
   );

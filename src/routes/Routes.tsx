@@ -5,6 +5,7 @@ import { AppLoading } from '@/components';
 // import { useAuthWatchdog, useIsAuthenticated } from '@/hooks';
 import PRIVATE_ROUTES from './PrivateRoutes';
 import PUBLIC_ROUTES from './PublicRoutes';
+import { useAuthWatchdog, useIsAuthenticated } from '@/hooks';
 
 const routesPrivate = createBrowserRouter(PRIVATE_ROUTES);
 const routesPublic = createBrowserRouter(PUBLIC_ROUTES);
@@ -16,7 +17,7 @@ const routesPublic = createBrowserRouter(PUBLIC_ROUTES);
 const Routes = () => {
   const [loading, setLoading] = useState(false); // True until the AuthWatchdog tells us if user is authenticated or not
   const [refreshCount, setRefreshCount] = useState(0);
-  // const isAuthenticated = useIsAuthenticated();
+  const isAuthenticated = useIsAuthenticated();
 
   const afterLogin = useCallback(() => {
     setRefreshCount((old) => old + 1); // Force re-render
@@ -29,7 +30,7 @@ const Routes = () => {
   }, []);
 
   // Create Auth watchdog, that calls our callbacks wen user is logged in or logged out
-  // useAuthWatchdog(afterLogin, afterLogout);
+  useAuthWatchdog(afterLogin, afterLogout);
 
   if (loading) {
     return <AppLoading />; // Show loading spinner until we know if user is authenticated or not

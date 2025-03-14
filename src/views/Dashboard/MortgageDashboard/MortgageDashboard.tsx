@@ -8,6 +8,8 @@ import GuideCard from '@/components/Dashboard/GuideCard';
 import DealsCard from '@/components/Dashboard/DealsCard';
 import ContactCard from '@/components/common/SpecialistCard';
 import { COLORS } from '@/theme/colors';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
 
 import {
   // getCustomerJourneyStatus,
@@ -18,6 +20,8 @@ import {
   getLoanStatusText,
 } from '@/store/slices/CustomerAuthSlice';
 import { useAppSelector } from '@/hooks/redux';
+import { useEffect } from 'react';
+import API from '@/utils/apiEnpoints';
 
 export default function MortgageDashboard() {
   const { t } = useTranslation();
@@ -26,10 +30,15 @@ export default function MortgageDashboard() {
   const customerDetails = useAppSelector(selectCustomerDetails);
   const selectRMDetails_ = useAppSelector(selectRMDetails);
   const journeyStatus: any = applicationDetails.loanApplicationStatus;
-  console.log('journeyStatus', journeyStatus);
-  console.log('selectRMDetails_', selectRMDetails_);
+  // console.log('journeyStatus', journeyStatus);
+  // console.log('selectRMDetails_', selectRMDetails_);
 
-  // console.log('getCustomerJourneyStatus', applicationDetails.loanApplicationStatus);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   const deals = [
     {
@@ -75,7 +84,11 @@ export default function MortgageDashboard() {
                   subDescription={t('dashboardScreen.steps.preApproval.subDescription')}
                   buttonText={t('dashboardScreen.steps.preApproval.apply')}
                   active={true}
-                  onButtonClick={() => navigate('/PreApprovalPage')}
+                  onButtonClick={() =>
+                    journeyStatus !== 'PR' && journeyStatus !== 'PP' && journeyStatus !== 'IN_PROGRESS'
+                      ? alert('will dp resend api')
+                      : navigate('/PreApprovalPage')
+                  }
                   status={
                     journeyStatus === 'Blank'
                       ? 'new'
@@ -101,9 +114,9 @@ export default function MortgageDashboard() {
                 <MortgageStep
                   title={t('dashboardScreen.steps.propertyValuation.title')}
                   description={t('dashboardScreen.steps.propertyValuation.description')}
-                  // buttonText={t('dashboardScreen.steps.propertyValuation.requestCalculation')}
+                  buttonText={t('dashboardScreen.steps.propertyValuation.requestCalculation')}
                   onButtonClick={() => navigate('/PropertyValuation')}
-                  withButton={false}
+                  withButton={true}
                 />
 
                 <MortgageStep
@@ -116,11 +129,13 @@ export default function MortgageDashboard() {
 
           {/* Right Side Cards */}
           <Grid size={{ xs: 12, md: 4 }}>
-            <ContactCard
-              name={selectRMDetails_?.rmName ? selectRMDetails_.rmName : 'Heena Rajwani'}
-              email={selectRMDetails_?.rmEmailId ? selectRMDetails_.rmEmailId : 'heena@adcb.com'}
-              phone={selectRMDetails_?.rmMobile ? selectRMDetails_.rmMobile : '+971 897876678'}
-            />
+            {selectRMDetails_.rmName !== null && (
+              <ContactCard
+                name={selectRMDetails_?.rmName ? selectRMDetails_.rmName : 'Heena Rajwani'}
+                email={selectRMDetails_?.rmEmailId ? selectRMDetails_.rmEmailId : 'heena@adcb.com'}
+                phone={selectRMDetails_?.rmMobile ? selectRMDetails_.rmMobile : '+971 897876678'}
+              />
+            )}
 
             <GuideCard
               title="Dream Home Buying Guide"

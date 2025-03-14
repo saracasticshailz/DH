@@ -17,7 +17,7 @@ export type LoanApplicationStatus =
   | ''; // Empty string for initialization
 
 // Define customer types
-export type CustomerType = 'ETB' | 'NTB' | null; // Existing To Bank / New To Bank
+export type CustomerType = 'ETB' | 'NTB' | 'RM' | null; // Existing To Bank / New To Bank
 
 // Define the type for the auth state
 export interface AuthState {
@@ -52,9 +52,9 @@ const initialState: AuthState = {
   customerName: null,
   loanApplicationNo: null,
   loanApplicationStatus: null,
-  rmCode: null,
-  rmEmailId: null,
-  rmMobile: null,
+  rmCode: 'DEMO',
+  rmEmailId: 'heisenberg@123.com',
+  rmMobile: '+971987898789',
   orderId: null,
   orderStatus: null,
   rmName: null,
@@ -98,11 +98,10 @@ export const customerAuthSlice = createSlice({
       };
     },
 
-    // Logout
+    // Logout - FIXED VERSION
     logout: (state) => {
-      return {
-        ...initialState,
-      };
+      // Simply return to initial state
+      return initialState;
     },
 
     // Update application status
@@ -119,12 +118,12 @@ export const customerAuthSlice = createSlice({
       if (action.payload.loanApplicationStatus) {
         state.loanApplicationStatus = action.payload.loanApplicationStatus;
       }
-      // if (action.payload.orderStatus) {
-      //   state.orderStatus = action.payload.orderStatus;
-      // }
-      // if (action.payload.displayMessage) {
-      //   state.displayMessage = action.payload.displayMessage;
-      // }
+      if (action.payload.orderStatus) {
+        state.orderStatus = action.payload.orderStatus;
+      }
+      if (action.payload.displayMessage) {
+        state.displayMessage = action.payload.displayMessage;
+      }
     },
 
     // Update RM details
@@ -169,62 +168,7 @@ export const selectCustomerDetails = (state: RootState) => ({
   lastLoginDatetime: state.customerAuth.lastLoginDatetime,
 });
 
-export const isLoading = (state: RootState) => {
-  state.customerAuth.loading;
-};
-
-// export const getCustomerJourneyStatus = (status: LoanApplicationStatus | null, customerType: CustomerType): string => {
-//   if (!status) return 'Not Available';
-
-//   // Status mapping based on the provided table
-//   const statusMap: Record<LoanApplicationStatus, Record<string, string>> = {
-//     Blank: { ETB: 'Apply', NTB: 'Apply' },
-//     PR: { ETB: 'Rejected', NTB: 'Rejected' },
-//     PP: { ETB: 'Pending Pre-Approval', NTB: 'Pending Pre-Approval' },
-//     PC: { ETB: 'Approved', NTB: 'Approved' },
-//     UP: { ETB: 'ADCB Unapproved Property', NTB: 'ADCB Unapproved Property' },
-//     NO: { ETB: 'Valuation Draft In-Progress', NTB: 'Valuation Draft In-Progress' },
-//     CP: { ETB: 'Pending Customer Consent and Payment', NTB: 'Pending Customer Consent and Payment' },
-//     DU: { ETB: 'Pending Customer Consent and Payment', NTB: 'Pending Customer Consent and Payment' },
-//     OI: { ETB: 'Valuation Order In-Progress', NTB: 'Valuation Order In-Progress' },
-//     VC: { ETB: 'Valuation Report Generated', NTB: 'Valuation Report Generated' },
-//     '': { ETB: 'Not Available', NTB: 'Not Available' },
-//     // IP :{}
-//   };
-
-//   return statusMap[status][customerType || 'ETB'] || 'Not Available';
-// };
-
-// Helper function to get next action button text based on loan status and customer type
-// export const getNextActionButtonText = (
-//   status: LoanApplicationStatus | null,
-//   customerType: CustomerType
-// ): string | null => {
-//   if (!status || !customerType) return null;
-
-//   // Next action mapping based on the provided table
-//   const actionMap: Record<LoanApplicationStatus, Record<string, string | null>> = {
-//     Blank: { ETB: 'Apply Preapproval', NTB: 'Apply Preapproval' },
-//     PR: { ETB: 'Not Applicable', NTB: 'Not Applicable' },
-//     PP: { ETB: 'Not Applicable', NTB: 'Not Applicable' },
-//     PC: { ETB: 'REQUEST FOR VALUATION', NTB: 'Not Applicable' },
-//     UP: { ETB: 'RESTART VALUATION', NTB: 'Not Applicable' },
-//     NO: { ETB: 'CONTINUE JOURNEY', NTB: 'Not Applicable' },
-//     CP: { ETB: 'CONTINUE PAYMENT', NTB: 'Not Applicable' },
-//     DU: { ETB: 'CONTINUE PAYMENT', NTB: 'Not Applicable' },
-//     OI: { ETB: 'Not Applicable', NTB: 'Not Applicable' },
-//     VC: { ETB: 'Not Applicable', NTB: 'Not Applicable' },
-//     '': { ETB: null, NTB: null },
-//   };
-
-//   return actionMap[status][customerType];
-// };
-
-// Helper function to check if next action is available
-// export const hasNextAction = (status: LoanApplicationStatus | null, customerType: CustomerType): boolean => {
-//   const nextAction = getNextActionButtonText(status, customerType);
-//   return nextAction !== null && nextAction !== 'Not Applicable';
-// };
+export const isLoading = (state: RootState) => state.customerAuth.loading;
 
 // Helper function to get human-readable status
 export const getLoanStatusText = (status: LoanApplicationStatus | null): string => {

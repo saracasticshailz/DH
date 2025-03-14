@@ -5,19 +5,22 @@ import { Stack } from '@mui/material';
 import { AppButton, AppLink, AppView } from '@/components';
 import NotImplementedView from '../NotImplementedView';
 import { sessionStorageSet } from '@/utils/sessionStorage';
+import { useAppDispatch } from '@/hooks/redux';
+import { useEventLogout } from '@/hooks';
 
 const AuthView = () => {
   const navigate = useNavigate();
   // const [, dispatch] = useAppStore();
-  // const onLogout = useEventLogout();
+  const dispatch = useAppDispatch();
+  const onLogout = useEventLogout();
 
-  // const onLogin = () => {
-  //   // TODO: AUTH: Sample of access token store, replace next line in real application
-  //   sessionStorageSet('access_token', 'TODO:_save-real-access-token-here');
+  const onLogin = () => {
+    // TODO: AUTH: Sample of access token store, replace next line in real application
+    // sessionStorageSet('access_token', 'TODO:_save-real-access-token-here');
 
-  //   dispatch({ type: 'LOG_IN' });
-  //   navigate('/', { replace: true }); // Redirect to home page without ability to go back
-  // };
+    dispatch({ type: 'LOG_IN' });
+    navigate('/', { replace: true }); // Redirect to home page without ability to go back
+  };
 
   return (
     <AppView>

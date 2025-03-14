@@ -3,6 +3,7 @@ import { Box, CardContent, Typography, styled } from '@mui/material';
 // import { Mail, Phone, User } from 'lucide-react';
 import { IMG } from '@/assets/images';
 import { StyledCard } from '../StylesCard';
+import { Person } from '@mui/icons-material';
 
 interface ContactCardProps {
   name: string;
@@ -56,8 +57,10 @@ const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, title = '
         <ContactItem>
           <IconWrapper>
             {/* <User size={20} /> */}
-            <img src={IMG.UserIconcard} />
+            {/* <img src={IMG.UserIconcard} /> */}
+            <Person />
           </IconWrapper>
+
           <Typography
             sx={{
               color: '#4B5563',

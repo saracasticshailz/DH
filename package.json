@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "DreamHomePortal",
-  "version": "0.5.55",
+  "version": "0.0.01",
   "description": "Dream Home Portal",
   "author": {
     "name": "Shailesh Wadekar",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "format": "prettier ./src --write",
     "lint": "eslint .",
     "preview": "vite preview",

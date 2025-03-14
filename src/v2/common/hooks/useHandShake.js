@@ -18,49 +18,56 @@ const useHandShake = () => {
   useEffect(function () {
     console.log('useHandShake');
 
-    // async function getAppLaunchInputParam() {
-    //   // const devId = modDeviceInfoUtil.getDeviceID();
-    //   // const plat = Platform.OS.toUpperCase();
-    //   // const osV = DeviceInfo.getSystemVersion();
-    //   // const dmV = await DeviceInfo.getDeviceName();
-    //   // const appVersionV = '17.5.0'; // DeviceInfo.getVersion();
-    //   // const clientTime = '' + modDateTimeUtil.getCurrentTime();
+    async function getAppLaunchInputParam() {
+      // const devId = modDeviceInfoUtil.getDeviceID();
+      // const plat = Platform.OS.toUpperCase();
+      // const osV = DeviceInfo.getSystemVersion();
+      // const dmV = await DeviceInfo.getDeviceName();
+      // const appVersionV = '17.5.0'; // DeviceInfo.getVersion();
+      // const clientTime = '' + modDateTimeUtil.getCurrentTime();
 
-    //   // var inputParamObj = {
-    //   //   devdtls: {
-    //   //     plat: plat,
-    //   //     chnl: 'mobile',
-    //   //     os: osV,
-    //   //     dm: dmV,
-    //   //   },
-    //   //   deviceId: devId, //"f588f5c5079ff48d", // '9667038cc6f9d124',
-    //   //   appVersion: appVersionV,
-    //   //   imeiNo: null,
-    //   //   appVer: appVersionV,
-    //   //   lang: 'en',
-    //   //   devScrnKey: '',
-    //   // };
-    //   console.log(inputParamObj);
-    //   var inputParamObj = {
-    //     devdtls: {
-    //       plat: 'ANDROID',
-    //       chnl: 'mobile',
-    //       os: '11',
-    //       dm: 'sdk_gphone_x86',
-    //     },
-    //     deviceId: 'f588f5c5079ff48d', //"f588f5c5079ff48d", // '9667038cc6f9d124',
-    //     appVersion: '16.5.2',
-    //     imeiNo: null,
-    //     appVer: '16.5.2',
-    //     lang: 'en',
-    //     devScrnKey: '',
-    //   };
+      // var inputParamObj = {
+      //   devdtls: {
+      //     plat: plat,
+      //     chnl: 'mobile',
+      //     os: osV,
+      //     dm: dmV,
+      //   },
+      //   deviceId: devId, //"f588f5c5079ff48d", // '9667038cc6f9d124',
+      //   appVersion: appVersionV,
+      //   imeiNo: null,
+      //   appVer: appVersionV,
+      //   lang: 'en',
+      //   devScrnKey: '',
+      // };
+      console.log(inputParamObj);
+      var inputParamObj = {
+        // name: 'ABC',
+        emiratesId: '784199124583210',
+        mobileNumber: '971582109809',
+        emailId: 'values.email@gmai.com',
+        // journeyType: 'CUSTOMER',
+      };
+      //  {
+      //   devdtls: {
+      //     plat: 'ANDROID',
+      //     chnl: 'mobile',
+      //     os: '11',
+      //     dm: 'sdk_gphone_x86',
+      //   },
+      //   deviceId: 'f588f5c5079ff48d', //"f588f5c5079ff48d", // '9667038cc6f9d124',
+      //   appVersion: '16.5.2',
+      //   imeiNo: null,
+      //   appVer: '16.5.2',
+      //   lang: 'en',
+      //   devScrnKey: '',
+      // };
 
-    //   return inputParamObj;
-    // }
+      return inputParamObj;
+    }
 
-    function handShakeDataCallback(response) {
-      console.log('handShakeDataCallback', response);
+    async function handShakeDataCallback(response) {
+      // console.log('handShakeDataCallback', response);
 
       GlobalObj.Vars.isHandShakeSuccess = true;
       if (response.a != null && response.a != undefined) {
@@ -136,29 +143,43 @@ const useHandShake = () => {
         // const launchParams = await this.getAppLaunchInputParam();
 
         // appUtils.setStaticUrls(response['URLMapping']);
-        // getAppLaunchInputParam().then((inputParamObj) =>
-        //   modNetwork(
-        //     GlobalObj.Constants.OPERIDS.OPER_INQ_APP_LAUNCH,
-        //     inputParamObj,
-        //     (res) => {
-        //       // dispatch(updateMibAppConfig(res));
-        //       console.log(res);
-        //       if (res != null) {
-        //         if (res.nextScreen == 'HME') {
-        //           // navigation.replace("WelcomeScreen");
-        //         } else if (res.nextScreen == 'PWD' || res.nextScreen == 'NPE') {
-        //           // navigation.replace("PreLoginLanding");
-        //         }
-        //       }
-        //     },
-        //     '',
-        //     '',
-        //     '',
-        //     GlobalObj.Constants.AUTH_STEP.REGISTER
-        //   )
+
+        // getAppLaunchInputParam().then(
+        //   (inputParamObj) =>
+        //     modNetwork(
+        //       'sub_signup_signin',
+        //       inputParamObj,
+        //       (res) => {
+        //         console.log('151', res);
+        //       },
+        //       '',
+        //       '',
+        //       '',
+        //       GlobalObj.Constants.AUTH_STEP.REGISTER
+        //     )
+        //   // modNetwork(
+        //   //   GlobalObj.Constants.OPERIDS.OPER_INQ_APP_LAUNCH,
+        //   //   inputParamObj,
+        //   //   (res) => {
+        //   //     // dispatch(updateMibAppConfig(res));
+        //   //     console.log(res);
+        //   //     if (res != null) {
+        //   //       if (res.nextScreen == 'HME') {
+        //   //         // navigation.replace("WelcomeScreen");
+        //   //       } else if (res.nextScreen == 'PWD' || res.nextScreen == 'NPE') {
+        //   //         // navigation.replace("PreLoginLanding");
+        //   //       }
+        //   //     }
+        //   //   },
+        //   //   '',
+        //   //   '',
+        //   //   '',
+        //   //   GlobalObj.Constants.AUTH_STEP.REGISTER
+        //   // )
         // );
       }
     }
+
     GlobalObj.Vars.enc_salt = GlobalObj.Constants.AUTH_SALT;
     modMIBInit.regHandShakeServiceCall(handShakeDataCallback);
   }, []);

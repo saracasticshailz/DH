@@ -22,6 +22,12 @@ import AppDialogTitle from '@/components/dialogs/components/AppDialogTitle.js';
 import { Alert } from '@mui/material';
 import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
+import API from '@/utils/apiEnpoints';
+
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+
+import { signupUser } from '@/store/actions/authActions';
 
 const SignupScreen = () => {
   const { t } = useTranslation();
@@ -57,7 +63,6 @@ const SignupScreen = () => {
     // "mobileNumber": 971542141089,
     // "emailld": "GR1@ADCB.COM",
     // "journeyType": "''
-    // }
 
     //RESPONSE
     // "emailMasked".""
@@ -66,44 +71,52 @@ const SignupScreen = () => {
     // "mobileMasked":'
     setAuthModalOpen(false);
 
-    await invokeOperation(
-      'sub_signup_signin',
-      {},
+    // signupUser(
+    //   {
+    //     name: values.name,
+    //     emiratesId: values.emiratesId,
+    //     mobileNumber: values.phoneNumber,
+    //     emailId: values.email,
+    //     journeyType: 'CUSTOMER',
+    //   },
+    //   (res) => {
+    //     setAuthModalOpen(true)
+    //     setMaskedPhoneNumber(res.mobileMasked)
+    //   },
+    //   (error) => {
+    //     console.error("Signup failed:", error)
+    //   },
+    // )
+
+    modNetwork(
+      API.SIGNUP_API,
       {
         name: values.name,
         emiratesld: values.emiratesId,
         mobileNumber: values.phoneNumber,
         emailld: values.email,
         journeyType: 'CUSTOMER',
-      }, //body
+      },
       (res: any) => {
-        //{"oprstatus":0,"returnCode":"0", "otpSentStatus": "B" "opstatus" :0, "lapsRefNumber":"017843", "emailMasked":"©***1@**
-        // *COM", "mobileMasked": "***995", "httpStatusCode":0}
-
-        //{"oprstatus":0,"returnCode""1" "errmsg":"[l"errMsg_AR|":|".لم نتمكن من تنتيذ طلبك. يرجى المحاولة مرة
-        // Suf!"\"errMsg_EN|":|"We are unable to carry out your instructions currently. Please try later.\"}", "opstatus" :0,"httpStatusCode" :0}
-
-        // console.log('sub_signup_signin RES', res);
         if (res.oprstatus == 0 && res.returnCode == 0) {
-          //OTP TRIGGERED
           setAuthModalOpen(true);
           setMaskedPhoneNumber(res.mobileMasked);
         } else {
-          // setShowAlert(true);
           alert(res.errmsg[1]);
+          console.log('ERROR', res);
+          alert(JSON.stringify(res));
+          // setAuthModalOpen(true);
         }
       },
-      (err: any) => {
-        console.log('ERROR', err);
-        alert(JSON.stringify(err));
-        setAuthModalOpen(true);
-      }
+      '',
+      '',
+      '',
+      'register'
     );
   };
 
   const handleOTPSubmit = async (enteredOtp: string) => {
     // {
-
     //   }
     //   "lapsRefNumber" "",
     //   "applicationRefNumber".'
@@ -111,70 +124,47 @@ const SignupScreen = () => {
     //   "customerType".
     //   "lastLoginDatetime":"''
     //   }
-
-    await invokeOperation(
-      'sub_otp_verify',
-      {},
+    modNetwork(
+      API.OTP_VERIFY_API,
       {
         lapsRefNumber: lapsRefNumber,
         otpType: 'M',
         custOtp: enteredOtp,
       },
       (res: any) => {
-        console.log('sub_otp_verify RES', res);
-        dispatch(
-          updateProfile({
-            applicationRefNumber: 'LP-ML-00014325',
-            displayMessage: '',
-            addinfoReqFlag: 'y',
-            lapsRefNumber: 17843,
-            customerName: '',
-            loanApplicationNo: '',
-            loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
-            rmCode: '',
-            rmEmailId: 'null',
-            rmMobile: 'null',
-            orderId: '',
-            orderStatus: '',
-            rmName: 'null',
-            approvalDate: '',
-            customerType: 'NTB',
-            lastLoginDatetime: '2025-03-03 11:38:50',
-          })
-        );
-
+        console.log('OTP_VERIFY_API', res);
         if (res.oprstatus == 0 && res.returnCode == 0) {
-          navigate('/Dashboard');
+          // {
+          //   applicationRefNumber: 'LP-ML-00014325',
+          //   displayMessage: '',
+          //   addinfoReqFlag: 'y',
+          //   lapsRefNumber: 17843,
+          //   customerName: '',
+          //   loanApplicationNo: '',
+          //   loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
+          //   rmCode: '',
+          //   rmEmailId: 'null',
+          //   rmMobile: 'null',
+          //   orderId: '',
+          //   orderStatus: '',
+          //   rmName: 'null',
+          //   approvalDate: '',
+          //   customerType: 'NTB',
+          //   lastLoginDatetime: '2025-03-03 11:38:50',
+          // }
+          dispatch(updateProfile(res)); //
+          navigate('/Dashboard', {
+            state: { preventBack: true },
+          });
         } else {
-          alert(res.errmsg[1]);
+          navigate('/Dashboard');
+          alert(res.errmsg);
         }
       },
-      (err: any) => {
-        console.log('ERROR', err);
-        dispatch(
-          updateProfile({
-            applicationRefNumber: 'LP-ML-00014325',
-            displayMessage: '',
-            addinfoReqFlag: 'y',
-            lapsRefNumber: 17843,
-            customerName: '',
-            loanApplicationNo: '',
-            loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
-            rmCode: '',
-            rmEmailId: 'null',
-            rmMobile: 'null',
-            orderId: '',
-            orderStatus: '',
-            rmName: 'null',
-            approvalDate: '',
-            customerType: 'NTB',
-            lastLoginDatetime: '2025-03-03 11:38:50',
-          })
-        );
-        navigate('/Dashboard');
-
-        alert(JSON.stringify(err));
-      }
+      '',
+      '',
+      '',
+      'register'
     );
   };
 

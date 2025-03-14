@@ -15,9 +15,14 @@ import OtpModal from '@/components/modal/otpModal';
 import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
 
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+
 const LoginScreen = () => {
   const { t } = useTranslation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [maskedPhoneNumber, setMaskedPhoneNumber] = useState('');
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -34,9 +39,33 @@ const LoginScreen = () => {
 
   const initialValues = { phoneNumber: '' };
 
-  const handleSubmit = (values: any) => {
-    console.log('Form Data:', values);
-    navigate('/Dashboard');
+  const handleSubmit = async (values: any) => {
+    //RESPONSE
+    // "emailMasked".""
+    // "lapsRefNumber"."'
+    // "otpSentStatus":"'
+    // "mobileMasked":'
+    setAuthModalOpen(false);
+    modNetwork(
+      API.SIGNUP_API, // as discussed with noman will use same API
+      {
+        mobileNumber: values.phoneNumber,
+        journeyType: 'CUSTOMER',
+      },
+      (res: any) => {
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          setAuthModalOpen(true);
+          setMaskedPhoneNumber(res.mobileMasked);
+        } else {
+          console.log('ERROR', res);
+          alert(JSON.stringify(res));
+        }
+      },
+      '',
+      '',
+      '',
+      'register'
+    );
   };
 
   const navigate = useNavigate();
@@ -77,15 +106,13 @@ const LoginScreen = () => {
                 {({ values, handleChange }) => (
                   <Form className="mb-10">
                     <TextInput
-                      name={t('loginScreen.phoneNumber')}
+                      name={'phoneNumber'}
                       countryCode="+971"
                       value={values.phoneNumber}
                       onChange={handleChange}
                       placeholder={t('000 000 000')}
                       label={t('loginScreen.phoneNumber')}
-                      onBlur={function (event: React.FocusEvent<HTMLInputElement>): void {
-                        throw new Error('Function not implemented.');
-                      }}
+                      onBlur={() => undefined}
                     />
 
                     <AppButton onClick={() => setAuthModalOpen(true)}>{t('loginScreen.proceed')}</AppButton>
@@ -105,7 +132,7 @@ const LoginScreen = () => {
               <AppButton
                 onClick={() => {
                   console.log('Sign In');
-                  navigate('/Dashboard');
+                  navigate('/');
                 }}
                 withBorder
                 fullWidth
@@ -117,12 +144,14 @@ const LoginScreen = () => {
         </Grid>
       </Grid>
       <AuthFooter />
-      <OtpModal
-        open={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        phoneNumber="+971 ***678"
-        onSubmit={handleSubmit}
-      />
+      {authModalOpen && (
+        <OtpModal
+          open={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          phoneNumber="+971 ***678"
+          onSubmit={handleSubmit}
+        />
+      )}
     </Box>
   );
   // return (

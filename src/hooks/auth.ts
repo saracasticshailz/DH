@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 //  import { useAppStore } from '@/store';
 import { IS_FAKE_LOGIN } from '@/config';
 import { sessionStorageDelete } from '@/utils/sessionStorage';
+import { useAppDispatch, useAppSelector } from './redux';
+import { logout, selectAuth } from '@/store/slices/CustomerAuthSlice';
 
 type CurrentUser = {
   id?: string;
@@ -25,46 +27,48 @@ type CurrentUser = {
  * Hook to detect is current user authenticated or not
  * @returns {boolean} true if user is authenticated, false otherwise
  */
-// export function useIsAuthenticated() {
-//   const [state] = useAppStore();
-//   const result = IS_FAKE_LOGIN ? true : state.isAuthenticated;
+export function useIsAuthenticated() {
+  const state = useAppSelector(selectAuth);
 
-//   // TODO: AUTH: add access token verification or other authentication check here
-//   // result = Boolean(sessionStorageGet('access_token', ''));
+  const result = state.isAuthenticated;
 
-//   return result;
-// }
+  // TODO: AUTH: add access token verification or other authentication check here
+  // result = Boolean(sessionStorageGet('access_token', ''));
+
+  return result;
+}
 
 /**
  * Returns event handler to Logout current user
  * @returns {function} calling this event logs out current user
  */
-// export function useEventLogout() {
-//   const navigate = useNavigate();
-//   const [, dispatch] = useAppStore();
+export function useEventLogout() {
+  const navigate = useNavigate();
+  const state = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
 
-//   return useCallback(() => {
-//     // TODO: AUTH: add auth and tokens cleanup here
-//     sessionStorageDelete('access_token');
+  return useCallback(() => {
+    // TODO: AUTH: add auth and tokens cleanup here
+    sessionStorageDelete('access_token');
 
-//     dispatch({ type: 'LOG_OUT' });
-//     navigate('/', { replace: true }); // Redirect to home page by reloading the App
-//   }, [dispatch, navigate]);
-// }
+    dispatch(logout());
+    navigate('/Login', { replace: true });
+  }, [dispatch, navigate]);
+}
 
 /**
  * Adds watchdog and calls different callbacks on user login and logout
  * @param {function} afterLogin callback to call after user login
  * @param {function} afterLogout callback to call after user logout
  */
-// export function useAuthWatchdog(afterLogin: () => void, afterLogout: () => void) {
-//   const [state, dispatch] = useAppStore();
+export function useAuthWatchdog(afterLogin: () => void, afterLogout: () => void) {
+  const state = useAppSelector(selectAuth);
 
-//   useEffect(() => {
-//     if (state.isAuthenticated) {
-//       afterLogin?.();
-//     } else {
-//       afterLogout?.();
-//     }
-//   }, [state.isAuthenticated, dispatch, afterLogin, afterLogout]);
-// }
+  useEffect(() => {
+    if (state.isAuthenticated) {
+      afterLogin?.();
+    } else {
+      afterLogout?.();
+    }
+  }, [state.isAuthenticated, afterLogin, afterLogout]);
+}

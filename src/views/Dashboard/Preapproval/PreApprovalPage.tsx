@@ -10,10 +10,15 @@ import PaymentForm from '../PropertyValuation/PaymentForm';
 import PersonalDetailsForm from './PersonalDetails/PersonalDetailsForm';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';
+import { IMG } from '@/assets/images';
+import CreateCustomerProfile from '@/views/RM/CreateCutsomerProfile/CreateCustomerProfile';
 
 export default function PreApprovalPage() {
   const { activeStep } = useSelector((state: any) => state.mortgage.preApproval);
   const userDetails = useAppSelector(selectAuth);
+  const isRmUser = userDetails?.customerType === 'RM';
+
+  console.log('userDetails', userDetails);
 
   const renderActiveForm = () => {
     switch (activeStep) {
@@ -51,24 +56,60 @@ export default function PreApprovalPage() {
     }
   };
 
-  console.log(userDetails?.customerType);
+  const renderRMNewAppForm = () => {
+    switch (activeStep) {
+      case 0:
+        return <CreateCustomerProfile />;
+      case 1:
+        return <LoanDetails />;
+      case 2:
+        return <EmploymentDetails />;
+      case 3:
+        return <IncomeDetailsForm />;
+      case 4:
+        return <PreApprovalReview />;
+      // case 5:
+      //   return <PaymentForm />;
+      default:
+        return <LoanDetails />;
+    }
+  };
+
+  // console.log(userDetails?.customerType);
 
   return (
     <Box sx={{ bgcolor: '#F5F5F5', minHeight: '100vh' }}>
       <Container maxWidth="lg" sx={{ py: 2 }}>
-        <AuthHeader />
-
+        <Grid
+          container
+          //spacing={2}
+          sx={{
+            alignItems: 'center',
+            color: '#5d656b',
+            paddingTop: 3,
+            // marginTop: -2,
+          }}
+        >
+          <Grid size={6}>
+            <img src={IMG.AppLogo} alt="ADCB" loading="lazy" height={10} />
+          </Grid>
+        </Grid>
         <Grid container spacing={3} marginTop={2}>
           <Grid size={{ xs: 12, md: 4 }}>
             <ImageProgressBar
               currentStep={activeStep + 1}
-              totalSteps={userDetails?.customerType === 'NTB' ? 5 : 4}
+              totalSteps={isRmUser ? 4 : userDetails?.customerType === 'NTB' ? 5 : 4}
               title={'PreApproval'}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 8 }}>
-            {userDetails?.customerType === 'NTB' ? renderNTBActiveForm() : renderActiveForm()}
+            {/* {renderRMNewAppForm()} */}
+            {userDetails?.customerType === 'NTB'
+              ? renderNTBActiveForm()
+              : isRmUser //or replace if user is RM logic
+                ? renderRMNewAppForm()
+                : renderActiveForm()}
           </Grid>
         </Grid>
         <AuthFooter />

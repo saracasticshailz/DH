@@ -14,6 +14,10 @@ import { selectAuth, updateApplicationStatus } from '@/store/slices/CustomerAuth
 // @ts-ignore
 import { Invoker } from '../../../../v2/common/modules/modServiceInvoker';
 import { RootState } from '@/store';
+import { AppButton } from '@/components';
+import API from '@/utils/apiEnpoints';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
 
 interface ReviewSection {
   label: string;
@@ -127,7 +131,6 @@ const PreApprovalReview = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userDetails = useAppSelector(selectAuth);
-  const { invokeOperation } = Invoker();
   const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
 
   const reviewData = {
@@ -214,9 +217,8 @@ const PreApprovalReview = () => {
   };
 
   const handleSubmit = async () => {
-    await invokeOperation(
-      'sub_loan_application',
-      {},
+    modNetwork(
+      API.SUBMIT_LOAN_API, // as discussed with noman will use same API
       {
         applicationRefNumber: userDetails.applicationRefNumber,
         lapsRefNumber: userDetails.lapsRefNumber,
@@ -235,11 +237,11 @@ const PreApprovalReview = () => {
         monthlyOtherIncome: incomeDetails.otherMonthlyIncome,
         annualRentallncome: incomeDetails.annualRentalIncome,
         // mobileNo: userDetails.,
-        gender: personalDetails.gender, // NOT IN UI TBD
+        gender: personalDetails.gender,
         customerName: userDetails.customerName,
-        residencePOBox: personalDetails.poBox, // TBD
-        residenceState: personalDetails.state, // TBD
-        nationalityCode: personalDetails.countryOfResidence, //TBD
+        residencePOBox: personalDetails.poBox,
+        residenceState: personalDetails.state,
+        nationalityCode: personalDetails.countryOfResidence,
       },
       (res: any) => {
         console.log('sub_loan_application RES', res);
@@ -252,17 +254,14 @@ const PreApprovalReview = () => {
           navigate('/Dashboard');
         } else {
           navigate('/Dashboard');
-
+          navigate(-1);
           alert(res.errmsg);
         }
       },
-      (err: any) => {
-        console.log('ERROR', err);
-
-        navigate(-1);
-
-        alert(JSON.stringify(err));
-      }
+      '',
+      '',
+      '',
+      'register'
     );
   };
 
@@ -381,7 +380,7 @@ const PreApprovalReview = () => {
         >
           <Grid container height={48} spacing={2} sx={{ maxWidth: { xs: '100%', md: '30%' } }}>
             <Grid size={{ xs: 6 }}>
-              <Button
+              <AppButton
                 variant="outlined"
                 fullWidth
                 onClick={handleBack}
@@ -395,13 +394,10 @@ const PreApprovalReview = () => {
                 }}
               >
                 BACK
-              </Button>
-              {/* <AppButton withBorder mini onClick={handleBack}>
-                  BACK
-                </AppButton> */}
+              </AppButton>
             </Grid>
             <Grid size={{ xs: 6 }}>
-              <Button
+              <AppButton
                 variant="outlined"
                 fullWidth
                 onClick={handleCancel}
@@ -415,7 +411,7 @@ const PreApprovalReview = () => {
                 }}
               >
                 CANCEL
-              </Button>
+              </AppButton>
             </Grid>
           </Grid>
           <Button

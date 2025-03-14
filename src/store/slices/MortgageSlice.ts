@@ -12,6 +12,12 @@ const initialState: MortgageState = {
     activeStep: 0,
     maxSteps: 5,
     completedSteps: [],
+    createCustomerProfile: {
+      name: '',
+      phoneNumber: '',
+      email: '',
+      emiratesId: '',
+    },
     personalDetails: {
       customerName: '',
       gender: '',
@@ -122,6 +128,14 @@ const mortgageSlice = createSlice({
         state.preApproval.completedSteps.push(action.payload);
       }
     },
+
+    updateCreateCustomerProfile: (
+      state,
+      action: PayloadAction<Partial<MortgageState['preApproval']['createCustomerProfile']>>
+    ) => {
+      state.preApproval.createCustomerProfile = { ...state.preApproval.createCustomerProfile, ...action.payload };
+    },
+
     updateLoanDetails: (state, action: PayloadAction<Partial<MortgageState['preApproval']['loanDetails']>>) => {
       state.preApproval.loanDetails = { ...state.preApproval.loanDetails, ...action.payload };
     },
@@ -188,6 +202,7 @@ export const {
   updateAccessDetails,
   updateDocuments,
   updatePayment,
+  updateCreateCustomerProfile,
   setSubmitting,
   setError,
   resetMortgage,
