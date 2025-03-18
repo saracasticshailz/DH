@@ -165,7 +165,7 @@ export const Invoker = () => {
       const response = await fetch(url, {
         method: method,
         // cache: 'force-cache',
-        // credentials: 'include', // Include credentials like cookies
+        credentials: 'include', // Include credentials like cookies
         headers: {
           ...dheaders,
           // Cookie: `JSESSIONID=B190FEA3A425C5156BB192F2CA9AF2A7` // Add JSESSIONID cookie to headers

@@ -42,8 +42,8 @@ class MFConnector {
       // appSecret: 'tr4f4f4c50315433c73f6f67e71d0tre',
       // serviceURL:
       //   'https://uat1auth.mobileapps.adcb.com:8457/authService/100000002/appconfig',
-      appKey: 'adcbdhp-dev2int1',
-      appSecret: 'adcbdhp-dev2int1',
+      appKey: 'adcbdhp-dev2int2',
+      appSecret: 'adcbdhp-dev2int2',
       serviceURL: 'https://dev2auth.mobileapps.adcb.com:8465/authService/100000002/appconfig',
     };
     console.log('mfconfig :' + JSON.stringify(this.mfConfig));
