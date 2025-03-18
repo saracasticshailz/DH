@@ -15,19 +15,16 @@ import { useNavigate } from 'react-router-dom';
 import OtpModal from '@/components/modal/otpModal';
 import AppButton from '@/components/common/AppButton/AppButton';
 import { COLORS } from '@/theme/colors';
-import { AppAlert, AppLoading, CommonDialog } from '@/components';
+import { AppLoading, CommonDialog } from '@/components';
 // @ts-ignore
 import { Invoker } from '../../../v2/common/modules/modServiceInvoker';
-import AppDialogTitle from '@/components/dialogs/components/AppDialogTitle.js';
-import { Alert } from '@mui/material';
 import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
 
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
-
-import { signupUser } from '@/store/actions/authActions';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
 const SignupScreen = () => {
   const { t } = useTranslation();
@@ -41,6 +38,10 @@ const SignupScreen = () => {
   const [maskedPhoneNumber, setMaskedPhoneNumber] = useState('');
   const [lapsRefNumber, setlapsRefNumber] = useState('');
   const dispatch = useAppDispatch();
+
+  const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
+  const [isEmailVerification, setIsEmailVerification] = useState(false);
+  const [maskedEmail, setMaskedEmail] = useState('');
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -92,80 +93,124 @@ const SignupScreen = () => {
       API.SIGNUP_API,
       {
         name: values.name,
-        emiratesld: values.emiratesId,
+        emiratesId: values.emiratesId,
         mobileNumber: values.phoneNumber,
-        emailld: values.email,
+        emailId: values.email,
         journeyType: 'CUSTOMER',
       },
       (res: any) => {
+        console.log('SIGN_UP_RES', res);
+
         if (res.oprstatus == 0 && res.returnCode == 0) {
           setAuthModalOpen(true);
           setMaskedPhoneNumber(res.mobileMasked);
+          setMaskedEmail(res.emailMasked || '');
+          setOtpSentStatus(res.otpSentStatus || 'M');
+          setlapsRefNumber(res.lapsRefNumber || '');
         } else {
-          alert(res.errmsg[1]);
-          console.log('ERROR', res);
-          alert(JSON.stringify(res));
-          // setAuthModalOpen(true);
+          try {
+            if (typeof res.errmsg === 'string') {
+              const errorObj = JSON.parse(res.errmsg);
+              alert(errorObj.errMsg_EN || 'An error occurred');
+            } else if (Array.isArray(res.errmsg) && res.errmsg.length > 0) {
+              alert(res.errmsg[0] || 'An error occurred');
+            } else {
+              alert('An error occurred. Please try again.');
+            }
+          } catch (error) {
+            alert(res.errmsg || 'An error occurred');
+          }
         }
+        console.log('ERROR', res);
+        //alert(JSON.stringify(res));
+        // setAuthModalOpen(true);
       },
       '',
       '',
       '',
-      'register'
+      MOD_CONSTANTS.REGISTER
     );
   };
 
+  // Update the handleOTPSubmit function to handle both mobile and email verification
   const handleOTPSubmit = async (enteredOtp: string) => {
     // {
-    //   }
+    //
     //   "lapsRefNumber" "",
     //   "applicationRefNumber".'
     //   "addinfoReqFlag" '
     //   "customerType".
     //   "lastLoginDatetime":"''
     //   }
+
     modNetwork(
       API.OTP_VERIFY_API,
       {
         lapsRefNumber: lapsRefNumber,
-        otpType: 'M',
-        custOtp: enteredOtp,
+        otpType: isEmailVerification ? 'E' : 'M',
+        // custOtp: enteredOtp,
+        custOtp: 'DNTxg2e2UOw=',
       },
       (res: any) => {
         console.log('OTP_VERIFY_API', res);
-        if (res.oprstatus == 0 && res.returnCode == 0) {
-          // {
-          //   applicationRefNumber: 'LP-ML-00014325',
-          //   displayMessage: '',
-          //   addinfoReqFlag: 'y',
-          //   lapsRefNumber: 17843,
-          //   customerName: '',
-          //   loanApplicationNo: '',
-          //   loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
-          //   rmCode: '',
-          //   rmEmailId: 'null',
-          //   rmMobile: 'null',
-          //   orderId: '',
-          //   orderStatus: '',
-          //   rmName: 'null',
-          //   approvalDate: '',
-          //   customerType: 'NTB',
-          //   lastLoginDatetime: '2025-03-03 11:38:50',
-          // }
-          dispatch(updateProfile(res)); //
-          navigate('/Dashboard', {
-            state: { preventBack: true },
-          });
-        } else {
-          navigate('/Dashboard');
-          alert(res.errmsg);
-        }
+
+        // B == call API twice, one for mobile, another for email
+        // M == Only one modal , mobile
+
+        // if (res.oprstatus == 0 && res.returnCode == 0) {
+        //   if (otpSentStatus === 'B' && !isEmailVerification) {
+        //     setIsEmailVerification(true);
+        //     return;
+        //   }
+        //   // {
+        //   //   applicationRefNumber: 'LP-ML-00014325',
+        //   //   displayMessage: '',
+        //   //   addinfoReqFlag: 'y',
+        //   //   lapsRefNumber: 17843,
+        //   //   customerName: '',
+        //   //   loanApplicationNo: '',
+        //   //   loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
+        //   //   rmCode: '',
+        //   //   rmEmailId: 'null',
+        //   //   rmMobile: 'null',
+        //   //   orderId: '',
+        //   //   orderStatus: '',
+        //   //   rmName: 'null',
+        //   //   approvalDate: '',
+        //   //   customerType: 'NTB',
+        //   //   lastLoginDatetime: '2025-03-03 11:38:50',
+        //   // }
+        //   dispatch(updateProfile(res));
+        //   navigate('/Dashboard', {
+        //     state: { preventBack: true },
+        //   });
+        // } else {
+        //   navigate('/Dashboard');
+        //   alert(res.errmsg);
+        // }
       },
       '',
       '',
       '',
-      'register'
+      MOD_CONSTANTS.REGISTER
     );
+
+    // modNetwork(
+    //   API.OTP_VERIFY_API,
+    //   {
+    //     lapsRefNumber: lapsRefNumber,
+    //     otpType: isEmailVerification ? 'E' : 'M',
+    //     // custOtp: enteredOtp,
+    //     custOtp: 'DNTxg2e2UOw=',
+    //   },
+    //   (res: any) => {
+
+    //   },
+    //   '',
+    //   '',
+    //   '',
+    //   MOD_CONSTANTS.REGISTER
+    // );
   };
 
   const navigate = useNavigate();
@@ -184,13 +229,13 @@ const SignupScreen = () => {
 
       <CommonDialog
         open={showAlert}
-        onClose={function (): void {
+        onClose={(): void => {
           throw new Error('Function not implemented.');
         }}
-        onPrimaryAction={function (): void {
+        onPrimaryAction={(): void => {
           throw new Error('Function not implemented.');
         }}
-        onSecondaryAction={function (): void {
+        onSecondaryAction={(): void => {
           throw new Error('Function not implemented.');
         }}
         title={''}
@@ -314,9 +359,14 @@ const SignupScreen = () => {
       {authModalOpen && (
         <OtpModal
           open={authModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          phoneNumber={maskedPhoneNumber}
+          onClose={() => {
+            setAuthModalOpen(false);
+            setIsEmailVerification(false); // Reset email verification state when closing
+          }}
+          phoneNumber={isEmailVerification ? maskedEmail : maskedPhoneNumber}
           onSubmit={(OTP: string) => handleOTPSubmit(OTP)}
+          title={isEmailVerification ? t('otpModal.emailVerification') : t('otpModal.phoneVerification')}
+          description={isEmailVerification ? t('otpModal.enterEmailOtp') : t('otpModal.enterPhoneOtp')}
         />
       )}
       {showDialog && (
