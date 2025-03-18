@@ -21,17 +21,17 @@ const RadioGroupContainer = styled(Box)({
 export default function EmploymentTypeGroup({ value, onChange, onBlur, error, touched }: EmploymentTypeGroupProps) {
   const employmentTypes = [
     {
-      value: 'salaried',
+      value: 'SA',
       label: 'Salaried',
       icon: () => <img src={IMG.BusinessIcon || '/placeholder.svg'} alt="" style={{ width: 24, height: 24 }} />,
     },
     {
-      value: 'selfEmployed',
+      value: 'SE',
       label: 'Self employed',
       icon: () => <img src={IMG.PersonIcon || '/placeholder.svg'} alt="" style={{ width: 24, height: 24 }} />,
     },
     {
-      value: 'pensioner',
+      value: 'PE',
       label: 'Pensioner (UAE nationals only)',
       icon: () => <img src={IMG.ElderlyIcon || '/placeholder.svg'} alt="" style={{ width: 24, height: 24 }} />,
     },

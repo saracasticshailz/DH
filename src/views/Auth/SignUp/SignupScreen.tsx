@@ -18,7 +18,7 @@ import { COLORS } from '@/theme/colors';
 import { AppLoading, CommonDialog } from '@/components';
 // @ts-ignore
 import { Invoker } from '../../../v2/common/modules/modServiceInvoker';
-import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
 
@@ -42,6 +42,7 @@ const SignupScreen = () => {
   const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
   const [isEmailVerification, setIsEmailVerification] = useState(false);
   const [maskedEmail, setMaskedEmail] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -56,7 +57,16 @@ const SignupScreen = () => {
     }
   }, []);
 
-  const initialValues = { name: '', phoneNumber: '', email: '', emiratesId: '' };
+  const initialValues =
+    //{ name: '', phoneNumber: '', email: '', emiratesId: '' };
+    {
+      name: 'Shailesh',
+      emiratesId: '784199425634369',
+      phoneNumber: '545953954',
+      email: 'shailesh13@test.com',
+      // journeyType: 'CUSTOMER',
+      // clientTime: '1742281922764',
+    };
 
   const handleSubmit = async (values: any) => {
     // "name": "',
@@ -94,7 +104,7 @@ const SignupScreen = () => {
       {
         name: values.name,
         emiratesId: values.emiratesId,
-        mobileNumber: values.phoneNumber,
+        mobileNumber: `971${values.phoneNumber}`,
         emailId: values.email,
         journeyType: 'CUSTOMER',
       },
@@ -119,6 +129,7 @@ const SignupScreen = () => {
             }
           } catch (error) {
             alert(res.errmsg || 'An error occurred');
+            setError(res.errmsg);
           }
         }
         console.log('ERROR', res);
@@ -148,8 +159,8 @@ const SignupScreen = () => {
       {
         lapsRefNumber: lapsRefNumber,
         otpType: isEmailVerification ? 'E' : 'M',
-        // custOtp: enteredOtp,
-        custOtp: 'DNTxg2e2UOw=',
+        custOtp: enteredOtp,
+        //custOtp: 'DNTxg2e2UOw=',
       },
       (res: any) => {
         console.log('OTP_VERIFY_API', res);
@@ -157,37 +168,40 @@ const SignupScreen = () => {
         // B == call API twice, one for mobile, another for email
         // M == Only one modal , mobile
 
-        // if (res.oprstatus == 0 && res.returnCode == 0) {
-        //   if (otpSentStatus === 'B' && !isEmailVerification) {
-        //     setIsEmailVerification(true);
-        //     return;
-        //   }
-        //   // {
-        //   //   applicationRefNumber: 'LP-ML-00014325',
-        //   //   displayMessage: '',
-        //   //   addinfoReqFlag: 'y',
-        //   //   lapsRefNumber: 17843,
-        //   //   customerName: '',
-        //   //   loanApplicationNo: '',
-        //   //   loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
-        //   //   rmCode: '',
-        //   //   rmEmailId: 'null',
-        //   //   rmMobile: 'null',
-        //   //   orderId: '',
-        //   //   orderStatus: '',
-        //   //   rmName: 'null',
-        //   //   approvalDate: '',
-        //   //   customerType: 'NTB',
-        //   //   lastLoginDatetime: '2025-03-03 11:38:50',
-        //   // }
-        //   dispatch(updateProfile(res));
-        //   navigate('/Dashboard', {
-        //     state: { preventBack: true },
-        //   });
-        // } else {
-        //   navigate('/Dashboard');
-        //   alert(res.errmsg);
-        // }
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          if (otpSentStatus === 'B' && !isEmailVerification) {
+            setIsEmailVerification(true);
+            return;
+          }
+          // {
+          //   applicationRefNumber: 'LP-ML-00014325',
+          //   displayMessage: '',
+          //   addinfoReqFlag: 'y',
+          //   lapsRefNumber: 17843,
+          //   customerName: '',
+          //   loanApplicationNo: '',
+          //   loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
+          //   rmCode: '',
+          //   rmEmailId: 'null',
+          //   rmMobile: 'null',
+          //   orderId: '',
+          //   orderStatus: '',
+          //   rmName: 'null',
+          //   approvalDate: '',
+          //   customerType: 'NTB',
+          //   lastLoginDatetime: '2025-03-03 11:38:50',
+          // }
+          dispatch(updateProfile(res));
+          dispatch(loginSuccess(res));
+          navigate('/Dashboard', {
+            state: { preventBack: true },
+          });
+        } else {
+          // navigate('/Dashboard');
+          setShowAlert(true);
+          // Create new state
+          alert(res.errmsg);
+        }
       },
       '',
       '',
@@ -238,7 +252,7 @@ const SignupScreen = () => {
         onSecondaryAction={(): void => {
           throw new Error('Function not implemented.');
         }}
-        title={''}
+        title={error}
         description={''}
         primaryButtonText={''}
         secondaryButtonText={''}

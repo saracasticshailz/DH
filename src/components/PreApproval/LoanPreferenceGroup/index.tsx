@@ -35,12 +35,12 @@ const RadioOption = styled(Box)({
 export default function LoanPreferenceGroup({ value, onChange, onBlur, error, touched }: LoanPreferenceGroupProps) {
   const options = [
     {
-      value: 'ADCB',
+      value: 'C',
       label: 'ADCB',
       icon: IMG.PlectrumRed,
     },
     {
-      value: 'ADCB Islamic',
+      value: 'I',
       label: 'ADCB Islamic',
       icon: IMG.PlectrumGreen,
     },

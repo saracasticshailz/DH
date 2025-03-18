@@ -8,7 +8,7 @@ import EmploymentRadioButton from '@/components/PreApproval/EmploymentRadioButto
 import { setPreApprovalStep, updateEmploymentDetails } from '@/store/slices/MortgageSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import TextInput from '@/components/common/TextInput';
-import { AppButton } from '@/components';
+import { AppButton, CommonDialog } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 
@@ -19,11 +19,13 @@ import { isLoading as _isLoading } from '@/store/slices/CustomerAuthSlice.js';
 import { useSelector } from 'react-redux';
 import EmployerDropdown from '@/components/PreApproval/EmployerDetails/EmployerDropdown';
 import { RootState } from '@/store';
+import { useState } from 'react';
 
 interface FormValues {
-  employmentType: 'salaried' | 'selfEmployed' | 'pensioner';
+  employmentType: 'SA' | 'SE' | 'PE';
   employerName: string;
   joiningDate: string;
+  employerCode: string;
 }
 
 const StyledContainer = styled(Box)({
@@ -55,16 +57,14 @@ export default function EmploymentDetails() {
   const dispatch = useAppDispatch();
   const employmentDetails = useAppSelector((state) => state.mortgage.preApproval.employmentDetails);
   const navigate = useNavigate();
-  const { invokeOperation } = Invoker();
   const isLoading: any = useSelector(_isLoading);
-
+  const [showAlert, setShowAlert] = useState(false);
   const validationSchema = Yup.object({
-    employmentType: Yup.string()
-      .oneOf(
-        ['salaried', 'selfEmployed', 'pensioner'],
-        t('preApproval.employmentDetails.validation.employmentType.invalid')
-      )
-      .required(t('preApproval.employmentDetails.validation.employmentType.required')),
+    employmentType: Yup.string().oneOf(
+      ['SA', 'SE', 'PE'],
+      t('preApproval.employmentDetails.validation.employmentType.invalid')
+    ),
+    //   .required(t('preApproval.employmentDetails.validation.employmentType.required')),
     // employerName: Yup.string().required(t('preApproval.employmentDetails.validation.employerName.required')),
     joiningDate: Yup.string()
       .required(t('preApproval.employmentDetails.validation.joiningDate.required'))
@@ -87,17 +87,17 @@ export default function EmploymentDetails() {
 
   const employmentTypes = [
     {
-      value: 'salaried',
+      value: 'SA',
       label: t('preApproval.employmentDetails.employmentType.options.salaried'),
       icon: IMG.BusinessIcon,
     },
     {
-      value: 'selfEmployed',
+      value: 'SE',
       label: t('preApproval.employmentDetails.employmentType.options.selfEmployed'),
       icon: IMG.PersonIcon,
     },
     {
-      value: 'pensioner',
+      value: 'PE',
       label: t('preApproval.employmentDetails.employmentType.options.pensioner'),
       icon: IMG.ElderlyIcon,
     },
@@ -119,6 +119,22 @@ export default function EmploymentDetails() {
   return (
     <Container maxWidth="lg">
       <StyledContainer>
+        {/* <CommonDialog
+          open={true}
+          onClose={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          onPrimaryAction={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          onSecondaryAction={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          title={'TEXT'}
+          description={'TEXT'}
+          primaryButtonText={'TEXT'}
+          secondaryButtonText={'TEXT'}
+        /> */}
         <Typography variant="h4" sx={{ mb: 4 }}>
           {t('preApproval.employmentDetails.title')}
         </Typography>
@@ -172,14 +188,19 @@ export default function EmploymentDetails() {
                 isOptionEqualToValue={(option, value) => option.companyCode === value.companyCode}
               /> */}
               <EmployerDropdown
-                name={'Name'}
+                name="employerName"
                 label={t('preApproval.employmentDetails.employerName.label')}
                 placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
-                value={formik.values.employerName}
-                onChange={formik.handleChange}
-                onBlur={function (e: React.FocusEvent<any>): void {
-                  throw new Error('Function not implemented.');
+                value={{
+                  companyCode: formik.values.employerCode || '',
+                  companyName: formik.values.employerName || '',
                 }}
+                onChange={(newValue) => {
+                  formik.setFieldValue('employerName', newValue?.companyName || '');
+                  formik.setFieldValue('companyCode', newValue?.companyCode || '');
+                }}
+                onBlur={formik.handleBlur}
+                // error={()=>}
               />
             </Box>
 

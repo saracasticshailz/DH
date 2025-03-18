@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Autocomplete, TextField, CircularProgress } from '@mui/material';
+import { Autocomplete, CircularProgress, TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
-// @ts-ignore
-import { Invoker } from '../../../v2/common/modules/modServiceInvoker';
 import TextInput from '@/components/common/TextInput';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
 interface EmployerDetail {
   companyCode: string;
@@ -16,8 +18,8 @@ interface EmployerDetail {
 
 interface EmployerDropdownProps {
   name: string;
-  value: string;
-  onChange: (value: string) => void;
+  value: { companyCode: string; companyName: string } | null;
+  onChange: (value: { companyCode: string; companyName: string } | null) => void;
   onBlur: (e: React.FocusEvent<any>) => void;
   error?: boolean;
   helperText?: string;
@@ -40,59 +42,68 @@ export default function EmployerDropdown({
   const [options, setOptions] = useState<EmployerDetail[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const { invokeOperation } = Invoker();
+  const [showAlert, setShowAlert] = useState(false);
 
-  const selectedOption = options.find((option) => option.companyName === value) || null;
+  const selectedOption = options.find((option) => option.companyCode === value?.companyCode) || null;
 
   useEffect(() => {
-    let active = true;
-    if (!open) {
-      return undefined;
-    }
-    if (inputValue.length < 2) {
+    if (!open || inputValue.length < 3) {
       setOptions([]);
-      return undefined;
+      return;
     }
+
     setLoading(true);
 
-    const fetchEmployerName = async () => {
-      setLoading(true);
-      await invokeOperation(
-        'inq_company_details',
-        {},
-        {
-          companyName: inputValue,
-          portalFlag: '',
-        },
-        (res: any) => {
-          setLoading(false);
-          if (res.oprstatus == 0 && res.returnCode == 0) {
-            if (active) {
-              setOptions(res?.data || []);
+    const handler = setTimeout(() => {
+      let active = true;
+
+      const fetchEmployerName = async () => {
+        setLoading(true);
+        modNetwork(
+          API.FETCH_EMPLOYER_DETAILS,
+          {
+            companyName: inputValue,
+            portalFlag: '',
+          },
+          (res: any) => {
+            console.log('API Response:', res);
+
+            setLoading(false);
+            if (res.oprstatus == 0 && res.returnCode == 0) {
+              if (active) {
+                setOptions(res?.company || []);
+              }
+            } else {
+              console.error('API Error:', res.errmsg);
+              // alert(res.errmsg[1]);
             }
-          } else {
-            alert(res.errmsg[1]);
-          }
-        },
-        (err: any) => {
-          setLoading(false);
-          if (active) {
-            setOptions([]);
-          }
-          console.log('ERROR', err);
-          alert(JSON.stringify(err));
-        }
-      );
-    };
-    fetchEmployerName();
-    return () => {
-      active = false;
-    };
+          },
+          '',
+          '',
+          '',
+          MOD_CONSTANTS.REGISTER
+        );
+      };
+
+      fetchEmployerName();
+
+      return () => {
+        active = false;
+      };
+    }, 800);
+
+    return () => clearTimeout(handler);
   }, [inputValue, open]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: EmployerDetail | null) => {
-    onChange(newValue ? newValue.companyName : '');
-    // Close the dropdown immediately after selection
+    if (newValue) {
+      onChange({
+        companyCode: newValue.companyCode,
+        companyName: newValue.companyName,
+      });
+    } else {
+      onChange(null);
+    }
     setOpen(false);
   };
 
@@ -102,26 +113,20 @@ export default function EmployerDropdown({
       open={open}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
-      isOptionEqualToValue={(option, value) => {
-        if (!option || !value) return false;
-        if (typeof option === 'string' || typeof value === 'string') return false;
-        return option.companyName === value.companyName;
-      }}
-      getOptionLabel={(option) => {
-        if (!option || typeof option === 'string') {
-          return '';
-        }
-        return option.companyName || '';
-      }}
+      isOptionEqualToValue={(option, value) => option.companyCode === value.companyCode}
+      getOptionLabel={(option) => `${option.companyCode} - ${option.companyName}`}
       options={options}
       loading={loading}
       value={selectedOption}
       inputValue={inputValue}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
+      onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
       onChange={handleChange}
       onBlur={onBlur}
+      renderOption={(props, option) => (
+        <li {...props} key={option.companyCode}>
+          {option.companyCode} - {option.companyName}
+        </li>
+      )}
       renderInput={(params) => (
         <TextInput
           {...params}
@@ -132,17 +137,16 @@ export default function EmployerDropdown({
           InputProps={{
             ...params.InputProps,
             endAdornment: (
-              <React.Fragment>
+              <>
                 {loading ? <CircularProgress color="inherit" size={20} /> : null}
                 {params.InputProps.endAdornment}
-              </React.Fragment>
+              </>
             ),
           }}
         />
       )}
       noOptionsText={t('common.noOptions')}
       loadingText={t('common.loading')}
-      // Add this prop to close dropdown on selection
       disableCloseOnSelect={false}
     />
   );

@@ -31,6 +31,7 @@ const AuthHeader: FC = () => {
     dispatch(logout());
     navigate('/Login', { replace: true });
   };
+  // console.log('isAuthenticated', isAuthenticated);
 
   return (
     <Grid
@@ -57,16 +58,6 @@ const AuthHeader: FC = () => {
             {t('header.language')}
           </Typography>
         </IconButton>
-
-        {/* <AppButton
-          style={{ borderRadius: 12 }}
-          withBorder
-          fullWidth={false}
-          onClick={() => console.log('logout')}
-          size={'small'}
-        >
-          LOGOUT
-        </AppButton> */}
         {isAuthenticated && <MiniButton text="Logout" icon={<Logout />} onPress={handleLogout} />}
       </Grid>
     </Grid>

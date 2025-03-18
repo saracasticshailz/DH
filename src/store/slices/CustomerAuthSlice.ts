@@ -3,7 +3,7 @@ import type { RootState } from '../../store/index';
 
 // Define loan application status types
 export type LoanApplicationStatus =
-  | 'Blank' // Empty/initial state
+  | '' // Empty/initial state
   | 'PR' // Rejected
   | 'PP' // Pending Pre-Approval
   | 'PC' // Approved
@@ -83,7 +83,7 @@ export const customerAuthSlice = createSlice({
     loginSuccess: (state, action: PayloadAction<Omit<AuthState, 'isAuthenticated' | 'loading' | 'error'>>) => {
       return {
         ...state,
-        ...action.payload,
+        // ...action.payload,
         isAuthenticated: true,
         loading: false,
         error: null,
@@ -175,7 +175,8 @@ export const getLoanStatusText = (status: LoanApplicationStatus | null): string 
   if (!status) return 'Not Available';
 
   switch (status) {
-    case 'Blank':
+    //@ts-ignore
+    case '':
       return 'Not Started';
     case 'PR':
       return 'Rejected';

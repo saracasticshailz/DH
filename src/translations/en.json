@@ -1,7 +1,8 @@
 {
   "common": {
     "noOptions": "No Options Found",
-    "loading": "Loading"
+    "loading": "Loading",
+    "typeMoreChars": "Type 3 or more characters!"
   },
   "header": {
     "language": "Language"
@@ -31,7 +32,9 @@
     "otpFor": "OTP for number {{phone}}",
     "validFor": "Valid for {{min}} min {{sec}} seconds",
     "resend": "Resend OTP",
-    "back": "Back"
+    "back": "Back",
+    "phoneVerification": "Phone Verification",
+    "emailVerification": "Email verification"
   },
   "loginScreen": {
     "title": "Login",
@@ -52,6 +55,7 @@
         "description": "Find out your loan eligibility in under 10 minutes.",
         "subDescription": "Please keep your Emirates ID and Passport details handy to complete your application process.",
         "inProgressDescription": "Thank you! Your application has been submitted and is under process. You can check back for updates. Once it’s ready, we’ll email it to your registered address.",
+        "congratulations": "Congratulations! You’re one step closer to your dream home. Use this document to plan, search and shortlist eligible properties within your eligibility.",
         "apply": "APPLY",
         "resend": "Resend"
       },
@@ -151,8 +155,8 @@
         "label": "Employment type",
         "options": {
           "salaried": "Salaried",
-          "selfEmployed": "Self employed",
-          "pensioner": "Pensioner (UAE nationals only)"
+          "selfEmployed": "Self Employed Others",
+          "pensioner": "Pensioner (UAE Nationals only)"
         }
       },
       "employerName": {

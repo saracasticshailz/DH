@@ -17,23 +17,23 @@ import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import { updateRMDetails } from '@/store/slices/CustomerAuthSlice';
+import RmDropdown from '@/components/PreApproval/RmDetailsDropdown/RmDetailsDropdown';
 
 interface FormValues {
-  loanPreference: 'ADCB' | 'ADCB Islamic';
-  financingOption: 'threeYear' | 'fiveYear' | 'variable';
+  loanPreference: 'C' | 'I';
+  financingOption: 'Fixed' | 'A' | 'B';
   purchaseType: string;
   loanAmount: string;
   loanTenure: string;
   specialistCode: string;
+  specialistName: string;
 }
 
 const validationSchema = Yup.object({
-  loanPreference: Yup.string()
-    .oneOf(['ADCB', 'ADCB Islamic'], 'Please select a loan preference')
-    .required('Loan preference is required'),
-  financingOption: Yup.string()
-    .oneOf(['threeYear', 'fiveYear', 'variable'], 'Please select a financing option')
-    .required('Financing option is required'),
+  loanPreference: Yup.string().oneOf(['C', 'I'], 'Please select a loan preference'),
+  // .required('Loan preference is required'),
+  financingOption: Yup.string().oneOf(['Fixed', 'A', 'B'], 'Please select a financing option'),
+  //.required('Financing option is required'),
   purchaseType: Yup.string().required('Purchase type is required'),
   loanAmount: Yup.string()
     .required('Loan amount is required')
@@ -53,9 +53,10 @@ const validationSchema = Yup.object({
 });
 
 const purchaseTypes = [
-  { value: 'ready', label: 'Ready Property' },
-  { value: 'offplan', label: 'Off-Plan Property' },
-  { value: 'construction', label: 'Under Construction' },
+  { value: '1', label: 'New Purchase' },
+  { value: '2', label: 'Resale' },
+  { value: '7', label: 'UAE National Self Constuction Loan' },
+  { value: '4', label: 'Loan Transfer from an other Bank' },
 ];
 
 const ActionButtons = styled(Box)({
@@ -73,12 +74,13 @@ export default function LoanDetails() {
   const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
   const formik = useFormik<FormValues>({
     initialValues: {
-      loanPreference: loanDetails.loanPreference || 'ADCB',
-      financingOption: loanDetails.financingOption || 'threeYear',
+      loanPreference: loanDetails.loanPreference || 'C',
+      financingOption: loanDetails.financingOption || 'Fixed',
       purchaseType: loanDetails.purchaseType || '',
       loanAmount: loanDetails.loanAmount || '',
       loanTenure: loanDetails.loanTenure || '',
       specialistCode: loanDetails.specialistCode || '',
+      specialistName: loanDetails.specialistCode || '',
     },
     validationSchema,
 
@@ -102,45 +104,6 @@ export default function LoanDetails() {
   const handleBack = () => {
     dispatch(setPreApprovalStep(0));
   };
-
-  const getRmDetails = () => {
-    modNetwork(
-      API.FETCH_RM_DETAILS,
-
-      {
-        searchParameterType: 'RMCODE',
-        searchParameterValue: values.specialistCode,
-      },
-      (res: any) => {
-        // "oprstatus": 0,
-        // "returnCode": "0",
-        // "httpStatusCode": 0,
-        // "rmDetails": [
-        // "rmCode": "C106794"
-        // "rmMobile": "971562910316",
-        // "rmEmailld": "HeenaRajwani.ext@adcb.com",
-        // "rmName": "MAHJOOB MUSTAFA"
-        // },
-        // "rmCode": "C109094",
-        // "rmMobile": "971562910316",
-        // "rmEmailld": "hr.ext@adcb.com",
-        // "rmName":
-        console.log('FETCH_RM_DETAILS', res);
-        if (res.oprstatus == 0 && res.returnCode == 0) {
-          dispatch(updateRMDetails(res.rmDetails[0]));
-        } else {
-          alert(res.errmsg[1]);
-        }
-      },
-      '',
-      '',
-      '',
-      'register'
-    );
-  };
-  useEffect(() => {
-    getRmDetails();
-  }, [values.specialistCode]);
 
   return (
     <Box sx={{ bgcolor: '#F5F5F5', minHeight: '100vh' }}>
@@ -185,12 +148,27 @@ export default function LoanDetails() {
                 />
 
                 <FormControl>
-                  <TextInput
-                    label={t('preApproval.loanDetails.specialistCode.label')}
-                    name="specialistCode"
+                  {/* <RmDropdown
+                    name={'specialistCode'}
                     value={values.specialistCode}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    label={t('preApproval.loanDetails.specialistCode.label')}
+                    placeholder={t('preApproval.loanDetails.specialistCode.placeholder')}
+                  /> */}
+                  <RmDropdown
+                    name="specialistCode"
+                    value={
+                      values.specialistCode
+                        ? { rmCode: values.specialistCode, rmName: values.specialistName || '' }
+                        : null
+                    }
+                    onChange={(newValue) => {
+                      setFieldValue('specialistCode', newValue ? newValue.rmCode : '');
+                      setFieldValue('specialistName', newValue ? newValue.rmName : '');
+                    }}
+                    onBlur={handleBlur}
+                    label={t('preApproval.loanDetails.specialistCode.label')}
                     placeholder={t('preApproval.loanDetails.specialistCode.placeholder')}
                   />
                 </FormControl>

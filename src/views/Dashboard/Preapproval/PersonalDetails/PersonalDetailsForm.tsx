@@ -145,9 +145,8 @@ const PersonalDetailsForm: React.FC = () => {
                       error={touched.gender && Boolean(errors.gender)}
                       helperText={touched.gender && errors.gender}
                     >
-                      <MenuItem value="male">Male</MenuItem>
-                      <MenuItem value="female">Female</MenuItem>
-                      <MenuItem value="other">Other</MenuItem>
+                      <MenuItem value="M">Male</MenuItem>
+                      <MenuItem value="F">Female</MenuItem>
                     </TextInput>
                   )}
                 </Field>
@@ -185,9 +184,10 @@ const PersonalDetailsForm: React.FC = () => {
                       error={touched.nationality && Boolean(errors.nationality)}
                       helperText={touched.nationality && errors.nationality}
                     >
-                      <MenuItem value="uae">UAE</MenuItem>
-                      <MenuItem value="usa">USA</MenuItem>
-                      <MenuItem value="uk">UK</MenuItem>
+                      <MenuItem value="AE">UAE</MenuItem>
+                      <MenuItem value="IN">INDIA</MenuItem>
+                      <MenuItem value="USA">USA</MenuItem>
+                      <MenuItem value="UK">UK</MenuItem>
                     </TextInput>
                   )}
                 </Field>
@@ -257,9 +257,13 @@ const PersonalDetailsForm: React.FC = () => {
                       error={touched.state && Boolean(errors.state)}
                       helperText={touched.state && errors.state}
                     >
-                      <MenuItem value="dubai">Dubai</MenuItem>
-                      <MenuItem value="abudhabi">Abu Dhabi</MenuItem>
-                      <MenuItem value="sharjah">Sharjah</MenuItem>
+                      <MenuItem value="AUH">Abu Dhabi</MenuItem>
+                      <MenuItem value="AJM">Ajman</MenuItem>
+                      <MenuItem value="DXB">Dubai</MenuItem>
+                      <MenuItem value="FUJ">Fujairah</MenuItem>
+                      <MenuItem value="RAK">Ras Al khaimah</MenuItem>
+                      <MenuItem value="SHJ">Sharjah</MenuItem>
+                      <MenuItem value="UAQ">Umm Al Quwain</MenuItem>
                     </TextInput>
                   )}
                 </Field>

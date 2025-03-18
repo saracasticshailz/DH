@@ -77,20 +77,30 @@ export default function MortgageDashboard() {
                 <MortgageStep
                   title={t('dashboardScreen.steps.preApproval.title')}
                   description={
-                    journeyStatus === 'IN_PROGRESS'
-                      ? t('dashboardScreen.steps.preApproval.inProgressDescription')
-                      : t('dashboardScreen.steps.preApproval.description')
+                    journeyStatus !== 'PR' &&
+                    journeyStatus !== 'PP' &&
+                    journeyStatus !== 'IN_PROGRESS' &&
+                    journeyStatus !== '' //Blank scenario handled
+                      ? t('dashboardScreen.steps.preApproval.congratulations')
+                      : journeyStatus == 'IN_PROGRESS'
+                        ? t('dashboardScreen.steps.preApproval.inProgressDescription')
+                        : t('dashboardScreen.steps.preApproval.description')
                   }
                   subDescription={t('dashboardScreen.steps.preApproval.subDescription')}
                   buttonText={t('dashboardScreen.steps.preApproval.apply')}
                   active={true}
-                  onButtonClick={() =>
-                    journeyStatus !== 'PR' && journeyStatus !== 'PP' && journeyStatus !== 'IN_PROGRESS'
-                      ? alert('will dp resend api')
-                      : navigate('/PreApprovalPage')
-                  }
+                  onButtonClick={() => {
+                    // console.log(jou);
+
+                    journeyStatus !== 'PR' &&
+                    journeyStatus !== 'PP' &&
+                    journeyStatus !== 'IN_PROGRESS' &&
+                    journeyStatus !== '' //Blank scenario handled
+                      ? alert('will do resend api')
+                      : navigate('/PreApprovalPage');
+                  }}
                   status={
-                    journeyStatus === 'Blank'
+                    journeyStatus === ''
                       ? 'new'
                       : journeyStatus !== 'PR' && journeyStatus !== 'PP' && journeyStatus !== 'IN_PROGRESS'
                         ? 'completed'
@@ -116,7 +126,7 @@ export default function MortgageDashboard() {
                   description={t('dashboardScreen.steps.propertyValuation.description')}
                   buttonText={t('dashboardScreen.steps.propertyValuation.requestCalculation')}
                   onButtonClick={() => navigate('/PropertyValuation')}
-                  withButton={true}
+                  //withButton={true}
                 />
 
                 <MortgageStep

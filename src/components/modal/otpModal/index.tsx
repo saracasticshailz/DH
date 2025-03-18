@@ -20,13 +20,15 @@ const OtpInput = styled('input')(({ theme }) => ({
 }));
 
 interface OtpDrawerProps {
+  title: string;
+  description: string;
   open: boolean;
   onClose: () => void;
   phoneNumber: string;
   onSubmit: (otp: string) => void;
 }
 
-export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit }: OtpDrawerProps) {
+export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit, title }: OtpDrawerProps) {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
   const inputRefs: any = useRef<(HTMLInputElement | null)[]>([]);
@@ -70,6 +72,15 @@ export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit }: OtpD
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
   };
 
+  const resetOtpAfterTypeChange = () => {
+    setOtp(['', '', '', '', '', '']);
+    inputRefs.current[0]?.focus();
+  };
+
+  useEffect(() => {
+    resetOtpAfterTypeChange();
+  }, [phoneNumber]);
+
   return (
     <Drawer
       anchor="left"
@@ -98,7 +109,7 @@ export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit }: OtpD
         </IconButton>
         <Box sx={{ pt: 4 }}>
           <Typography variant="h5" component="h2" sx={{ fontWeight: 500, mb: 2 }}>
-            {t('otpModal.oneTimePassword')}
+            {title || t('otpModal.oneTimePassword')}
           </Typography>
 
           <Typography color="text.secondary" sx={{ mb: 3 }}>
@@ -115,7 +126,7 @@ export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit }: OtpD
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
             {otp.map((digit, index) => (
               <OtpInput
-                key={index}
+                key={index || title}
                 type="text"
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}

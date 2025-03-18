@@ -30,17 +30,18 @@ const initialState: MortgageState = {
       state: '',
     },
     loanDetails: {
-      loanPreference: 'ADCB',
-      financingOption: 'threeYear',
+      loanPreference: 'C',
+      financingOption: 'Fixed',
       purchaseType: '',
       loanAmount: '',
       loanTenure: '',
       specialistCode: '',
     },
     employmentDetails: {
-      employmentType: 'salaried',
-      employerName: '',
-      joiningDate: '',
+      employmentType: 'SA',
+      employerName: 'ADNOC',
+      joiningDate: '10/10/2010',
+      employerCode: '',
     },
     incomeDetails: {
       fixedMonthlyIncome: '',

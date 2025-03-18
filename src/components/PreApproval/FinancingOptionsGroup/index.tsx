@@ -15,17 +15,17 @@ export default function FinancingOptionsGroup({ value, onChange, onBlur, error, 
   const { t } = useTranslation();
   const options = [
     {
-      value: 'threeYear',
+      value: 'Fixed',
       label: t('preApproval.loanDetails.financePricing.options.threeYear.title'),
       description: t('preApproval.loanDetails.financePricing.options.threeYear.description'),
     },
     {
-      value: 'fiveYear',
+      value: 'A',
       label: t('preApproval.loanDetails.financePricing.options.fiveYear.title'),
       description: t('preApproval.loanDetails.financePricing.options.fiveYear.description'),
     },
     {
-      value: 'variable',
+      value: 'B',
       label: t('preApproval.loanDetails.financePricing.options.variable.title'),
       description: t('preApproval.loanDetails.financePricing.options.variable.description'),
     },

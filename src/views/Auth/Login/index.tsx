@@ -14,15 +14,25 @@ import { useNavigate } from 'react-router-dom';
 import OtpModal from '@/components/modal/otpModal';
 import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
+import { useAppDispatch } from '@/hooks/redux.js';
+import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
 const LoginScreen = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [maskedPhoneNumber, setMaskedPhoneNumber] = useState('');
+  const [lapsRefNumber, setlapsRefNumber] = useState('');
+
+  const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
+  const [isEmailVerification, setIsEmailVerification] = useState(false);
+  const [maskedEmail, setMaskedEmail] = useState('');
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -49,13 +59,16 @@ const LoginScreen = () => {
     modNetwork(
       API.SIGNUP_API, // as discussed with noman will use same API
       {
-        mobileNumber: values.phoneNumber,
-        journeyType: 'CUSTOMER',
+        mobileNumber: '971' + values.phoneNumber,
+        journeyType: 'RET',
       },
       (res: any) => {
         if (res.oprstatus == 0 && res.returnCode == 0) {
           setAuthModalOpen(true);
           setMaskedPhoneNumber(res.mobileMasked);
+          setMaskedEmail(res.emailMasked || '');
+          setOtpSentStatus(res.otpSentStatus || 'M');
+          setlapsRefNumber(res.lapsRefNumber || '');
         } else {
           console.log('ERROR', res);
           alert(JSON.stringify(res));
@@ -65,6 +78,41 @@ const LoginScreen = () => {
       '',
       '',
       'register'
+    );
+  };
+
+  const handleOTPSubmit = async (enteredOtp: string) => {
+    modNetwork(
+      API.OTP_VERIFY_API,
+      {
+        lapsRefNumber: lapsRefNumber,
+        otpType: isEmailVerification ? 'E' : 'M',
+        // custOtp: enteredOtp,
+        custOtp: '111111',
+      },
+      (res: any) => {
+        console.log('OTP_VERIFY_API', res);
+
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          if (otpSentStatus === 'B' && !isEmailVerification) {
+            setIsEmailVerification(true);
+            return;
+          }
+
+          dispatch(updateProfile(res)); //
+
+          navigate('/Dashboard', {
+            state: { preventBack: true },
+          });
+        } else {
+          navigate('/Dashboard');
+          alert(res.errmsg);
+        }
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
     );
   };
 
@@ -115,7 +163,15 @@ const LoginScreen = () => {
                       onBlur={() => undefined}
                     />
 
-                    <AppButton onClick={() => setAuthModalOpen(true)}>{t('loginScreen.proceed')}</AppButton>
+                    <AppButton
+                      type="submit"
+                      onClick={() => {
+                        // This will trigger form validation before submission
+                        // You can keep this empty or add additional logic
+                      }}
+                    >
+                      {t('loginScreen.proceed')}
+                    </AppButton>
                   </Form>
                 )}
               </Formik>
@@ -147,114 +203,18 @@ const LoginScreen = () => {
       {authModalOpen && (
         <OtpModal
           open={authModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          phoneNumber="+971 ***678"
-          onSubmit={handleSubmit}
+          onClose={() => {
+            setAuthModalOpen(false);
+            setIsEmailVerification(false); // Reset email verification state when closing
+          }}
+          phoneNumber={isEmailVerification ? maskedEmail : maskedPhoneNumber}
+          onSubmit={(OTP: string) => handleOTPSubmit(OTP)}
+          title={isEmailVerification ? t('common.emailVerification') : t('common.phoneVerification')}
+          description={isEmailVerification ? t('common.enterEmailOtp') : t('common.enterPhoneOtp')}
         />
       )}
     </Box>
   );
-  // return (
-  //   <Container
-  //     maxWidth="md"
-  //     className="min-h-screen flex items-center justify-center bg-gray-100 p-4 mt-8 overflow-hidden"
-  //   >
-  //     <Grid container spacing={4} className="shadow-lg rounded-2xl overflow-hidden bg-white p-4" wrap="wrap">
-  //       {/* Left Side - Image and Text */}
-  //       <Grid size={{ xs: 12, md: 8 }} className="relative">
-  //         <Box
-  //           component="img"
-  //           src={images.signupImage}
-  //           alt="Dream Home"
-  //           className="h-full object-cover"
-  //           sx={{ maxWidth: '100%', height: '900' }}
-  //         />
-  //         {/* <Box className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center p-8">
-  //           <Typography variant="h4" className="text-white font-bold mb-4">
-  //             Create Your Profile
-  //           </Typography>
-  //           <Typography variant="body1" className="text-white">
-  //             This one-time registration will create your profile on the ADCB Dream Home platform, enhancing your home
-  //             purchase experience.
-  //           </Typography>
-  //         </Box> */}
-  //       </Grid>
-
-  //       {/* Right Side - Form */}
-  //       <Grid size={{ xs: 12, md: 4 }} className="p-8">
-  //         <Card elevation={0} className="p-4">
-  //           <CardContent>
-  //             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-  //               {({ values, handleChange }) => (
-  //                 <Form>
-  //                   <TextInput name="Name" value={values.name} onChange={handleChange} placeholder="Enter your name" />
-
-  //                   <TextInput
-  //                     name="Phone number"
-  //                     value="+971"
-  //                     onChange={function (event: React.ChangeEvent<HTMLInputElement>): void {
-  //                       throw new Error('Function not implemented.');
-  //                     }}
-  //                     placeholder={'000 000 000'}
-  //                   />
-  //                   <TextInput
-  //                     name="Phone number"
-  //                     placeholder="000000000"
-  //                     value={values.phoneNumber}
-  //                     onChange={handleChange}
-  //                   />
-
-  //                   <TextInput
-  //                     name="email"
-  //                     placeholder="Enter your email address"
-  //                     value={values.email}
-  //                     onChange={handleChange}
-  //                   />
-
-  //                   <TextInput
-  //                     name="emiratesId"
-  //                     placeholder="Enter your Emirates ID number"
-  //                     value={values.emiratesId}
-  //                     onChange={handleChange}
-  //                   />
-
-  //                   <Button
-  //                     type="submit"
-  //                     variant="contained"
-  //                     color="error"
-  //                     fullWidth
-  //                     sx={{ py: 1, color: 'white', borderRadius: 3, boxShadow: 3, mb: 4, mt: 2 }}
-  //                   >
-  //                     CREATE YOUR PROFILE
-  //                   </Button>
-  //                 </Form>
-  //               )}
-  //             </Formik>
-
-  //             <Button variant="outlined" fullWidth className="rounded-xl">
-  //               SIGN IN
-  //             </Button>
-  //           </CardContent>
-  //         </Card>
-  //       </Grid>
-  //     </Grid>
-
-  //     {/* Footer */}
-  //     <Box className="w-full text-center mt-4 p-4">
-  //       <Typography variant="body2">
-  //         Copyright © 2025 ADCB. All rights reserved. &nbsp;
-  //         <a href="#" className="text-blue-500">
-  //           Terms & Conditions
-  //         </a>{' '}
-  //         |
-  //         <a href="#" className="text-blue-500">
-  //           {' '}
-  //           Privacy Policy
-  //         </a>
-  //       </Typography>
-  //     </Box>
-  //   </Container>
-  // );
 };
 
 export default LoginScreen;

@@ -13,7 +13,8 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
   params.clientTime = '' + modDateTimeUtil.getCurrentTime();
   // params.b = '';
 
-  print('params', params);
+  // print('params', params);
+  console.log('params', params);
 
   const authKey = CryptoObj.generateAuthKey(operatorId, authStep);
   const encryptedData = CryptoObj.EncryptTxtJS(JSON.stringify(params), authKey);
@@ -41,15 +42,17 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
         // console.log('responseData', responseData);
 
         const actualResponse = CryptoObj.DecryptTxtJS(responseData, authKey);
-        // console.log(actualResponse);
+        console.log('actualResponse', actualResponse);
         // This decrytption not workin
         const res = JSON.parse(actualResponse);
-        console.log(res.oprstatus);
-        if (res?.oprstatus === 1) {
+        // console.log(res.oprstatus);
+        if (res?.oprstatus !== 0) {
+          //
           //&& res?.returnCode == '1'
           console.log('ERROR IN INVOCATION', operatorId, error, res);
 
           //error
+
           // let errorMsg = "";
           // try {
           //   errorMsg = JSON.parse(res.errmsg);

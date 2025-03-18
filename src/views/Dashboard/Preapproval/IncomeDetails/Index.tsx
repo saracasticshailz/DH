@@ -119,12 +119,12 @@ export default function IncomeDetailsForm() {
                       {({ field }: any) => (
                         <RadioGroup {...field} row>
                           <FormControlLabel
-                            value="yes"
+                            value="Y"
                             control={<Radio />}
                             label={t('preApproval.incomeDetails.accommodation.options.yes')}
                           />
                           <FormControlLabel
-                            value="no"
+                            value="N"
                             control={<Radio />}
                             label={t('preApproval.incomeDetails.accommodation.options.no')}
                           />

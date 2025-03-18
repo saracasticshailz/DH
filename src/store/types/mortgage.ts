@@ -1,7 +1,7 @@
 // Pre-approval Types
-export type EmploymentType = 'salaried' | 'selfEmployed' | 'pensioner';
-export type LoanPreference = 'ADCB' | 'ADCB Islamic';
-export type FinancingOption = 'threeYear' | 'fiveYear' | 'variable';
+export type EmploymentType = 'SA' | 'SE' | 'PE'; //SALAIED, SELF EMPLYEE,PENSIONER
+export type LoanPreference = 'C' | 'I'; // ADCB , ISLAMIC
+export type FinancingOption = 'Fixed' | 'A' | 'B';
 
 export interface PreApprovalState {
   activeStep: number;
@@ -32,10 +32,12 @@ export interface PreApprovalState {
     loanAmount: string;
     loanTenure: string;
     specialistCode: string;
+    specialistName: string;
   };
   employmentDetails: {
     employmentType: EmploymentType;
     employerName: string;
+    employerCode: string;
     joiningDate: string;
   };
   incomeDetails: {
