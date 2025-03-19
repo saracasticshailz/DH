@@ -28,6 +28,7 @@ export interface AuthState {
   lapsRefNumber: number | null;
   customerName: string | null;
   customerMobileNumber: string | null;
+  emiratesId: string | null;
   loanApplicationNo: string | null;
   loanApplicationStatus: LoanApplicationStatus | null;
   rmCode: string | null;
@@ -41,6 +42,7 @@ export interface AuthState {
   lastLoginDatetime: string | null;
   loading: boolean;
   error: string | null;
+  lapsApplicationNo: string | null;
 }
 
 // Define the initial state
@@ -65,6 +67,8 @@ const initialState: AuthState = {
   lastLoginDatetime: null,
   loading: false,
   error: null,
+  emiratesId: null,
+  lapsApplicationNo: '',
 };
 
 // Create the auth slice
@@ -144,13 +148,29 @@ export const customerAuthSlice = createSlice({
       };
     },
 
-    updateCustomerMobileNumberAndName: (
+    updateCustomerMobileNumberAndNameAndEmiratedId: (
       state,
-      action: PayloadAction<{ mobileNumber: string; customerName?: string }>
+      action: PayloadAction<{ mobileNumber: string; customerName?: string; emiratesId?: string }>
     ) => {
       state.customerMobileNumber = action.payload.mobileNumber;
+
       if (action.payload.customerName) {
         state.customerName = action.payload.customerName;
+      }
+
+      if (action.payload.emiratesId) {
+        state.emiratesId = action.payload.emiratesId;
+      }
+    },
+
+    updateLapsApplicationNo: (
+      state,
+      action: PayloadAction<{
+        lapsApplicationNo?: string;
+      }>
+    ) => {
+      if (action.payload.lapsApplicationNo) {
+        state.lapsApplicationNo = action.payload.lapsApplicationNo;
       }
     },
   },
@@ -164,7 +184,8 @@ export const {
   logout,
   updateApplicationStatus,
   updateRMDetails,
-  updateCustomerMobileNumberAndName,
+  updateCustomerMobileNumberAndNameAndEmiratedId,
+  updateLapsApplicationNo,
 } = customerAuthSlice.actions;
 
 // Export selectors

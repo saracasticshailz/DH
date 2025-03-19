@@ -16,7 +16,11 @@ import OtpModal from '@/components/modal/otpModal';
 import AppButton from '@/components/common/AppButton/AppButton';
 import { COLORS } from '@/theme/colors';
 import { AppLoading, CommonDialog } from '@/components';
-import { loginSuccess, updateCustomerMobileNumberAndName, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import {
+  loginSuccess,
+  updateCustomerMobileNumberAndNameAndEmiratedId,
+  updateProfile,
+} from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
 
@@ -39,7 +43,7 @@ const SignupScreen = () => {
   // Add this line to store the current phone number
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState('');
   const [currentName, setCurrentName] = useState('');
-
+  const [emiratesId, setEmiratedId] = useState('');
   const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
   const [isEmailVerification, setIsEmailVerification] = useState(false);
   const [maskedEmail, setMaskedEmail] = useState('');
@@ -72,7 +76,7 @@ const SignupScreen = () => {
   const handleSubmit = async (values: any) => {
     setCurrentPhoneNumber(values.phoneNumber);
     setCurrentName(values.name);
-
+    setEmiratedId(values.emiratesId);
     setAuthModalOpen(false);
 
     modNetwork(
@@ -139,19 +143,20 @@ const SignupScreen = () => {
 
           dispatch(updateProfile(res));
           dispatch(
-            updateCustomerMobileNumberAndName({
+            updateCustomerMobileNumberAndNameAndEmiratedId({
               mobileNumber: `971${currentPhoneNumber}`,
               customerName: currentName,
+              emiratesId: emiratesId,
             })
           );
 
           dispatch(loginSuccess(res));
-          navigate('/RmDashboard', {
-            state: { preventBack: true },
-          });
-          // navigate('/Dashboard', {
+          // navigate('/RmDashboard', {
           //   state: { preventBack: true },
           // });
+          navigate('/Dashboard', {
+            state: { preventBack: true },
+          });
         } else {
           setShowAlert(true);
           alert(res.errmsg);
@@ -242,7 +247,7 @@ const SignupScreen = () => {
                       onBlur={() => {}}
                     />
                     <TextInput
-                      name="email" // This should match the field name in initialValues
+                      name="email"
                       placeholder={t('signUpScreen.enterYourEmail')}
                       value={values.email}
                       onChange={handleChange}
@@ -250,7 +255,7 @@ const SignupScreen = () => {
                       onBlur={() => {}}
                     />
                     <TextInput
-                      name="emiratesId" // This should match the field name in initialValues
+                      name="emiratesId"
                       placeholder={t('signUpScreen.enterYourEid')}
                       value={values.emiratesId}
                       onChange={handleChange}

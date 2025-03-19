@@ -120,7 +120,7 @@ export default function EmploymentDetails() {
   }
 
   // For debugging - log the current form values when they change
-  console.log('Current form values:', formik.values);
+  // console.log('Current form values:', formik.values);
 
   return (
     <Container maxWidth="lg">
@@ -160,7 +160,7 @@ export default function EmploymentDetails() {
                 onChange={(newValue) => {
                   formik.setFieldValue('employerName', newValue?.companyName || '');
                   formik.setFieldValue('employerCode', newValue?.employerCode || '');
-                  console.log('Employer selected:', newValue);
+                  // console.log('Employer selected:', newValue);
                 }}
                 onBlur={formik.handleBlur}
                 error={formik.touched.employerName && Boolean(formik.errors.employerName)}

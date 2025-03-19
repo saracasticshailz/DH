@@ -112,9 +112,18 @@ export default function IncomeDetailsForm() {
                     component="fieldset"
                     error={touched.stayingInCompanyAccommodation && Boolean(errors.stayingInCompanyAccommodation)}
                   >
-                    <FormLabel component="legend" sx={{ mb: 1 }}>
+                    <Typography
+                      component="label"
+                      sx={{
+                        color: '#5d656b',
+                        display: 'block',
+                        marginBlockEnd: 1,
+                        fontSize: '13.36px',
+                        fontWeight: '500',
+                      }}
+                    >
                       {t('preApproval.incomeDetails.accommodation.label')}
-                    </FormLabel>
+                    </Typography>
                     <Field name="stayingInCompanyAccommodation">
                       {({ field }: any) => (
                         <RadioGroup {...field} row>

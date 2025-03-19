@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { setPreApprovalStep } from '@/store/slices/MortgageSlice';
 import { selectedPreApprovalData } from '@/store/selectors/mortgageSelectors';
 import { useNavigate } from 'react-router-dom';
-import { selectAuth, updateApplicationStatus } from '@/store/slices/CustomerAuthSlice';
+import { selectAuth, updateApplicationStatus, updateLapsApplicationNo } from '@/store/slices/CustomerAuthSlice';
 // @ts-ignore
 import { Invoker } from '../../../../v2/common/modules/modServiceInvoker';
 import { RootState } from '@/store';
@@ -233,16 +233,23 @@ const PreApprovalReview = () => {
         employerName: employmentDetails.employerName,
         employerCode: employmentDetails.employerCode,
         DOJ: employmentDetails.joiningDate,
-        housingRentAllowance: incomeDetails.annualRentalIncome, // TBD
+
+        monthlyFixedSalary: incomeDetails.fixedMonthlyIncome,
         isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
         monthlyOtherIncome: incomeDetails.otherMonthlyIncome,
         annualRentallncome: incomeDetails.annualRentalIncome,
+
         mobileNo: userDetails.customerMobileNumber,
         gender: personalDetails.gender,
         customerName: userDetails.customerName,
         residencePOBox: personalDetails.poBox,
         residenceState: personalDetails.state,
         nationalityCode: personalDetails.countryOfResidence,
+        emiratesId: userDetails.emiratesId,
+
+        passportExpiryDate: personalDetails.passportExpiry,
+        passportNumber: personalDetails.passportNumber,
+        residenceCountry: personalDetails.countryOfResidence,
       },
       // {
       //   applicationRefNumber: 'LP-ML-00014397',
@@ -274,6 +281,9 @@ const PreApprovalReview = () => {
         dispatch(
           updateApplicationStatus({
             loanApplicationStatus: 'IN_PROGRESS',
+          }),
+          updateLapsApplicationNo({
+            lapsApplicationNo: res.lapsApplicationNo,
           })
         );
         if (res.oprstatus == 0 && res.returnCode == 0) {

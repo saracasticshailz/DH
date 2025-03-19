@@ -40,8 +40,8 @@ const initialState: MortgageState = {
     },
     employmentDetails: {
       employmentType: 'SA',
-      employerName: 'ADNOC',
-      joiningDate: '10/10/2010',
+      employerName: '',
+      joiningDate: '',
       employerCode: '',
     },
     incomeDetails: {
