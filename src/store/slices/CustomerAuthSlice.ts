@@ -27,6 +27,7 @@ export interface AuthState {
   addinfoReqFlag: string | null;
   lapsRefNumber: number | null;
   customerName: string | null;
+  customerMobileNumber: string | null;
   loanApplicationNo: string | null;
   loanApplicationStatus: LoanApplicationStatus | null;
   rmCode: string | null;
@@ -50,6 +51,7 @@ const initialState: AuthState = {
   addinfoReqFlag: null,
   lapsRefNumber: null,
   customerName: null,
+  customerMobileNumber: null,
   loanApplicationNo: null,
   loanApplicationStatus: null,
   rmCode: 'DEMO',
@@ -141,11 +143,23 @@ export const customerAuthSlice = createSlice({
         ...action.payload,
       };
     },
+
+    updateCustomerMobileNumber: (state, action: PayloadAction<string>) => {
+      state.customerMobileNumber = action.payload;
+    },
   },
 });
 
-export const { setLoading, setError, loginSuccess, updateProfile, logout, updateApplicationStatus, updateRMDetails } =
-  customerAuthSlice.actions;
+export const {
+  setLoading,
+  setError,
+  loginSuccess,
+  updateProfile,
+  logout,
+  updateApplicationStatus,
+  updateRMDetails,
+  updateCustomerMobileNumber,
+} = customerAuthSlice.actions;
 
 // Export selectors
 export const selectAuth = (state: RootState) => state.customerAuth;
