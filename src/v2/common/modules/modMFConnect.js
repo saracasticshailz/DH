@@ -11,37 +11,6 @@ class MFConnector {
     this.isInitTimedOut = false;
 
     this.mfConfig = {
-      // appKey: "ibmibdev2int2",
-      // appSecret: "ibmibdev2int2",
-      // serviceURL:
-      //   "https://dev2auth.mobileapps.adcb.com:8465/authService/100000002/appconfig",
-      // appKey: "adcbmib-performance-uat3int4",
-      // appSecret: "re275194543ea21494af2ca990887v43",
-      // serviceURL:
-      //   "https://uat3auth.mobileapps.adcb.com:8474/authService/100000002/appconfig",
-      // openshift prod
-      // appKey: "prod-int4-mibv9",
-      // appSecret: "54tr60d542e13c5rf05t2ba22ce1r4r7",
-      // serviceURL:
-      //   "https://onlineauthq.adcb.com/authService/100000002/appconfig",
-      // AWS
-      // appKey: "mib-prodc-int1",
-      // appSecret: "f4d9c24100fad86c4f5a82595e4ae648",
-      // serviceURL:
-      //   "https://onlineauthc.adcb.com/authService/100000002/appconfig",
-      // env: "A",
-      // appKey: "mib-dev2-in5",
-      // appSecret: "mib-dev2-in5",
-      // serviceURL:
-      //   "https://dev2auth.mobileapps.adcb.com:8465/authService/100000002/appconfig",
-      // appKey: "mib-pentest-uat2int4",
-      // appSecret: "ec8c838b7d796a81aa95ed9f6ffbbb38",
-      // serviceURL:
-      //   "https://uat2auth.mobileapps.adcb.com:8466/authService/100000002/appconfig",
-      // appKey: 'adcbmib-uat1int4',
-      // appSecret: 'tr4f4f4c50315433c73f6f67e71d0tre',
-      // serviceURL:
-      //   'https://uat1auth.mobileapps.adcb.com:8457/authService/100000002/appconfig',
       appKey: 'adcbdhp-dev2int2',
       appSecret: 'adcbdhp-dev2int2',
       serviceURL: 'https://dev2auth.mobileapps.adcb.com:8465/authService/100000002/appconfig',

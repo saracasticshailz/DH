@@ -36,13 +36,13 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
     params: inputParamObj,
     callFnback: (status, response) => {
       try {
-        console.log('MOD NETWORK response ', response);
+        // console.log('MOD NETWORK response ', response);
         const parsedResponse = response;
         const responseData = parsedResponse.results[0].data;
         // console.log('responseData', responseData);
 
         const actualResponse = CryptoObj.DecryptTxtJS(responseData, authKey);
-        console.log('actualResponse', actualResponse);
+        // console.log('actualResponse', actualResponse);
         // This decrytption not workin
         const res = JSON.parse(actualResponse);
         // console.log(res.oprstatus);
