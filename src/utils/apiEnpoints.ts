@@ -4,6 +4,7 @@ const API = {
   SUBMIT_LOAN_API: 'sub_loan_application',
   FETCH_RM_DETAILS: 'inq_rm_details',
   FETCH_EMPLOYER_DETAILS: 'inq_company_details',
+  FETCH_RM_DASHBOARD: 'inq_rm_dashboard',
 };
 
 export default API;
