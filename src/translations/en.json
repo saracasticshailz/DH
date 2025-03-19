@@ -34,7 +34,9 @@
     "resend": "Resend OTP",
     "back": "Back",
     "phoneVerification": "Phone Verification",
-    "emailVerification": "Email verification"
+    "emailVerification": "Email verification",
+    "otpExpired": "OTP has expired. Please request a new OTP.",
+    "resendOtp": "Resend OTP"
   },
   "loginScreen": {
     "title": "Login",
