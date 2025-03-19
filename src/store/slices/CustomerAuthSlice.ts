@@ -54,9 +54,9 @@ const initialState: AuthState = {
   customerMobileNumber: null,
   loanApplicationNo: null,
   loanApplicationStatus: null,
-  rmCode: 'DEMO',
-  rmEmailId: 'heisenberg@123.com',
-  rmMobile: '+971987898789',
+  rmCode: '',
+  rmEmailId: '',
+  rmMobile: '',
   orderId: null,
   orderStatus: null,
   rmName: null,
@@ -115,7 +115,7 @@ export const customerAuthSlice = createSlice({
         displayMessage?: string;
       }>
     ) => {
-      console.log('updateApplicationStatus', action.payload.loanApplicationStatus);
+      // console.log('updateApplicationStatus', action.payload.loanApplicationStatus);
 
       if (action.payload.loanApplicationStatus) {
         state.loanApplicationStatus = action.payload.loanApplicationStatus;
@@ -144,8 +144,14 @@ export const customerAuthSlice = createSlice({
       };
     },
 
-    updateCustomerMobileNumber: (state, action: PayloadAction<string>) => {
-      state.customerMobileNumber = action.payload;
+    updateCustomerMobileNumberAndName: (
+      state,
+      action: PayloadAction<{ mobileNumber: string; customerName?: string }>
+    ) => {
+      state.customerMobileNumber = action.payload.mobileNumber;
+      if (action.payload.customerName) {
+        state.customerName = action.payload.customerName;
+      }
     },
   },
 });
@@ -158,7 +164,7 @@ export const {
   logout,
   updateApplicationStatus,
   updateRMDetails,
-  updateCustomerMobileNumber,
+  updateCustomerMobileNumberAndName,
 } = customerAuthSlice.actions;
 
 // Export selectors

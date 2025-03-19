@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import valuationReducer from './slices/ValuationSlice';
 import mortgageSlice from './slices/MortgageSlice';
 import customerAuthSlice from './slices/CustomerAuthSlice';
-
+import rmDashSlice from './slices/RmDashboardSlice';
 // Configure persist options
 const persistConfig = {
   key: 'root',
@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
   valuation: valuationReducer,
   mortgage: mortgageSlice,
   customerAuth: customerAuthSlice,
+  rmDashboard: rmDashSlice,
 });
 
 // Create persisted reducer

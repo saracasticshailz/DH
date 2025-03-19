@@ -184,10 +184,8 @@ const PersonalDetailsForm: React.FC = () => {
                       error={touched.nationality && Boolean(errors.nationality)}
                       helperText={touched.nationality && errors.nationality}
                     >
-                      <MenuItem value="AE">UAE</MenuItem>
-                      <MenuItem value="IN">INDIA</MenuItem>
-                      <MenuItem value="USA">USA</MenuItem>
-                      <MenuItem value="UK">UK</MenuItem>
+                      <MenuItem value="ae">UAE</MenuItem>
+                      <MenuItem value="in">INDIA</MenuItem>
                     </TextInput>
                   )}
                 </Field>
@@ -282,9 +280,8 @@ const PersonalDetailsForm: React.FC = () => {
                       error={touched.countryOfResidence && Boolean(errors.countryOfResidence)}
                       helperText={touched.countryOfResidence && errors.countryOfResidence}
                     >
-                      <MenuItem value="uae">UAE</MenuItem>
-                      <MenuItem value="usa">USA</MenuItem>
-                      <MenuItem value="uk">UK</MenuItem>
+                      <MenuItem value="ae">UAE</MenuItem>
+                      <MenuItem value="in">INDIA</MenuItem>
                     </TextInput>
                   )}
                 </Field>

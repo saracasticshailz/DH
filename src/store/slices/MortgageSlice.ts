@@ -36,6 +36,7 @@ const initialState: MortgageState = {
       loanAmount: '',
       loanTenure: '',
       specialistCode: '',
+      specialistName: '',
     },
     employmentDetails: {
       employmentType: 'SA',

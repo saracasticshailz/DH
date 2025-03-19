@@ -18,6 +18,7 @@ import { AppButton } from '@/components';
 import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
 interface ReviewSection {
   label: string;
@@ -218,56 +219,56 @@ const PreApprovalReview = () => {
 
   const handleSubmit = async () => {
     modNetwork(
-      API.SUBMIT_LOAN_API, // as discussed with noman will use same API
-      // {
-      //   applicationRefNumber: userDetails.applicationRefNumber,
-      //   lapsRefNumber: userDetails.lapsRefNumber,
-      //   loanPreference: loanDetails.loanPreference,
-      //   financePricingOption: loanDetails.financingOption,
-      //   typeOfPurchase: loanDetails.purchaseType,
-      //   mortgageSpecialistCode: loanDetails.specialistCode,
-      //   requestedLoanAmount: loanDetails.loanAmount,
-      //   loanTenure: loanDetails.loanTenure,
-      //   employmentType: employmentDetails.employmentType,
-      //   employerName: employmentDetails.employerName,
-      //   employerCode: employmentDetails.employerName, //Not used
-      //   DOJ: employmentDetails.joiningDate,
-      //   housingRentAllowance: incomeDetails.annualRentalIncome, // TBD
-      //   isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
-      //   monthlyOtherIncome: incomeDetails.otherMonthlyIncome,
-      //   annualRentallncome: incomeDetails.annualRentalIncome,
-      //   mobileNo: '971582109809',
-      //   gender: personalDetails.gender,
-      //   customerName: userDetails.customerName,
-      //   residencePOBox: personalDetails.poBox,
-      //   residenceState: personalDetails.state,
-      //   nationalityCode: personalDetails.countryOfResidence,
-      // },
+      API.SUBMIT_LOAN_API,
       {
-        applicationRefNumber: 'LP-ML-00014397',
-        lapsRefNumber: '017904',
-        loanPreference: 'A',
-        financePricingOption: 'Fixed',
-        typeOfPurchase: '2',
-        mortgageSpecialistCode: 'C106',
-        requestedLoanAmount: '2000000',
-        loanTenure: '25',
-        employmentType: 'SA',
-        employerName: 'ADNOC ONSHORE',
-        employerCode: '002100',
-        DOJ: '03/01/2010',
-        housingRentAllowance: 100000,
-        isCompanyAccommodation: 'yes',
-        monthlyOtherIncome: 1000000,
-        annualRentallncome: 100000,
-        mobileNo: '971582109809',
-        gender: 'Female',
-        customerName: 'SHAILESH',
-        residencePOBox: 'PO Box 7',
-        residenceState: 'dubai',
-        nationalityCode: 'uae',
-        clientTime: '1742289582895',
+        applicationRefNumber: userDetails.applicationRefNumber,
+        lapsRefNumber: userDetails.lapsRefNumber,
+        loanPreference: loanDetails.loanPreference,
+        financePricingOption: loanDetails.financingOption,
+        typeOfPurchase: loanDetails.purchaseType,
+        mortgageSpecialistCode: loanDetails.specialistCode,
+        requestedLoanAmount: loanDetails.loanAmount,
+        loanTenure: loanDetails.loanTenure,
+        employmentType: employmentDetails.employmentType,
+        employerName: employmentDetails.employerName,
+        employerCode: employmentDetails.employerCode,
+        DOJ: employmentDetails.joiningDate,
+        housingRentAllowance: incomeDetails.annualRentalIncome, // TBD
+        isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
+        monthlyOtherIncome: incomeDetails.otherMonthlyIncome,
+        annualRentallncome: incomeDetails.annualRentalIncome,
+        mobileNo: userDetails.customerMobileNumber,
+        gender: personalDetails.gender,
+        customerName: userDetails.customerName,
+        residencePOBox: personalDetails.poBox,
+        residenceState: personalDetails.state,
+        nationalityCode: personalDetails.countryOfResidence,
       },
+      // {
+      //   applicationRefNumber: 'LP-ML-00014397',
+      //   lapsRefNumber: '017904',
+      //   loanPreference: 'A',
+      //   financePricingOption: 'Fixed',
+      //   typeOfPurchase: '2',
+      //   mortgageSpecialistCode: 'C106',
+      //   requestedLoanAmount: '2000000',
+      //   loanTenure: '25',
+      //   employmentType: 'SA',
+      //   employerName: 'ADNOC ONSHORE',
+      //   employerCode: '002100',
+      //   DOJ: '03/01/2010',
+      //   housingRentAllowance: 100000,
+      //   isCompanyAccommodation: 'yes',
+      //   monthlyOtherIncome: 1000000,
+      //   annualRentallncome: 100000,
+      //   mobileNo: '971582109809',
+      //   gender: 'Female',
+      //   customerName: 'SHAILESH',
+      //   residencePOBox: 'PO Box 7',
+      //   residenceState: 'dubai',
+      //   nationalityCode: 'uae',
+      //   clientTime: '1742289582895',
+      // },
       (res: any) => {
         console.log('sub_loan_application RES', res);
         dispatch(
@@ -286,7 +287,7 @@ const PreApprovalReview = () => {
       '',
       '',
       '',
-      'register'
+      MOD_CONSTANTS.REGISTER
     );
   };
 

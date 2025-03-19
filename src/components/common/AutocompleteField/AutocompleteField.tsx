@@ -4,9 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import TextInput from '../TextInput';
-//{ companyCode: '', companyName: '', companyStatus: '' }
 interface AutocompleteOption {
-  companyCode: string;
+  employerCode: string;
   companyName: string;
   companyStatus: string;
   [key: string]: any; // Allow for additional properties

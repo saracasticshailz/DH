@@ -18,8 +18,9 @@ import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { isLoading } from '@/store/slices/CustomerAuthSlice';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import NextActionDetailsModal from '@/components/modal/rm/NextActionDetailsModal';
+import { setApplications, setError, setLoading } from '@/store/slices/RmDashboardSlice';
 
 // Filter configurations
 const filterConfigs: FilterConfig[] = [
@@ -72,30 +73,26 @@ const filterSchema = Yup.object({
 const RmDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [filterValues, setFilterValues] = useState<FilterValues>(initialFilterValues);
-  const [applications, setApplications] = useState<Application[]>([]);
+  // const [applications, setApplications] = useState<Application[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
-
-  const filteredData = filterData<Application>(applications, filterValues.searchTerm, [
-    'customerName',
-    'mobileNo',
-    'referenceNo',
-  ]);
 
   const handleFilter = (values: FilterValues) => {
     setFilterValues(values);
   };
 
-  // Handle row click
+  // Get applications from Redux store
+  const applications = useAppSelector((state) => state.rmDashboard.applications);
+  const dashboardLoading = useAppSelector((state) => state.rmDashboard.loading);
+  const dashboardError = useAppSelector((state) => state.rmDashboard.error);
+  const dispatch = useAppDispatch();
+
   const handleRowClick = (application: Application) => {
     console.log('Application clicked:', application);
     setSelectedApplication(application);
     setIsModalOpen(true);
-    // Navigate to application details
-    // navigate(`/applications/${application.referenceNo}`);
   };
 
-  // Table column definitions
   const columns = [
     {
       field: 'customerName' as const,
@@ -137,11 +134,15 @@ const RmDashboard: React.FC = () => {
       { searchParameterType: '', searchParameterValue: '' },
       (res: any) => {
         if (res.oprstatus == 0 && res.returnCode == 0) {
-          console.log('DATA', res);
-          setApplications(res.applicationDetails);
+          console.log('FETCH_RM_DASHBOARD', res);
+          // Update Redux store instead of local state
+          dispatch(setApplications(res.applicationDetails));
+          dispatch(setLoading(false));
+          dispatch(setError(null));
         } else {
           console.log('Error:', res);
-
+          dispatch(setLoading(false));
+          dispatch(setError('An error occurred. Please try again.'));
           alert('An error occurred. Please try again.');
         }
       },
@@ -154,6 +155,19 @@ const RmDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchTableData();
+  }, []);
+
+  useEffect(() => {
+    const handleFocus = () => {
+      console.log('Window focused, refreshing data...');
+      fetchTableData();
+    };
+
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   const _isLoading = useAppSelector(isLoading);
@@ -234,30 +248,36 @@ const RmDashboard: React.FC = () => {
             validationSchema={filterSchema}
             actionButton={{
               label: 'New Application',
-              onClick: () => navigate('/PreApprovalPage', { replace: true }),
+              onClick: () => {
+                // fetchTableData();
+                navigate('/PreApprovalPage', { replace: true });
+              },
             }}
           />
         </Box>
 
         {/* Data Table */}
         <PaginatedDataTable
-          data={[
-            {
-              customerName: 'SHIVAM KUMAR',
-              mobileNo: '9876543210',
-              emailId: 's@s.com',
-              applicationNo: '12434532',
-              leadReferenceNo: 'dsadqe13',
-              applicationReferenceNo: '12wdsdas323',
-              applicationSubmittedDate: '12/12/1290',
-              applicationStatus: 'OPEN',
-              customerType: 'dnsakda',
-              orderDetails: [{ orderld: 'dasa', orderStatus: 'dsad' }],
-              referenceNo: 'dasd',
-              lastUpdated: 'dasda',
-              status: 'Pre-approval Rejected',
-            },
-          ]}
+          data={
+            applications
+            //   [
+            //   {
+            //     customerName: 'SHIVAM KUMAR',
+            //     mobileNo: '9876543210',
+            //     emailId: 's@s.com',
+            //     applicationNo: '12434532',
+            //     leadReferenceNo: 'dsadqe13',
+            //     applicationReferenceNo: '12wdsdas323',
+            //     applicationSubmittedDate: '12/12/1290',
+            //     applicationStatus: 'OPEN',
+            //     customerType: 'dnsakda',
+            //     orderDetails: [{ orderld: 'dasa', orderStatus: 'dsad' }],
+            //     referenceNo: 'dasd',
+            //     lastUpdated: 'dasda',
+            //     status: 'Pre-approval Rejected',
+            //   },
+            // ]
+          }
           columns={columns}
           initialSortField="customerName"
           keyExtractor={(item) => item.referenceNo}

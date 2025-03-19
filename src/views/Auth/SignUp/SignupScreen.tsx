@@ -16,7 +16,7 @@ import OtpModal from '@/components/modal/otpModal';
 import AppButton from '@/components/common/AppButton/AppButton';
 import { COLORS } from '@/theme/colors';
 import { AppLoading, CommonDialog } from '@/components';
-import { loginSuccess, updateCustomerMobileNumber, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { loginSuccess, updateCustomerMobileNumberAndName, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
 
@@ -38,6 +38,7 @@ const SignupScreen = () => {
 
   // Add this line to store the current phone number
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState('');
+  const [currentName, setCurrentName] = useState('');
 
   const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
   const [isEmailVerification, setIsEmailVerification] = useState(false);
@@ -70,6 +71,7 @@ const SignupScreen = () => {
 
   const handleSubmit = async (values: any) => {
     setCurrentPhoneNumber(values.phoneNumber);
+    setCurrentName(values.name);
 
     setAuthModalOpen(false);
 
@@ -136,12 +138,20 @@ const SignupScreen = () => {
           }
 
           dispatch(updateProfile(res));
-          // Use the stored phone number here
-          dispatch(updateCustomerMobileNumber(`971${currentPhoneNumber}`));
+          dispatch(
+            updateCustomerMobileNumberAndName({
+              mobileNumber: `971${currentPhoneNumber}`,
+              customerName: currentName,
+            })
+          );
+
           dispatch(loginSuccess(res));
-          navigate('/Dashboard', {
+          navigate('/RmDashboard', {
             state: { preventBack: true },
           });
+          // navigate('/Dashboard', {
+          //   state: { preventBack: true },
+          // });
         } else {
           setShowAlert(true);
           alert(res.errmsg);

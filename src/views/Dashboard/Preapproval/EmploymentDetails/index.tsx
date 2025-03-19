@@ -1,24 +1,21 @@
+'use client';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Container, Typography, styled, InputAdornment } from '@mui/material';
+import { Box, Container, Typography, styled } from '@mui/material';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { IMG } from '@/assets/images';
 import EmploymentRadioButton from '@/components/PreApproval/EmploymentRadioButton';
 import { setPreApprovalStep, updateEmploymentDetails } from '@/store/slices/MortgageSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import TextInput from '@/components/common/TextInput';
-import { AppButton, CommonDialog } from '@/components';
+import { AppButton } from '@/components';
 import { useNavigate } from 'react-router-dom';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
-
-// @ts-ignore
-import { Invoker } from '../../../../v2/common/modules/modServiceInvoker';
-import AutocompleteField from '@/components/common/AutocompleteField/AutocompleteField.js';
 import { isLoading as _isLoading } from '@/store/slices/CustomerAuthSlice.js';
 import { useSelector } from 'react-redux';
 import EmployerDropdown from '@/components/PreApproval/EmployerDetails/EmployerDropdown';
-import { RootState } from '@/store';
+import type { RootState } from '@/store';
 import { useState } from 'react';
 
 interface FormValues {
@@ -60,23 +57,37 @@ export default function EmploymentDetails() {
   const isLoading: any = useSelector(_isLoading);
   const [showAlert, setShowAlert] = useState(false);
   const validationSchema = Yup.object({
-    employmentType: Yup.string().oneOf(
-      ['SA', 'SE', 'PE'],
-      t('preApproval.employmentDetails.validation.employmentType.invalid')
-    ),
-    //   .required(t('preApproval.employmentDetails.validation.employmentType.required')),
-    // employerName: Yup.string().required(t('preApproval.employmentDetails.validation.employerName.required')),
+    employmentType: Yup.string()
+      .oneOf(['SA', 'SE', 'PE'], t('preApproval.employmentDetails.validation.employmentType.invalid'))
+      .required(t('preApproval.employmentDetails.validation.employmentType.required')),
+    employerName: Yup.string().required(t('preApproval.employmentDetails.validation.employerName.required')),
     joiningDate: Yup.string()
       .required(t('preApproval.employmentDetails.validation.joiningDate.required'))
       .matches(/^\d{2}\/\d{2}\/\d{4}$/, t('preApproval.employmentDetails.validation.joiningDate.format')),
+    // Add validation for employerCode
+    employerCode: Yup.string().required(t('preApproval.employmentDetails.validation.employerCode.required')),
   });
   const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
 
   const formik = useFormik<FormValues>({
-    initialValues: employmentDetails,
+    initialValues: {
+      ...employmentDetails,
+      employerCode: employmentDetails.employerCode || '',
+    },
     validationSchema,
     onSubmit: (values) => {
-      dispatch(updateEmploymentDetails(values));
+      console.log('Form values being submitted:', values);
+
+      // Make sure to include employerCode in the values passed to Redux
+      dispatch(
+        updateEmploymentDetails({
+          employmentType: values.employmentType,
+          employerName: values.employerName,
+          joiningDate: values.joiningDate,
+          employerCode: values.employerCode, // Explicitly include employerCode
+        })
+      );
+
       dispatch(setPreApprovalStep(preApproval.activeStep + 1));
     },
   });
@@ -103,38 +114,17 @@ export default function EmploymentDetails() {
     },
   ];
 
-  const EMPLOYER_DETAILS = [{ companyCode: 'ZZZ', companyName: 'ZZZz', companyStatus: 'aa' }];
-
   function handleCancel(): void {
     dispatch(setPreApprovalStep(0));
     navigate(-1);
   }
 
-  const handleSelect = (e: any) => {
-    console.log(e);
-  };
-
-  const handleSearch = (e: any) => {};
+  // For debugging - log the current form values when they change
+  console.log('Current form values:', formik.values);
 
   return (
     <Container maxWidth="lg">
       <StyledContainer>
-        {/* <CommonDialog
-          open={true}
-          onClose={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          onPrimaryAction={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          onSecondaryAction={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-          title={'TEXT'}
-          description={'TEXT'}
-          primaryButtonText={'TEXT'}
-          secondaryButtonText={'TEXT'}
-        /> */}
         <Typography variant="h4" sx={{ mb: 4 }}>
           {t('preApproval.employmentDetails.title')}
         </Typography>
@@ -158,68 +148,27 @@ export default function EmploymentDetails() {
           </EmploymentTypeGroup>
 
           <Box sx={{ display: 'grid', gap: 3, gridTemplateColumns: { md: '1fr 1fr' } }}>
-            {/* <Box>
-              <TextInput
-                fullWidth
-                name="employerName"
-                placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
-                value={formik.values.employerName}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.employerName && Boolean(formik.errors.employerName)}
-                helperText={formik.touched.employerName && formik.errors.employerName}
-                label={t('preApproval.employmentDetails.employerName.label')}
-              />
-            </Box> */}
-
             <Box>
-              {/* <AutocompleteField
-                name="employer"
-                label={t('preApproval.employmentDetails.employerName.label')}
-                placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
-                value={formik.values.employerName}
-                options={EMPLOYER_DETAILS}
-                onSearch={handleSearch}
-                onSelect={formik.handleChange}
-                loading={isLoading}
-                error={formik.touched.employerName && Boolean(formik.errors.employerName)}
-                // helperText={formik.touched.employerName && formik.errors.employerName}
-                getOptionLabel={(option) => option.companyName}
-                isOptionEqualToValue={(option, value) => option.companyCode === value.companyCode}
-              /> */}
               <EmployerDropdown
                 name="employerName"
                 label={t('preApproval.employmentDetails.employerName.label')}
                 placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
                 value={{
-                  companyCode: formik.values.employerCode || '',
+                  employerCode: formik.values.employerCode || '',
                   companyName: formik.values.employerName || '',
                 }}
                 onChange={(newValue) => {
                   formik.setFieldValue('employerName', newValue?.companyName || '');
-                  formik.setFieldValue('companyCode', newValue?.companyCode || '');
+                  formik.setFieldValue('employerCode', newValue?.employerCode || '');
+                  console.log('Employer selected:', newValue);
                 }}
                 onBlur={formik.handleBlur}
-                // error={()=>}
+                error={formik.touched.employerName && Boolean(formik.errors.employerName)}
+                // helperText={formik.touched.employerName && (formik.errors.employerName as string)}
               />
             </Box>
 
             <Box>
-              {/* <TextInput
-                fullWidth
-                name="joiningDate"
-                value={formik.values.joiningDate ? dayjs(formik.values.joiningDate, 'DD/MM/YYYY') : null}
-                value={formik.values.joiningDate}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.joiningDate && Boolean(formik.errors.joiningDate)}
-                helperText={formik.touched.joiningDate && formik.errors.joiningDate}
-                InputProps={{
-                  endAdornment: <InputAdornment position="end"></InputAdornment>,
-                }}
-                label={t('preApproval.employmentDetails.joiningDate.label')}
-              /> */}
-
               <CustomDatePicker
                 value={formik.values.joiningDate}
                 onChange={(newValue) => {
@@ -234,6 +183,9 @@ export default function EmploymentDetails() {
               />
             </Box>
           </Box>
+
+          {/* Hidden field to ensure employerCode is included in the form submission */}
+          <input type="hidden" name="employerCode" value={formik.values.employerCode} />
 
           <ActionButtons>
             <AppButton fullWidth={false} onClick={handleBack} withBorder>

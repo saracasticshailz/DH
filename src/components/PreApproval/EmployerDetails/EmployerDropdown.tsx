@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Autocomplete, CircularProgress, TextField } from '@mui/material';
+import type React from 'react';
+import { useState, useEffect } from 'react';
+import { Autocomplete, CircularProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 import TextInput from '@/components/common/TextInput';
@@ -18,8 +19,8 @@ interface EmployerDetail {
 
 interface EmployerDropdownProps {
   name: string;
-  value: { companyCode: string; companyName: string } | null;
-  onChange: (value: { companyCode: string; companyName: string } | null) => void;
+  value: { employerCode: string; companyName: string } | null;
+  onChange: (value: { employerCode: string; companyName: string } | null) => void;
   onBlur: (e: React.FocusEvent<any>) => void;
   error?: boolean;
   helperText?: string;
@@ -41,10 +42,18 @@ export default function EmployerDropdown({
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<EmployerDetail[]>([]);
   const [loading, setLoading] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(value?.companyName || '');
   const [showAlert, setShowAlert] = useState(false);
 
-  const selectedOption = options.find((option) => option.companyCode === value?.companyCode) || null;
+  // Find the selected option from the options array
+  const selectedOption = options.find((option) => option.companyCode === value?.employerCode) || null;
+
+  // Update inputValue when value prop changes
+  useEffect(() => {
+    if (value?.companyName) {
+      setInputValue(value.companyName);
+    }
+  }, [value?.companyName]);
 
   useEffect(() => {
     if (!open || inputValue.length < 3) {
@@ -97,11 +106,15 @@ export default function EmployerDropdown({
 
   const handleChange = (event: React.SyntheticEvent, newValue: EmployerDetail | null) => {
     if (newValue) {
+      // Update the input value to show the selected option
+      setInputValue(`${newValue.companyCode} - ${newValue.companyName}`);
+
       onChange({
-        companyCode: newValue.companyCode,
+        employerCode: newValue.companyCode,
         companyName: newValue.companyName,
       });
     } else {
+      setInputValue('');
       onChange(null);
     }
     setOpen(false);
@@ -119,7 +132,12 @@ export default function EmployerDropdown({
       loading={loading}
       value={selectedOption}
       inputValue={inputValue}
-      onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+      onInputChange={(event, newInputValue) => {
+        // Only update inputValue when typing, not when selecting
+        if (event && event.type === 'change') {
+          setInputValue(newInputValue);
+        }
+      }}
       onChange={handleChange}
       onBlur={onBlur}
       renderOption={(props, option) => (
@@ -148,6 +166,7 @@ export default function EmployerDropdown({
       noOptionsText={t('common.noOptions')}
       loadingText={t('common.loading')}
       disableCloseOnSelect={false}
+      freeSolo={false}
     />
   );
 }
