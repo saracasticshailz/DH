@@ -16,9 +16,7 @@ import OtpModal from '@/components/modal/otpModal';
 import AppButton from '@/components/common/AppButton/AppButton';
 import { COLORS } from '@/theme/colors';
 import { AppLoading, CommonDialog } from '@/components';
-// @ts-ignore
-import { Invoker } from '../../../v2/common/modules/modServiceInvoker';
-import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { loginSuccess, updateCustomerMobileNumber, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
 
@@ -30,7 +28,6 @@ const SignupScreen = () => {
   const { t } = useTranslation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-  const { invokeOperation } = Invoker();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -38,6 +35,9 @@ const SignupScreen = () => {
   const [maskedPhoneNumber, setMaskedPhoneNumber] = useState('');
   const [lapsRefNumber, setlapsRefNumber] = useState('');
   const dispatch = useAppDispatch();
+
+  // Add this line to store the current phone number
+  const [currentPhoneNumber, setCurrentPhoneNumber] = useState('');
 
   const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
   const [isEmailVerification, setIsEmailVerification] = useState(false);
@@ -63,41 +63,15 @@ const SignupScreen = () => {
       name: 'Shailesh',
       emiratesId: '784199425634369',
       phoneNumber: '545953954',
-      email: 'shailesh13@test.com',
+      email: 'shailesh14@test.com',
       // journeyType: 'CUSTOMER',
       // clientTime: '1742281922764',
     };
 
   const handleSubmit = async (values: any) => {
-    // "name": "',
-    // "emiratesld": 784199483035855,
-    // "mobileNumber": 971542141089,
-    // "emailld": "GR1@ADCB.COM",
-    // "journeyType": "''
+    setCurrentPhoneNumber(values.phoneNumber);
 
-    //RESPONSE
-    // "emailMasked".""
-    // "lapsRefNumber"."'
-    // "otpSentStatus":"'
-    // "mobileMasked":'
     setAuthModalOpen(false);
-
-    // signupUser(
-    //   {
-    //     name: values.name,
-    //     emiratesId: values.emiratesId,
-    //     mobileNumber: values.phoneNumber,
-    //     emailId: values.email,
-    //     journeyType: 'CUSTOMER',
-    //   },
-    //   (res) => {
-    //     setAuthModalOpen(true)
-    //     setMaskedPhoneNumber(res.mobileMasked)
-    //   },
-    //   (error) => {
-    //     console.error("Signup failed:", error)
-    //   },
-    // )
 
     modNetwork(
       API.SIGNUP_API,
@@ -143,63 +117,33 @@ const SignupScreen = () => {
     );
   };
 
-  // Update the handleOTPSubmit function to handle both mobile and email verification
+  // Finally, update the handleOTPSubmit function to use the stored phone number
   const handleOTPSubmit = async (enteredOtp: string) => {
-    // {
-    //
-    //   "lapsRefNumber" "",
-    //   "applicationRefNumber".'
-    //   "addinfoReqFlag" '
-    //   "customerType".
-    //   "lastLoginDatetime":"''
-    //   }
-
     modNetwork(
       API.OTP_VERIFY_API,
       {
         lapsRefNumber: lapsRefNumber,
         otpType: isEmailVerification ? 'E' : 'M',
         custOtp: enteredOtp,
-        //custOtp: 'DNTxg2e2UOw=',
       },
       (res: any) => {
         console.log('OTP_VERIFY_API', res);
-
-        // B == call API twice, one for mobile, another for email
-        // M == Only one modal , mobile
 
         if (res.oprstatus == 0 && res.returnCode == 0) {
           if (otpSentStatus === 'B' && !isEmailVerification) {
             setIsEmailVerification(true);
             return;
           }
-          // {
-          //   applicationRefNumber: 'LP-ML-00014325',
-          //   displayMessage: '',
-          //   addinfoReqFlag: 'y',
-          //   lapsRefNumber: 17843,
-          //   customerName: '',
-          //   loanApplicationNo: '',
-          //   loanApplicationStatus: 'Blank', //Blank , PR ,PP,PC,UP,NO,CP,DU,OI,VC,PC
-          //   rmCode: '',
-          //   rmEmailId: 'null',
-          //   rmMobile: 'null',
-          //   orderId: '',
-          //   orderStatus: '',
-          //   rmName: 'null',
-          //   approvalDate: '',
-          //   customerType: 'NTB',
-          //   lastLoginDatetime: '2025-03-03 11:38:50',
-          // }
+
           dispatch(updateProfile(res));
+          // Use the stored phone number here
+          dispatch(updateCustomerMobileNumber(`971${currentPhoneNumber}`));
           dispatch(loginSuccess(res));
           navigate('/Dashboard', {
             state: { preventBack: true },
           });
         } else {
-          // navigate('/Dashboard');
           setShowAlert(true);
-          // Create new state
           alert(res.errmsg);
         }
       },
@@ -208,23 +152,6 @@ const SignupScreen = () => {
       '',
       MOD_CONSTANTS.REGISTER
     );
-
-    // modNetwork(
-    //   API.OTP_VERIFY_API,
-    //   {
-    //     lapsRefNumber: lapsRefNumber,
-    //     otpType: isEmailVerification ? 'E' : 'M',
-    //     // custOtp: enteredOtp,
-    //     custOtp: 'DNTxg2e2UOw=',
-    //   },
-    //   (res: any) => {
-
-    //   },
-    //   '',
-    //   '',
-    //   '',
-    //   MOD_CONSTANTS.REGISTER
-    // );
   };
 
   const navigate = useNavigate();
@@ -379,6 +306,7 @@ const SignupScreen = () => {
           }}
           phoneNumber={isEmailVerification ? maskedEmail : maskedPhoneNumber}
           onSubmit={(OTP: string) => handleOTPSubmit(OTP)}
+          onResendOtp={() => handleSubmit}
           title={isEmailVerification ? t('otpModal.emailVerification') : t('otpModal.phoneVerification')}
           description={isEmailVerification ? t('otpModal.enterEmailOtp') : t('otpModal.enterPhoneOtp')}
         />
