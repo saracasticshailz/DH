@@ -13,9 +13,30 @@ import {
   Typography,
   TablePagination,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import { ChevronRight } from 'lucide-react';
 import SortableTableHeader, { type SortDirection } from './SortableTableHeader';
+
+// Define the application details interface
+export interface OrderDetail {
+  orderId: string;
+  orderStatus: string;
+}
+
+export interface ApplicationDetail {
+  customerName: string;
+  mobileNo: string;
+  emailId: string;
+  applicationNo: string;
+  leadReferenceNo: string;
+  applicationReferenceNo: string;
+  applicationSubmittedDate: string;
+  applicationStatus: string;
+  customerType: string;
+  orderDetails: OrderDetail[];
+  [key: string]: any; // Allow for additional properties
+}
 
 interface PaginatedDataTableProps<T, K extends string> {
   data: T[];
@@ -67,9 +88,33 @@ function PaginatedDataTable<T, K extends string>({
 
   const sortedData = useMemo(() => {
     return [...data].sort((a: any, b: any) => {
-      const aValue = a[sortField];
-      const bValue = b[sortField];
+      // Handle nested fields with dot notation (e.g., "orderDetails.0.orderId")
+      const getNestedValue = (obj: any, path: string) => {
+        const keys = path.split('.');
+        return keys.reduce((o, key) => (o && o[key] !== undefined ? o[key] : null), obj);
+      };
 
+      const fieldPath = String(sortField);
+      const aValue = fieldPath.includes('.') ? getNestedValue(a, fieldPath) : a[sortField];
+      const bValue = fieldPath.includes('.') ? getNestedValue(b, fieldPath) : b[sortField];
+
+      // Handle different data types for sorting
+      if (aValue === null || aValue === undefined) return sortDirection === 'asc' ? -1 : 1;
+      if (bValue === null || bValue === undefined) return sortDirection === 'asc' ? 1 : -1;
+
+      // Handle date strings
+      if (fieldPath.toLowerCase().includes('date') && typeof aValue === 'string' && typeof bValue === 'string') {
+        const dateA = new Date(aValue).getTime();
+        const dateB = new Date(bValue).getTime();
+        return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+      }
+
+      // Handle string comparison
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+      }
+
+      // Handle number comparison
       if (aValue < bValue) {
         return sortDirection === 'asc' ? -1 : 1;
       }
@@ -92,6 +137,78 @@ function PaginatedDataTable<T, K extends string>({
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(Number.parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  // Helper function to render cell content
+  const renderCellContent = (item: T, column: { field: K; render?: (item: T) => React.ReactNode }) => {
+    if (column.render) {
+      return column.render(item);
+    }
+
+    const fieldPath = String(column.field);
+
+    // Handle nested fields with dot notation
+    if (fieldPath.includes('.')) {
+      const keys = fieldPath.split('.');
+      let value: any = item;
+
+      for (const key of keys) {
+        if (value === null || value === undefined) {
+          return (
+            <Typography variant="body2" sx={{ color: '#111827' }}>
+              -
+            </Typography>
+          );
+        }
+        value = value[key as keyof typeof value];
+      }
+
+      return (
+        <Typography variant="body2" sx={{ color: '#111827' }}>
+          {value !== undefined && value !== null ? String(value) : '-'}
+        </Typography>
+      );
+    }
+
+    // Handle orderDetails array specially
+    if (fieldPath === 'orderDetails' && Array.isArray((item as any)[fieldPath])) {
+      const orderDetails = (item as any)[fieldPath] as OrderDetail[];
+
+      if (orderDetails.length === 0) {
+        return (
+          <Typography variant="body2" sx={{ color: '#111827' }}>
+            No orders
+          </Typography>
+        );
+      }
+
+      return (
+        <Tooltip
+          title={
+            <Box>
+              {orderDetails.map((order, idx) => (
+                <Box key={idx} sx={{ mb: 1 }}>
+                  <Typography variant="caption">ID: {order.orderId || '-'}</Typography>
+                  <br />
+                  <Typography variant="caption">Status: {order.orderStatus || '-'}</Typography>
+                </Box>
+              ))}
+            </Box>
+          }
+        >
+          <Typography variant="body2" sx={{ color: '#111827' }}>
+            {orderDetails.length} order{orderDetails.length !== 1 ? 's' : ''}
+          </Typography>
+        </Tooltip>
+      );
+    }
+
+    // Regular field
+    return (
+      <Typography variant="body2" sx={{ color: '#111827' }}>
+        {(item as any)[column.field] !== undefined ? (item as any)[column.field] : '-'}
+      </Typography>
+    );
   };
 
   return (
@@ -124,16 +241,10 @@ function PaginatedDataTable<T, K extends string>({
                 >
                   {columns.map((column) => (
                     <TableCell
-                      key={`${keyExtractor(item)}-${column.field}`}
+                      key={`${keyExtractor(item)}-${String(column.field)}`}
                       sx={{ padding: '12px 16px', borderBottom: '1px solid #E5E7EB' }}
                     >
-                      {column.render ? (
-                        column.render(item)
-                      ) : (
-                        <Typography variant="body2" sx={{ color: '#111827' }}>
-                          {(item as any)[column.field]}
-                        </Typography>
-                      )}
+                      {renderCellContent(item, column)}
                     </TableCell>
                   ))}
                   {actionColumn && (

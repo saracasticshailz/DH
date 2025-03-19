@@ -1,9 +1,14 @@
+'use client';
+
+import type React from 'react';
+
 import { useState, useEffect, useRef } from 'react';
-import { Drawer, Typography, Box, IconButton, Button, styled } from '@mui/material';
+import { Drawer, Typography, Box, IconButton, styled } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 import { AppButton } from '@/components/common';
 import { COLORS } from '@/theme/colors';
+import MiniButton from '@/components/common/MiniButton/MiniButton';
 
 const OtpInput = styled('input')(({ theme }) => ({
   width: '40px',
@@ -26,9 +31,17 @@ interface OtpDrawerProps {
   onClose: () => void;
   phoneNumber: string;
   onSubmit: (otp: string) => void;
+  onResendOtp?: () => void;
 }
 
-export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit, title }: OtpDrawerProps) {
+export default function OtpDrawer({
+  open,
+  onClose,
+  phoneNumber,
+  onSubmit,
+  title,
+  onResendOtp = () => {},
+}: OtpDrawerProps) {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
   const inputRefs: any = useRef<(HTMLInputElement | null)[]>([]);
@@ -68,13 +81,17 @@ export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit, title 
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, '0')}`;
   };
 
   const resetOtpAfterTypeChange = () => {
     setOtp(['', '', '', '', '', '']);
     inputRefs.current[0]?.focus();
+  };
+
+  const handleResendOtp = () => {
+    setTimeLeft(180); // Reset timer to 3 minutes
+    onResendOtp(); // Call the parent component's resend function
   };
 
   useEffect(() => {
@@ -139,12 +156,17 @@ export default function OtpDrawer({ open, onClose, phoneNumber, onSubmit, title 
             ))}
           </Box>
 
-          <Typography color="text.secondary" sx={{ mb: 4 }}>
-            {t('otpModal.validFor', {
-              min: formatTime(timeLeft),
-              sec: timeLeft % 60,
-            })}
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+            <Typography color="text.secondary">
+              {timeLeft > 0
+                ? t('otpModal.validFor', {
+                    min: formatTime(timeLeft),
+                    sec: timeLeft % 60,
+                  })
+                : t('otpModal.otpExpired')}
+            </Typography>
+            {timeLeft === 0 && <MiniButton text={t('otpModal.resendOtp')} onPress={handleResendOtp} />}
+          </Box>
         </Box>
         <Box sx={{ position: 'absolute', bottom: 14, left: 24, right: 24 }}>
           <AppButton withBorder fullWidth={false} onClick={onClose}>
