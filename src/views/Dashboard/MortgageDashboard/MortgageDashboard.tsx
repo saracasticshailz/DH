@@ -2,7 +2,7 @@ import { Box, Container, Typography, Grid2 as Grid } from '@mui/material';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyledCard, HeroSection } from './styles';
 import MortgageStep from '@/components/Dashboard/MortgageStep';
 import GuideCard from '@/components/Dashboard/GuideCard';
@@ -28,9 +28,11 @@ export default function MortgageDashboard() {
   const navigate = useNavigate();
   const applicationDetails = useAppSelector(selectApplicationDetails);
   const customerDetails = useAppSelector(selectCustomerDetails);
-  const [lapsRefNumber, setlapsRefNumber] = useState('');
+  // const [lapsRefNumber, setlapsRefNumber] = useState('');
   const selectRMDetails_ = useAppSelector(selectRMDetails);
   const journeyStatus: any = applicationDetails.loanApplicationStatus;
+  const userDetails = useAppSelector(selectAuth);
+
   // console.log('journeyStatus', journeyStatus);
   // console.log('selectRMDetails_', selectRMDetails_);
 
@@ -57,29 +59,26 @@ export default function MortgageDashboard() {
   ];
 
   const resendApprovals = async (approvalType: string) => {
-  modNetwork(
-    API.RESEND_APPROVALS,
-    {
-      lapsRefNumber: lapsRefNumber+"_P", // If approvalType is V, we need to send lapsRefNumber+Valuation_OrderRefno"
-      
-    },
-    (res: any) => {
-      console.log(API.RESEND_APPROVALS, res);
+    modNetwork(
+      API.RESEND_APPROVALS,
+      {
+        lapsRefNumber: userDetails.lapsRefNumber + '_P', // If approvalType is V, we need to send lapsRefNumber+Valuation_OrderRefno"
+      },
+      (res: any) => {
+        console.log(API.RESEND_APPROVALS, res);
 
-      if (res.oprstatus == 0 && res.returnCode == 0) {
-       
-        console.log("Approval Resend suucessfully");
-      } else {
-       
-        alert(res.errmsg);
-      }
-    },
-    '',
-    '',
-    '',
-    MOD_CONSTANTS.REGISTER
-  );
-};
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          console.log('Approval Resend suucessfully');
+        } else {
+          alert(res.errmsg);
+        }
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
+    );
+  };
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>
       <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -155,8 +154,8 @@ export default function MortgageDashboard() {
                 />
 
                 <MortgageStep
-                   title={t('dashboardScreen.steps.finalOffer.title')}
-                   description={t('dashboardScreen.steps.finalOffer.description')}
+                  title={t('dashboardScreen.steps.finalOffer.title')}
+                  description={t('dashboardScreen.steps.finalOffer.description')}
                 />
               </Box>
             </StyledCard>
@@ -164,7 +163,7 @@ export default function MortgageDashboard() {
 
           {/* Right Side Cards */}
           <Grid size={{ xs: 12, md: 4 }}>
-            { selectRMDetails_.rmName !== '' && selectRMDetails_.rmName !== null && (
+            {selectRMDetails_.rmName !== '' && selectRMDetails_.rmName !== null && (
               <ContactCard
                 name={selectRMDetails_?.rmName ? selectRMDetails_.rmName : 'ADCB RM'}
                 email={selectRMDetails_?.rmEmailId ? selectRMDetails_.rmEmailId : 'adcbmortgagerm@adcb.com'}
@@ -173,9 +172,9 @@ export default function MortgageDashboard() {
             )}
 
             <GuideCard
-             title={t('dashboardScreen.guide.title')}
-             description={t('dashboardScreen.guide.description')}
-             buttonText={t('dashboardScreen.guide.button')}
+              title={t('dashboardScreen.guide.title')}
+              description={t('dashboardScreen.guide.description')}
+              buttonText={t('dashboardScreen.guide.button')}
               onDownload={() => console.log('Download guide')}
             />
 
@@ -188,7 +187,7 @@ export default function MortgageDashboard() {
             />
           </Grid>
           <Typography variant="body2" color="text.secondary">
-          {t('dashboardScreen.deals.lastUpdatedMessage')}
+            {t('dashboardScreen.deals.lastUpdatedMessage')}
           </Typography>
         </Grid>
         <AuthFooter />

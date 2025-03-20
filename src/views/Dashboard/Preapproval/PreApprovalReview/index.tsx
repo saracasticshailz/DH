@@ -221,42 +221,43 @@ const PreApprovalReview = () => {
   };
 
   const handleSubmit = async () => {
+    const reqBody = {
+      applicationRefNumber: userDetails.applicationRefNumber,
+      lapsRefNumber: userDetails.lapsRefNumber,
+      mobileNo: userDetails.customerMobileNumber,
+      customerName: userDetails.customerName,
+      emiratesId: userDetails.emiratesId,
+
+      loanPreference: loanDetails.loanPreference,
+      financePricingOption: loanDetails.financingOption,
+      typeOfPurchase: loanDetails.purchaseType,
+      mortgageSpecialistCode: loanDetails.specialistCode,
+      requestedLoanAmount: loanDetails.loanAmount,
+      loanTenure: loanDetails.loanTenure,
+
+      employmentType: employmentDetails.employmentType,
+      employerName: employmentDetails.employerName,
+      employerCode: employmentDetails.employerCode,
+      DOJ: employmentDetails.joiningDate,
+
+      monthlyFixedSalary: String(incomeDetails.fixedMonthlyIncome),
+      isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
+      monthlyOtherIncome: String(incomeDetails.otherMonthlyIncome),
+      annualRentalIncome: String(incomeDetails.annualRentalIncome),
+      termsConditionsAgreedOn: getFormattedDateTimeWithIntl(),
+
+      gender: personalDetails.gender,
+      residencePOBox: personalDetails.poBox,
+      residenceState: personalDetails.state,
+      nationalityCode: personalDetails.countryOfResidence,
+      passportExpiryDate: personalDetails.passportExpiry,
+      passportNumber: personalDetails.passportNumber,
+      residenceCountry: personalDetails.countryOfResidence,
+    };
+
     modNetwork(
       API.SUBMIT_LOAN_API,
-      {
-        applicationRefNumber: userDetails.applicationRefNumber,
-        lapsRefNumber: userDetails.lapsRefNumber,
-        mobileNo: userDetails.customerMobileNumber,
-        customerName: userDetails.customerName,
-        emiratesId: userDetails.emiratesId,
-
-        loanPreference: loanDetails.loanPreference,
-        financePricingOption: loanDetails.financingOption,
-        typeOfPurchase: loanDetails.purchaseType,
-        mortgageSpecialistCode: loanDetails.specialistCode,
-        requestedLoanAmount: loanDetails.loanAmount,
-        loanTenure: loanDetails.loanTenure,
-
-        employmentType: employmentDetails.employmentType,
-        employerName: employmentDetails.employerName,
-        employerCode: employmentDetails.employerCode,
-        DOJ: employmentDetails.joiningDate,
-
-        monthlyFixedSalary: incomeDetails.fixedMonthlyIncome,
-        isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
-        monthlyOtherIncome: incomeDetails.otherMonthlyIncome,
-        annualRentallncome: incomeDetails.annualRentalIncome,
-        termsConditionsAgreedOn: getFormattedDateTimeWithIntl(),
-
-        gender: personalDetails.gender,
-        residencePOBox: personalDetails.poBox,
-        residenceState: personalDetails.state,
-        nationalityCode: personalDetails.countryOfResidence,
-        passportExpiryDate: personalDetails.passportExpiry,
-        passportNumber: personalDetails.passportNumber,
-        residenceCountry: personalDetails.countryOfResidence,
-      },
-
+      reqBody,
       (res: any) => {
         console.log('sub_loan_application RES', res);
         dispatch(
