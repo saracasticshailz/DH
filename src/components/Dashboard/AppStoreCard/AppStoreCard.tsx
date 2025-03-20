@@ -1,9 +1,11 @@
 'use client';
 import { Person } from '@/assets/icon';
 import { Box, Typography, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 // import person from '../../../assets/icon/person.svg'
 
 const AppStoreCard = () => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -24,7 +26,7 @@ const AppStoreCard = () => {
           mb: 2,
         }}
       >
-        Open an ADCB Account
+       { t("common.openanADCBAccount")}
       </Typography>
 
       <Typography
@@ -35,8 +37,7 @@ const AppStoreCard = () => {
           lineHeight: 1.5,
         }}
       >
-        You can download the ADCB Hayyak app and open an account now. An account will be needed to receive your Final
-        Offer Letter.
+       {t("common.downloadHayyakAppMessage")}
       </Typography>
 
       <Stack

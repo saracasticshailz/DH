@@ -16,6 +16,7 @@ import type { RootState } from '@/store';
 import AppButton from '@/components/common/AppButton/AppButton';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 import DateTimePicker from '@/components/common/CustomDatePicker';
+import { useTranslation } from 'react-i18next';
 
 interface AccessDetailsFormValues {
   contactName: string;
@@ -37,6 +38,7 @@ const validationSchema = Yup.object({
 
 const AccessDetailsForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const accessDetails = useSelector((state: RootState) => state.valuation.accessDetails);
 
   const initialValues: AccessDetailsFormValues = {
@@ -75,39 +77,39 @@ const AccessDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="contactName"
-              label="Contact Name"
+              label={t("valuation.accessDetailForm.contactName")}
               value={formik.values.contactName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.contactName && Boolean(formik.errors.contactName)}
               helperText={formik.touched.contactName && formik.errors.contactName}
-              placeholder="Enter contact name"
+              placeholder={t("valuation.accessDetailForm.placeHolderCN")}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="email"
-              label="Email Address"
+              label={t("valuation.accessDetailForm.emailAddress")}
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
-              placeholder="Enter email address"
+              placeholder={t("valuation.accessDetailForm.placeHolderEmail")}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="mobileNumber"
-              label="Mobile number"
+              label={t("valuation.accessDetailForm.mobileNumber")}
               value={formik.values.mobileNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
               helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
-              placeholder="Enter mobile number"
+              placeholder={t("valuation.accessDetailForm.placeHolderMobile")}
               countryCode="+971"
             />
           </Grid>
@@ -115,18 +117,18 @@ const AccessDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="alternateMobileNumber"
-              label="Alternate mobile number"
+              label={t("valuation.accessDetailForm.alternateMobileNumber")}
               value={formik.values.alternateMobileNumber || ''}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="Enter alternate mobile number"
+              placeholder={t("valuation.accessDetailForm.placeholderAlternateMN")}
               countryCode="+971"
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             {/* <DatePicker
-              label="Select date"
+              label={t("valuation.accessDetailForm.selectDate")}
               value={formik.values.date ? formik.values.date.toDate() : null}
               onChange={(newValue) => {
                 formik.setFieldValue('date', newValue);
@@ -144,14 +146,14 @@ const AccessDetailsForm: React.FC = () => {
               onChange={(newValue) => {
                 formik.setFieldValue('date', newValue);
               }}
-              label="Select date"
+              label={t("valuation.accessDetailForm.selectDate")}
               type={'date'}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             {/* <TimePicker
-              label="Time"
+              label={t("valuation.accessDetailForm.time")}
               value={formik.values.time}
               onChange={(newValue) => {
                 formik.setFieldValue('time', newValue);
@@ -167,7 +169,7 @@ const AccessDetailsForm: React.FC = () => {
 
             {/* <DateTimePicker
               type="time"
-              label="Time"
+              label={t("valuation.accessDetailForm.time")}
               value={formik.values.time}
               onChange={(newValue) => {
                 formik.setFieldValue('time', newValue);
@@ -177,7 +179,7 @@ const AccessDetailsForm: React.FC = () => {
 
             <DateTimePicker
               type="time"
-              label="Time"
+              label={t("valuation.accessDetailForm.time")}
               value={formik.values.time}
               onChange={(newValue) => {
                 formik.setFieldValue('time', newValue);
@@ -189,24 +191,24 @@ const AccessDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12 }}>
             <TextInput
               name="specialInstructions"
-              label="Special instructions"
+              label={t("valuation.accessDetailForm.specialInstructions")}
               value={formik.values.specialInstructions || ''}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               multiline
               rows={4}
-              placeholder="Enter any special instructions"
+              placeholder={t("valuation.accessDetailForm.placeholderSpecialInst")}
             />
           </Grid>
         </Grid>
 
         <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
           <AppButton onClick={handleBack} withBorder>
-            Back
+          {t('preApproval.incomeDetails.buttons.back')}
           </AppButton>
           <Box sx={{ display: 'flex', gap: 2 }}>
-            <PrimaryButton withBorder>Cancel</PrimaryButton>
-            <PrimaryButton type="submit">Continue</PrimaryButton>
+            <PrimaryButton withBorder>{t('preApproval.incomeDetails.buttons.cancel')}</PrimaryButton>
+            <PrimaryButton type="submit">{t('preApproval.incomeDetails.buttons.continue')}</PrimaryButton>
           </Box>
         </Box>
       </Box>

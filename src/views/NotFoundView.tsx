@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { AppAlert, AppButton, AppLink, AppView } from '@/components';
 
 /**
@@ -9,6 +10,7 @@ import { AppAlert, AppButton, AppLink, AppView } from '@/components';
  */
 const NotFoundView = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const onClose = () => {
     navigate('/', { replace: true });
@@ -17,16 +19,16 @@ const NotFoundView = () => {
   return (
     <AppView>
       <Typography variant="h3" component="h1">
-        Page not found!
+      {t('notFoundView.pageNotFound')}
       </Typography>
       <Typography variant="body1">
-        Requested address is unknown, please check your URL or go to the <AppLink to="/">home page</AppLink>.
+      {t('notFoundView.requestedAddressMessage')} <AppLink to="/">{t('notFoundView.homePage')}</AppLink>.
       </Typography>
       <AppAlert severity="error" onClose={onClose}>
-        Error 404 - Page not found
+      {t('notFoundView.error404Message')}
       </AppAlert>
       <Stack direction="row" justifyContent="center">
-        <AppButton onClick={onClose}>Go to Home Page</AppButton>
+        <AppButton onClick={onClose}>{t('notFoundView.gotoHomePage')}</AppButton>
       </Stack>
     </AppView>
   );

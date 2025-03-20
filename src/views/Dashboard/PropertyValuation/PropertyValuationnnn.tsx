@@ -21,6 +21,7 @@ import {
 import { styled } from '@mui/material/styles';
 import ImageProgressBar from '@/components/common/ImageProgressBar/ImageProgressBar';
 import TextInput from '@/components/common/TextInput';
+import { useTranslation } from 'react-i18next';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -59,6 +60,7 @@ const initialValues = {
 
 export default function PropertyDetails() {
   const [step] = useState(1);
+  const { t } = useTranslation();
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -72,11 +74,10 @@ export default function PropertyDetails() {
         <Grid item xs={12} md={7}>
           <StyledPaper>
             <Typography variant="h4" sx={{ mb: 3 }}>
-              Property Details
+            {t('valuation.propertyDetails.title')}
             </Typography>
             <Alert severity="warning" sx={{ mb: 4 }}>
-              Please review the property details carefully before moving to the next section. Once submitted, this
-              section cannot be changed.
+            {t('valuation.propertyDetails.pleaseReviewPropertyMessage')}
             </Alert>
 
             <Formik
@@ -90,7 +91,7 @@ export default function PropertyDetails() {
                 <Form>
                   <Box sx={{ mb: 3 }}>
                     <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                      Property Type
+                    {t('valuation.propertyDetails.propertyType.title')}
                     </Typography>
                     <RadioGroup row name="propertyType" value={values.propertyType} onChange={handleChange}>
                       <FormControlLabel value="Apartment" control={<Radio />} label="Apartment" />
@@ -103,7 +104,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Completion status
+                        {t('valuation.propertyDetails.completionStatus.title')}
                         </Typography>
                         <Select name="completionStatus" value={values.completionStatus} onChange={handleChange}>
                           <MenuItem value="Completed">Completed</MenuItem>
@@ -115,7 +116,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Development project name
+                        {t('valuation.propertyDetails.developmentProjectName')}
                         </Typography>
                         <TextInput
                           name="projectName"
@@ -132,7 +133,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Name of building/phase/cluster
+                        {t('valuation.propertyDetails.nameofbuilding')}
                         </Typography>
                         <TextInput
                           name="buildingName"
@@ -147,7 +148,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Locality/Area
+                        {t('valuation.propertyDetails.locality')}
                         </Typography>
                         <TextInput
                           name="locality"
@@ -163,7 +164,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Emirate
+                        {t('valuation.propertyDetails.emirate')}
                         </Typography>
                         <TextInput
                           name="emirate"
@@ -178,7 +179,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Flat/House number
+                        {t('valuation.propertyDetails.flatNumber')}
                         </Typography>
                         <TextInput
                           name="flatNumber"
@@ -194,7 +195,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Floor number
+                        {t('valuation.propertyDetails.floorNumber')}
                         </Typography>
                         <TextInput
                           name="floorNumber"
@@ -209,7 +210,7 @@ export default function PropertyDetails() {
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Landmarks (if any)
+                        {t('valuation.propertyDetails.landmarks')}
                         </Typography>
                         <TextInput
                           name="landmarks"
@@ -223,10 +224,10 @@ export default function PropertyDetails() {
 
                   <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between' }}>
                     <Button variant="outlined" color="primary">
-                      CANCEL
+                    {t('preApproval.incomeDetails.buttons.cancel')}
                     </Button>
                     <Button variant="contained" color="error" type="submit">
-                      CONTINUE
+                    {t('preApproval.incomeDetails.buttons.continue')}
                     </Button>
                   </Box>
                 </Form>

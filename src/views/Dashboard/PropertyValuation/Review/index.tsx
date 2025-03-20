@@ -5,10 +5,12 @@ import { Box, Grid, Typography, Button, Divider, Paper, Checkbox, FormControlLab
 import { Edit } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/store';
+import { useTranslation } from 'react-i18next';
 import { updatePrivacyAcceptance, updateTermsAcceptance, setValuationActiveStep } from '@/store/slices/ValuationSlice';
 
 const ReviewForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { propertyDetails, accessDetails, documents, termsAccepted, privacyAccepted } = useSelector(
     (state: RootState) => state.valuation
   );
@@ -45,7 +47,7 @@ const ReviewForm: React.FC = () => {
               },
             }}
           >
-            Edit
+            {t('review.edit')}
           </Button>
         )}
       </Box>
@@ -82,9 +84,9 @@ const ReviewForm: React.FC = () => {
             }
             label={
               <Typography variant="body2">
-                I agree to the
+                {t('review.iAgreeToThe')}
                 <Link href="#" color="primary" sx={{ color: '#E31B23' }}>
-                  Terms & Conditions
+                {t('review.termsAndConditions')}
                 </Link>
               </Typography>
             }
@@ -99,9 +101,9 @@ const ReviewForm: React.FC = () => {
             }
             label={
               <Typography variant="body2">
-                I agree to the{' '}
+                {t('review.iAgreeToThe')}{' '}
                 <Link href="#" color="primary" sx={{ color: '#E31B23' }}>
-                  ADCB Privacy Policy
+                {t('review.adcbPrivacyPolicy')}
                 </Link>
               </Typography>
             }
@@ -121,7 +123,7 @@ const ReviewForm: React.FC = () => {
               },
             }}
           >
-            Back
+            {t('preApproval.incomeDetails.buttons.back')}
           </Button>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
@@ -135,7 +137,7 @@ const ReviewForm: React.FC = () => {
                 },
               }}
             >
-              Cancel
+              {t('preApproval.incomeDetails.buttons.cancel')}
             </Button>
             <Button
               type="submit"
@@ -152,7 +154,7 @@ const ReviewForm: React.FC = () => {
                 },
               }}
             >
-              Continue
+              {t('preApproval.incomeDetails.buttons.continue')}
             </Button>
           </Box>
         </Box>

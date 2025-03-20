@@ -45,9 +45,9 @@ export default function FinancingOptionsGroup({ value, onChange, onBlur, error, 
             fontWeight: '500',
           }}
         >
-          Finance Pricing Options
+         {t("preApproval.loanDetails.financePricing.label")}
         </Typography>
-        <Button sx={{ color: '#E31B23' }}>Learn More</Button>
+        <Button sx={{ color: '#E31B23' }}>{t("preApproval.loanDetails.financePricing.learnMore")}</Button>
       </Box>
       <RadioGroup
         name="financingOption"

@@ -17,6 +17,7 @@ import {
 import Grid from '@mui/material/Grid2'; // Import Grid2 instead of Grid
 import { useDispatch, useSelector } from 'react-redux';
 import { AppButton } from '@/components';
+import { useTranslation } from 'react-i18next';
 import { updatePropertyDetails, setValuationActiveStep } from '@/store/slices/ValuationSlice';
 import type { RootState } from '@/store';
 import { useEffect } from 'react';
@@ -37,6 +38,7 @@ const validationSchema = Yup.object({
 
 const PropertyDetailsForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const propertyDetails = useSelector((state: RootState) => state.valuation.propertyDetails);
 
   // Load saved form data when component mounts
@@ -73,7 +75,7 @@ const PropertyDetailsForm: React.FC = () => {
         }}
       >
         <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-          Property Details
+        {t('valuation.propertyDetails.title')}
         </Typography>
 
         <Alert
@@ -86,15 +88,14 @@ const PropertyDetailsForm: React.FC = () => {
             color: COLORS.BROWN_PROGRESS,
           }}
         >
-          Please review the property details carefully before moving to the next section. Once submitted, this section
-          cannot be changed.
+          {t('valuation.propertyDetails.pleaseReviewPropertyMessage')}
         </Alert>
 
         <Grid container spacing={{ xs: 2, md: 3 }}>
           <Grid size={{ xs: 12 }}>
             <FormControl component="fieldset" sx={{ width: '100%' }}>
               <FormLabel component="legend" sx={{ mb: 1, color: '#5d656b', fontWeight: 500 }}>
-                Property Type
+              {t('valuation.propertyDetails.propertyType.title')}
               </FormLabel>
               <RadioGroup
                 row
@@ -124,7 +125,7 @@ const PropertyDetailsForm: React.FC = () => {
             <TextInput
               fullWidth
               select
-              label="Completion status"
+              label={t('valuation.propertyDetails.completionStatus.title')}
               name="completionStatus"
               value={formik.values.completionStatus}
               onChange={formik.handleChange}
@@ -140,7 +141,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Development project name"
+              label={t('valuation.propertyDetails.developmentProjectName')}
               name="developmentProjectName"
               value={formik.values.developmentProjectName}
               onChange={formik.handleChange}
@@ -152,7 +153,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Name of building/phase/cluster"
+              label={t('valuation.propertyDetails.nameofbuilding')}
               name="buildingName"
               value={formik.values.buildingName}
               onChange={formik.handleChange}
@@ -164,7 +165,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Locality/Area"
+              label={t('valuation.propertyDetails.locality')}
               name="locality"
               value={formik.values.locality}
               onChange={formik.handleChange}
@@ -176,7 +177,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Emirate"
+              label={t('valuation.propertyDetails.emirate')}
               name="emirate"
               value={formik.values.emirate}
               onChange={formik.handleChange}
@@ -188,7 +189,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Flat/House number"
+              label={t('valuation.propertyDetails.flatNumber')}
               name="flatNumber"
               value={formik.values.flatNumber}
               onChange={formik.handleChange}
@@ -200,7 +201,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Floor number"
+              label={t('valuation.propertyDetails.floorNumber')}
               name="floorNumber"
               value={formik.values.floorNumber}
               onChange={formik.handleChange}
@@ -212,7 +213,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               fullWidth
-              label="Landmarks (if any)"
+              label={t('valuation.propertyDetails.landmarks')}
               name="landmarks"
               value={formik.values.landmarks}
               onChange={formik.handleChange}
@@ -223,12 +224,12 @@ const PropertyDetailsForm: React.FC = () => {
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid size={{ xs: 6, md: 3 }}>
             <AppButton borderless fullWidth onClick={() => console.log('Cancel clicked')}>
-              Cancel
+            {t('preApproval.incomeDetails.buttons.cancel')}
             </AppButton>
           </Grid>
           <Grid size={{ xs: 6, md: 3 }} sx={{ marginLeft: { md: 'auto' } }}>
             <AppButton fullWidth type="submit" variant="contained" color="primary">
-              Continue
+            {t('preApproval.incomeDetails.buttons.continue')}
             </AppButton>
           </Grid>
         </Grid>

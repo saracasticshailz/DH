@@ -14,6 +14,7 @@ import { selectAuth, updateApplicationStatus, updateLapsApplicationNo } from '@/
 // @ts-ignore
 import { Invoker } from '../../../../v2/common/modules/modServiceInvoker';
 import { RootState } from '@/store';
+import { useTranslation } from 'react-i18next';
 import { AppButton } from '@/components';
 import API from '@/utils/apiEnpoints';
 //@ts-ignore
@@ -32,6 +33,7 @@ const Section: React.FC<{
   isLoading?: boolean;
 }> = ({ title, items, onEdit, isLoading = false }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -124,6 +126,7 @@ const Section: React.FC<{
 };
 
 const PreApprovalReview = () => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(true);
   const { loanDetails, employmentDetails, incomeDetails, personalDetails } = useAppSelector(selectedPreApprovalData);
@@ -323,7 +326,7 @@ const PreApprovalReview = () => {
             marginLeft: 1.25,
           }}
         >
-          Review
+          {t('review.title')}
         </Typography>
 
         {!isOnline && (
@@ -337,35 +340,35 @@ const PreApprovalReview = () => {
               color: '#991B1B',
             }}
           >
-            You're currently offline. Changes will be saved locally.
+            {t('review.offlineMessage')}
           </Box>
         )}
 
         <Box sx={{ px: { xs: 2, md: 0 } }}>
           {userDetails?.customerType === 'NTB' && (
             <Section
-              title="Personal Details"
+              title={t('preApproval.personalDetails.title')}
               items={reviewDataState.PersonalDetails}
               onEdit={() => dispatch(setPreApprovalStep(preApproval.activeStep + 1))}
               isLoading={isLoading}
             />
           )}
           <Section
-            title="Loan Details"
+            title={t('preApproval.loanDetails.title')}
             items={reviewDataState.LoanDetails}
             onEdit={() => dispatch(setPreApprovalStep(1))}
             isLoading={isLoading}
           />
 
           <Section
-            title="Employment Details"
+            title={t('preApproval.employmentDetails.title')}
             items={reviewDataState.EmploymentDetails}
             onEdit={() => dispatch(setPreApprovalStep(2))}
             isLoading={isLoading}
           />
 
           <Section
-            title="Income Details"
+            title={t('preApproval.incomeDetails.title')}
             items={reviewDataState.IncomeDetails}
             onEdit={() => dispatch(setPreApprovalStep(3))}
             isLoading={isLoading}
@@ -429,7 +432,7 @@ const PreApprovalReview = () => {
                   },
                 }}
               >
-                BACK
+                {t('preApproval.incomeDetails.buttons.back')}
               </AppButton>
             </Grid>
             <Grid size={{ xs: 6 }}>
@@ -446,7 +449,7 @@ const PreApprovalReview = () => {
                   },
                 }}
               >
-                CANCEL
+                {t('preApproval.incomeDetails.buttons.cancel')}
               </AppButton>
             </Grid>
           </Grid>
@@ -463,7 +466,7 @@ const PreApprovalReview = () => {
             }}
             onClick={handleSubmit}
           >
-            {'SUBMIT'}
+            {t('preApproval.incomeDetails.buttons.submit')}
           </Button>
         </Box>
       </Box>

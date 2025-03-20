@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Chip } from '@mui/material';
 import { AppButton } from '@/components/common';
+import { useTranslation } from 'react-i18next';
 import { StepBar, StepContainer, StepContent, StepWithButtonContainer } from './styles';
 
 interface MortgageStepProps {
@@ -24,6 +25,7 @@ export default function MortgageStep({
   withButton = false,
   status,
 }: MortgageStepProps) {
+  const { t } = useTranslation();
   const renderStatusChip = () => {
     if (!status) return null;
 
@@ -77,7 +79,7 @@ export default function MortgageStep({
     if (status === 'completed') {
       return (
         <AppButton onClick={onButtonClick} fullWidth={false} withBorder={true}>
-          Resend
+           {t("dashboardScreen.steps.preApproval.resend")}
         </AppButton>
       );
     }

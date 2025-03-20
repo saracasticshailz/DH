@@ -34,7 +34,6 @@ const SignupScreen = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
 
   const [maskedPhoneNumber, setMaskedPhoneNumber] = useState('');
   const [lapsRefNumber, setlapsRefNumber] = useState('');
@@ -47,7 +46,12 @@ const SignupScreen = () => {
   const [otpSentStatus, setOtpSentStatus] = useState('M'); // Default to mobile OTP
   const [isEmailVerification, setIsEmailVerification] = useState(false);
   const [maskedEmail, setMaskedEmail] = useState('');
-  const [error, setError] = useState('');
+  const [dialogText, setDialogText] = useState('');
+  const [dialogTitle, setDialogTitle] = useState('');
+
+  const [dialogPrimaryAction, setDialogPrimaryAction] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -98,21 +102,25 @@ const SignupScreen = () => {
           setOtpSentStatus(res.otpSentStatus || 'M');
           setlapsRefNumber(res.lapsRefNumber || '');
         } else {
+          console.log('ERROR', res);
           try {
             if (typeof res.errmsg === 'string') {
               const errorObj = JSON.parse(res.errmsg);
-              alert(errorObj.errMsg_EN || 'An error occurred');
+              setDialogText(errorObj.errMsg_EN || 'An error occurred');
             } else if (Array.isArray(res.errmsg) && res.errmsg.length > 0) {
-              alert(res.errmsg[0] || 'An error occurred');
+              setDialogText(res.errmsg[0] || 'An error occurred');
             } else {
-              alert('An error occurred. Please try again.');
+              setDialogText('Unknow error occurred. Please try again.');
             }
           } catch (error) {
-            alert(res.errmsg || 'An error occurred');
-            setError(res.errmsg);
+            setDialogText(res.errmsg);
           }
+         
+    setDialogTitle('ERROR')
+    setDialogPrimaryAction('OK');
+    setShowAlert(true);
         }
-        console.log('ERROR', res);
+       
         //alert(JSON.stringify(res));
         // setAuthModalOpen(true);
       },
@@ -158,8 +166,16 @@ const SignupScreen = () => {
             state: { preventBack: true },
           });
         } else {
+          // navigate('/Dashboard');
+         
+          // Create new state
+          setDialogText(res.errMsg_EN);
+          console.log('Error Message ',res.errmsg);
+
+          setDialogTitle('ERROR')
+          setDialogPrimaryAction('OK');
           setShowAlert(true);
-          alert(res.errmsg);
+
         }
       },
       '',
@@ -185,18 +201,15 @@ const SignupScreen = () => {
 
       <CommonDialog
         open={showAlert}
-        onClose={(): void => {
-          throw new Error('Function not implemented.');
-        }}
-        onPrimaryAction={(): void => {
-          throw new Error('Function not implemented.');
-        }}
-        onSecondaryAction={(): void => {
-          throw new Error('Function not implemented.');
-        }}
-        title={error}
-        description={''}
-        primaryButtonText={''}
+       onClose={(): void => {
+        setShowAlert(false);
+      }}
+      onPrimaryAction={(): void => {
+        setShowAlert(false);
+      }}
+        title={dialogTitle}
+        description={dialogText}
+        primaryButtonText={dialogPrimaryAction}
         secondaryButtonText={''}
       />
       <Grid
@@ -326,11 +339,11 @@ const SignupScreen = () => {
           description={isEmailVerification ? t('otpModal.enterEmailOtp') : t('otpModal.enterPhoneOtp')}
         />
       )}
-      {showDialog && (
+      {/* {showDialog && (
         <CommonDialog
           open={showDialog}
           onClose={(): void => {
-            setShowDialog(false);
+            setShowAlert(false);
           }}
           onPrimaryAction={(): void => {
             throw new Error('Function not implemented.');
@@ -338,14 +351,12 @@ const SignupScreen = () => {
           onSecondaryAction={(): void => {
             setShowDialog(false);
           }}
-          title={'Cancel Pre-Approval Application'}
-          description={
-            'Are you sure you want to cancel? Your progress will not be saved and you will be returned to your mortgage dashboard.'
-          }
-          primaryButtonText={'yes, cancel'}
-          secondaryButtonText={'continue pre-approval'}
+          title={t("signUpScreen.cancelPre-ApprovalApplication")}
+          description={t("signUpScreen.AreYouSureYouWantToCancelYourprogress")}
+          primaryButtonText={t("signUpScreen.yesCancel")}
+          secondaryButtonText={t("signUpScreen.continuePre-approval")}
         />
-      )}
+      )} */}
     </Box>
   );
 };

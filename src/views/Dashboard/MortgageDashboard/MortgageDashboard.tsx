@@ -2,6 +2,7 @@ import { Box, Container, Typography, Grid2 as Grid } from '@mui/material';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useEffect,useState } from 'react';
 import { StyledCard, HeroSection } from './styles';
 import MortgageStep from '@/components/Dashboard/MortgageStep';
 import GuideCard from '@/components/Dashboard/GuideCard';
@@ -10,7 +11,7 @@ import ContactCard from '@/components/common/SpecialistCard';
 import { COLORS } from '@/theme/colors';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
-
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import {
   // getCustomerJourneyStatus,
   selectApplicationDetails,
@@ -20,7 +21,6 @@ import {
   getLoanStatusText,
 } from '@/store/slices/CustomerAuthSlice';
 import { useAppSelector } from '@/hooks/redux';
-import { useEffect } from 'react';
 import API from '@/utils/apiEnpoints';
 
 export default function MortgageDashboard() {
@@ -28,6 +28,7 @@ export default function MortgageDashboard() {
   const navigate = useNavigate();
   const applicationDetails = useAppSelector(selectApplicationDetails);
   const customerDetails = useAppSelector(selectCustomerDetails);
+  const [lapsRefNumber, setlapsRefNumber] = useState('');
   const selectRMDetails_ = useAppSelector(selectRMDetails);
   const journeyStatus: any = applicationDetails.loanApplicationStatus;
   // console.log('journeyStatus', journeyStatus);
@@ -55,6 +56,30 @@ export default function MortgageDashboard() {
     },
   ];
 
+  const resendApprovals = async (approvalType: string) => {
+  modNetwork(
+    API.RESEND_APPROVALS,
+    {
+      lapsRefNumber: lapsRefNumber+"_P", // If approvalType is V, we need to send lapsRefNumber+Valuation_OrderRefno"
+      
+    },
+    (res: any) => {
+      console.log(API.RESEND_APPROVALS, res);
+
+      if (res.oprstatus == 0 && res.returnCode == 0) {
+       
+        console.log("Approval Resend suucessfully");
+      } else {
+       
+        alert(res.errmsg);
+      }
+    },
+    '',
+    '',
+    '',
+    MOD_CONSTANTS.REGISTER
+  );
+};
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>
       <Container maxWidth="lg" sx={{ py: 2 }}>
@@ -96,7 +121,7 @@ export default function MortgageDashboard() {
                     journeyStatus !== 'PP' &&
                     journeyStatus !== 'IN_PROGRESS' &&
                     journeyStatus !== '' //Blank scenario handled
-                      ? alert('will do resend api')
+                      ? resendApprovals('P')
                       : navigate('/PreApprovalPage');
                   }}
                   status={
@@ -130,8 +155,8 @@ export default function MortgageDashboard() {
                 />
 
                 <MortgageStep
-                  title="3. Final Offer Letter"
-                  description="Watch this space for another exciting digital journey that will soon be revealed to you."
+                   title={t('dashboardScreen.steps.finalOffer.title')}
+                   description={t('dashboardScreen.steps.finalOffer.description')}
                 />
               </Box>
             </StyledCard>
@@ -139,31 +164,31 @@ export default function MortgageDashboard() {
 
           {/* Right Side Cards */}
           <Grid size={{ xs: 12, md: 4 }}>
-            {selectRMDetails_.rmName !== null && (
+            { selectRMDetails_.rmName !== '' && selectRMDetails_.rmName !== null && (
               <ContactCard
-                name={selectRMDetails_?.rmName ? selectRMDetails_.rmName : 'Heena Rajwani'}
-                email={selectRMDetails_?.rmEmailId ? selectRMDetails_.rmEmailId : 'heena@adcb.com'}
-                phone={selectRMDetails_?.rmMobile ? selectRMDetails_.rmMobile : '+971 897876678'}
+                name={selectRMDetails_?.rmName ? selectRMDetails_.rmName : 'ADCB RM'}
+                email={selectRMDetails_?.rmEmailId ? selectRMDetails_.rmEmailId : 'adcbmortgagerm@adcb.com'}
+                phone={selectRMDetails_?.rmMobile ? selectRMDetails_.rmMobile : '+971 000000000'}
               />
             )}
 
             <GuideCard
-              title="Dream Home Buying Guide"
-              description="Our guidebook is designed to help you navigate every step of your home-buying journey."
-              buttonText="DOWNLOAD"
+             title={t('dashboardScreen.guide.title')}
+             description={t('dashboardScreen.guide.description')}
+             buttonText={t('dashboardScreen.guide.button')}
               onDownload={() => console.log('Download guide')}
             />
 
             <DealsCard
-              title="Deals and Discount"
-              description="Discover home deals and discounts, curated to support you on your dream home journey."
-              viewAllText="View All"
+              title={t('dashboardScreen.deals.title')}
+              description={t('dashboardScreen.deals.description')}
+              viewAllText={t('dashboardScreen.deals.viewAll')}
               deals={deals}
               onViewAll={() => console.log('View all deals')}
             />
           </Grid>
           <Typography variant="body2" color="text.secondary">
-            Last updated 10:45 19/10/2024
+          {t('dashboardScreen.deals.lastUpdatedMessage')}
           </Typography>
         </Grid>
         <AuthFooter />

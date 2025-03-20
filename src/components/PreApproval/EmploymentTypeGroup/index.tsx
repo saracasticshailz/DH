@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, FormHelperText, styled } from '@mui/material';
 import { IMG } from '@/assets/images';
 import EmploymentRadioButton from '../EmploymentRadioButton';
+import { useTranslation } from 'react-i18next';
 
 interface EmploymentTypeGroupProps {
   value: string;
@@ -19,6 +20,8 @@ const RadioGroupContainer = styled(Box)({
 });
 
 export default function EmploymentTypeGroup({ value, onChange, onBlur, error, touched }: EmploymentTypeGroupProps) {
+
+  const { t } = useTranslation();
   const employmentTypes = [
     {
       value: 'SA',
@@ -40,7 +43,7 @@ export default function EmploymentTypeGroup({ value, onChange, onBlur, error, to
   return (
     <Box sx={{ mb: 4 }}>
       <Typography variant="subtitle1" sx={{ mb: 2 }}>
-        Employment type
+      {t("preApproval.employmentDetails.employmentType.label")}
       </Typography>
       <RadioGroupContainer>
         {employmentTypes.map((type) => (

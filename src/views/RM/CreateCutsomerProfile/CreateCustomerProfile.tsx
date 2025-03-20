@@ -9,6 +9,7 @@ import { AppButton } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { setPreApprovalStep, updateCreateCustomerProfile } from '@/store/slices/MortgageSlice';
 import type { RootState } from '@/store';
+import { useTranslation } from 'react-i18next';
 
 interface CustomerProfileFormValues {
   name: string;
@@ -38,13 +39,14 @@ const validationSchema = Yup.object({
 // Debug component to show form values and errors during development
 const FormDebug = () => {
   const formik = useFormikContext();
+  const { t } = useTranslation();
   return (
     <Box sx={{ mt: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1, display: 'none' }}>
-      <Typography variant="caption">Form Values:</Typography>
+      <Typography variant="caption">{t('createCustomerProfile.formValues')}</Typography>
       <pre>{JSON.stringify(formik.values, null, 2)}</pre>
-      <Typography variant="caption">Form Errors:</Typography>
+      <Typography variant="caption">{t('createCustomerProfile.formErrors')}</Typography>
       <pre>{JSON.stringify(formik.errors, null, 2)}</pre>
-      <Typography variant="caption">Touched Fields:</Typography>
+      <Typography variant="caption">{t('createCustomerProfile.touchedFields')}</Typography>
       <pre>{JSON.stringify(formik.touched, null, 2)}</pre>
     </Box>
   );
@@ -52,6 +54,7 @@ const FormDebug = () => {
 
 const CreateCustomerProfile: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
 
   // Get initial values from Redux store if available
@@ -109,7 +112,7 @@ const CreateCustomerProfile: React.FC = () => {
               mb: 4,
             }}
           >
-            Create Customer Profile
+           {t('createCustomerProfile.title')}
           </Typography>
 
           <Formik
@@ -127,8 +130,8 @@ const CreateCustomerProfile: React.FC = () => {
                       <Field
                         as={TextInput}
                         name="name"
-                        label="Name"
-                        placeholder="Enter your name"
+                        label= {t("signUpScreen.name")}
+                        placeholder={t("signUpScreen.enterYourName")}
                         fullWidth
                         value={values.name}
                         onChange={handleChange}
@@ -143,7 +146,7 @@ const CreateCustomerProfile: React.FC = () => {
                       <Field
                         as={TextInput}
                         name="phoneNumber"
-                        label="Phone number"
+                        label={t("signUpScreen.phoneNumber")}
                         placeholder="00 000 0000"
                         fullWidth
                         value={values.phoneNumber}
@@ -168,8 +171,8 @@ const CreateCustomerProfile: React.FC = () => {
                       <Field
                         as={TextInput}
                         name="email"
-                        label="Email"
-                        placeholder="Enter your email address"
+                        label={t("signUpScreen.email")}
+                        placeholder={t("signUpScreen.enterYourEmail")}
                         fullWidth
                         value={values.email}
                         onChange={handleChange}
@@ -184,8 +187,8 @@ const CreateCustomerProfile: React.FC = () => {
                       <Field
                         as={TextInput}
                         name="emiratesId"
-                        label="Emirates ID"
-                        placeholder="Enter your Emirates ID number"
+                        label={t("signUpScreen.eId")}
+                        placeholder={t("signUpScreen.enterYourEid")}
                         fullWidth
                         value={values.emiratesId}
                         onChange={handleChange}
@@ -219,7 +222,7 @@ const CreateCustomerProfile: React.FC = () => {
                         },
                       }}
                     >
-                      CANCEL
+                    {t('preApproval.incomeDetails.buttons.cancel')}
                     </AppButton>
                     <AppButton
                       type="submit"
@@ -234,7 +237,7 @@ const CreateCustomerProfile: React.FC = () => {
                         },
                       }}
                     >
-                      CONTINUE
+                      {t('preApproval.incomeDetails.buttons.continue')}
                     </AppButton>
                   </Box>
                 </Box>

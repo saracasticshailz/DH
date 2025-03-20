@@ -14,11 +14,11 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
   // params.b = '';
 
   // print('params', params);
-  console.log('params', params);
+  // console.log('params', params);
 
   const authKey = CryptoObj.generateAuthKey(operatorId, authStep);
   const encryptedData = CryptoObj.EncryptTxtJS(JSON.stringify(params), authKey);
-  console.log('encryptedData', encryptedData);
+  // console.log('encryptedData', encryptedData);
 
   const inputParamObj = {
     data: encryptedData,

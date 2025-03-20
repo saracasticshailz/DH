@@ -1,8 +1,10 @@
 import TextInput from '@/components/common/TextInput';
 import { Box, Button, Container, Typography, Grid, Card, CardContent } from '@mui/material';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const WelcomeView = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -29,11 +31,10 @@ const WelcomeView = () => {
           />
           <Box className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center p-8">
             <Typography variant="h4" className="text-white font-bold mb-4">
-              Create Your Profile
+            {t("welcome.createYourProfile")}
             </Typography>
             <Typography variant="body1" className="text-white">
-              This one-time registration will create your profile on the ADCB Dream Home platform, enhancing your home
-              purchase experience.
+            {t("welcome.onetimeRegisterMessage")}
             </Typography>
           </Box>
         </Grid>
@@ -43,12 +44,12 @@ const WelcomeView = () => {
           <Card elevation={0}>
             <CardContent>
               <Typography variant="h6" className="mb-4 font-semibold">
-                Name
+              {t("signUpScreen.name")}
               </Typography>
               <TextInput variant="outlined" fullWidth placeholder="Enter your name" className="mb-4" />
 
               <Typography variant="h6" className="mb-4 font-semibold">
-                Phone Number
+              {t("signUpScreen.phoneNumber")}
               </Typography>
               <Grid container spacing={2} className="mb-4">
                 <Grid item xs={4}>
@@ -60,24 +61,24 @@ const WelcomeView = () => {
               </Grid>
 
               <Typography variant="h6" className="mb-4 font-semibold">
-                Email
+              {t("signUpScreen.email")}
               </Typography>
               <TextInput variant="outlined" fullWidth placeholder="Enter your email address" className="mb-4" />
 
               <Typography variant="h6" className="mb-4 font-semibold">
-                Emirates ID
+              {t("signUpScreen.eId")}
               </Typography>
               <TextInput variant="outlined" fullWidth placeholder="Enter your Emirates ID number" className="mb-6" />
 
               <Button variant="contained" color="error" fullWidth className="py-3 text-white rounded-xl shadow-md">
-                CREATE YOUR PROFILE
+              {t("welcome.createYourProfile")}
               </Button>
 
               <Typography variant="body2" className="text-center mt-4">
-                Already a member?
+              {t("signUpScreen.alreadyAMember")}
               </Typography>
               <Button variant="outlined" fullWidth className="mt-2 rounded-xl">
-                SIGN IN
+              {t("welcome.signIN")}
               </Button>
             </CardContent>
           </Card>
@@ -86,13 +87,13 @@ const WelcomeView = () => {
 
       <Box className="w-full text-center mt-4">
         <Typography variant="body2">
-          Copyright © 2025 ADCB. All rights reserved. &nbsp;
+        {t("welcome.copyrightMessage")} &nbsp;
           <a href="#" className="text-blue-500">
-            Terms & Conditions
+          {t("welcome.termaandConditions")}
           </a>{' '}
           |{' '}
           <a href="#" className="text-blue-500">
-            Privacy Policy
+          {t("welcome.privacyPolicy")}
           </a>
         </Typography>
       </Box>

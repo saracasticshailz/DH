@@ -6,9 +6,9 @@ import { Close } from '@mui/icons-material';
 
 interface CommonDialogProps {
   open: boolean;
-  onClose: () => void;
-  onPrimaryAction: () => void;
-  onSecondaryAction: () => void;
+  onClose?: () => void;
+  onPrimaryAction?: () => void;
+  onSecondaryAction?: () => void;
   icon?: React.ReactNode;
   title: string;
   description: string;
@@ -129,6 +129,7 @@ const CommonDialog: React.FC<CommonDialogProps> = ({
               {primaryButtonText}
             </AppButton>
 
+            {secondaryButtonText!=='' && (
             <AppButton
               onClick={onSecondaryAction}
               variant="outlined"
@@ -144,6 +145,7 @@ const CommonDialog: React.FC<CommonDialogProps> = ({
             >
               {secondaryButtonText}
             </AppButton>
+            )}
           </Box>
         </Box>
       </DialogContent>

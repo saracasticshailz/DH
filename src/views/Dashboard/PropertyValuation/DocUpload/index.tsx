@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Grid, Typography, Button, Alert, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDocuments, setValuationActiveStep } from '@/store/slices/ValuationSlice';
 import type { RootState } from '@/store';
@@ -27,6 +28,7 @@ const validationSchema = Yup.object({
 
 const DocumentUploadForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const documents = useSelector((state: RootState) => state.valuation.documents);
 
   const formik = useFormik<DocumentValues>({
@@ -77,7 +79,7 @@ const DocumentUploadForm: React.FC = () => {
               },
             }}
           >
-            {file ? file.name : 'Choose file'}
+            {file ? file.name : t('valuation.documentUpload.choosefile')}
             <input type="file" hidden accept=".pdf,.jpg,.png" onChange={handleFileChange(field)} />
           </Button>
           {file && (
@@ -99,7 +101,7 @@ const DocumentUploadForm: React.FC = () => {
     <form onSubmit={formik.handleSubmit}>
       <Box sx={{ p: 3 }}>
         <Alert severity="info" sx={{ mb: 3 }}>
-          Documents should be max 2MB. Accepted file types are PDF, JPG, PNG.
+        {t('valuation.documentUpload.noteDocumentMaxandFileType')}
         </Alert>
 
         <Grid container spacing={3}>
@@ -124,7 +126,7 @@ const DocumentUploadForm: React.FC = () => {
               },
             }}
           >
-            Back
+            {t('preApproval.incomeDetails.buttons.back')}
           </Button>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Button
@@ -138,7 +140,7 @@ const DocumentUploadForm: React.FC = () => {
                 },
               }}
             >
-              Cancel
+              {t('preApproval.incomeDetails.buttons.cancel')}
             </Button>
             <Button
               type="submit"
@@ -150,7 +152,7 @@ const DocumentUploadForm: React.FC = () => {
                 },
               }}
             >
-              Continue
+              {t('preApproval.incomeDetails.buttons.continue')}
             </Button>
           </Box>
         </Box>

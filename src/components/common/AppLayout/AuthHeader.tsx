@@ -26,7 +26,7 @@ const AuthHeader: FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    alert('Sure Want to logout?');
+    alert(t('header.sureWantToLogout'));
     // useEventLogout();
     dispatch(logout());
     navigate('/Login', { replace: true });

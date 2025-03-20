@@ -10,9 +10,11 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '@/components/common/TextInput';
 import { AppButton } from '@/components';
+import { useTranslation } from 'react-i18next';
 import { setPreApprovalStep, updatePersonalDetails } from '@/store/slices/MortgageSlice';
 
 const PersonalDetailsForm: React.FC = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const dispatch = useDispatch();
@@ -97,7 +99,7 @@ const PersonalDetailsForm: React.FC = () => {
           },
         }}
       >
-        Personal Details
+         {t('preApproval.personalDetails.title')}
       </Typography>
 
       <Formik
@@ -122,8 +124,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Customer name (as per passport)"
-                      placeholder="Enter name as per passport"
+                      label= {t('preApproval.personalDetails.customerName')}
+                      placeholder={t('preApproval.personalDetails.enterNameAsPerPassport')}
                       fullWidth
                       error={touched.customerName && Boolean(errors.customerName)}
                       helperText={touched.customerName && errors.customerName}
@@ -138,8 +140,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Gender"
-                      placeholder="Please select"
+                      label={t('preApproval.personalDetails.gender')}
+                      placeholder={t('preApproval.personalDetails.pleaseSelect')}
                       select
                       fullWidth
                       error={touched.gender && Boolean(errors.gender)}
@@ -158,7 +160,7 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Date of birth"
+                      label={t('preApproval.personalDetails.dateOfBirth')}
                       placeholder="DD/MM / YYYY"
                       fullWidth
                       error={touched.dateOfBirth && Boolean(errors.dateOfBirth)}
@@ -177,15 +179,15 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Nationality"
-                      placeholder="Please select"
+                      label={t('preApproval.personalDetails.nationality')}
+                      placeholder={t('preApproval.personalDetails.pleaseSelect')}
                       select
                       fullWidth
                       error={touched.nationality && Boolean(errors.nationality)}
                       helperText={touched.nationality && errors.nationality}
                     >
-                      <MenuItem value="ae">UAE</MenuItem>
-                      <MenuItem value="in">INDIA</MenuItem>
+                      <MenuItem value="AE">UAE</MenuItem>
+                      <MenuItem value="IN">INDIA</MenuItem>
                     </TextInput>
                   )}
                 </Field>
@@ -197,8 +199,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Passport number"
-                      placeholder="Please enter"
+                      label={t('preApproval.personalDetails.passportNumber')}
+                      placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
                       fullWidth
                       error={touched.passportNumber && Boolean(errors.passportNumber)}
                       helperText={touched.passportNumber && errors.passportNumber}
@@ -213,7 +215,7 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Passport expiry"
+                      label={t('preApproval.personalDetails.passportExpiry')}
                       placeholder="DD/MM / YYYY"
                       fullWidth
                       error={touched.passportExpiry && Boolean(errors.passportExpiry)}
@@ -232,8 +234,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="PO box number"
-                      placeholder="Please enter"
+                      label={t('preApproval.personalDetails.passportExpiry')}
+                      placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
                       fullWidth
                       error={touched.poBox && Boolean(errors.poBox)}
                       helperText={touched.poBox && errors.poBox}
@@ -248,8 +250,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="State"
-                      placeholder="Please select"
+                      label={t('preApproval.personalDetails.state.title')}
+                      placeholder={t('preApproval.purchaseType.placeholder')}
                       select
                       fullWidth
                       error={touched.state && Boolean(errors.state)}
@@ -273,15 +275,15 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label="Country of residence"
-                      placeholder="Please select"
+                      label={t('preApproval.personalDetails.countryofResidence')}
+                      placeholder={t('preApproval.purchaseType.placeholder')}
                       select
                       fullWidth
                       error={touched.countryOfResidence && Boolean(errors.countryOfResidence)}
                       helperText={touched.countryOfResidence && errors.countryOfResidence}
                     >
-                      <MenuItem value="ae">UAE</MenuItem>
-                      <MenuItem value="in">INDIA</MenuItem>
+                      <MenuItem value="AE">UAE</MenuItem>
+                      <MenuItem value="IN">INDIA</MenuItem>
                     </TextInput>
                   )}
                 </Field>
@@ -316,7 +318,7 @@ const PersonalDetailsForm: React.FC = () => {
                     },
                   }}
                 >
-                  CANCEL
+                  {t('preApproval.incomeDetails.buttons.cancel')}
                 </AppButton>
               </Grid>
               <Grid size={{ xs: 12, sm: 6, md: 6 }} sx={{ textAlign: { xs: 'center', sm: 'right' } }}>
@@ -331,7 +333,7 @@ const PersonalDetailsForm: React.FC = () => {
                     },
                   }}
                 >
-                  CONTINUE
+                  {t('preApproval.incomeDetails.buttons.continue')}
                 </AppButton>
               </Grid>
             </Grid>

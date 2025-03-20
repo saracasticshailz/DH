@@ -12,6 +12,7 @@ import PaginatedDataTable from '@/components/Rm/PaginatedDataTable';
 import { type Application, getStatusColor, getStatusTextColor } from '@/components/Rm/ApplicationStatusUtils';
 import { filterData } from '@/utils/DataTableUtils';
 import StatusChip from '@/components/Rm/StatusChip';
+import { useTranslation } from 'react-i18next';
 import TableFilters, { type FilterConfig, type FilterValues } from '@/components/Rm/TableFilters';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
@@ -72,6 +73,7 @@ const filterSchema = Yup.object({
 
 const RmDashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [filterValues, setFilterValues] = useState<FilterValues>(initialFilterValues);
   // const [applications, setApplications] = useState<Application[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
