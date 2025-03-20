@@ -18,7 +18,7 @@ export default function PreApprovalPage() {
   const userDetails = useAppSelector(selectAuth);
   const isRmUser = userDetails?.customerType === 'RM';
 
-  console.log('userDetails', userDetails);
+  // console.log('userDetails', userDetails);
 
   const renderActiveForm = () => {
     switch (activeStep) {

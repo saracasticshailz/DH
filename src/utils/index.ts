@@ -6,3 +6,4 @@ export * from './path';
 export * from './sleep';
 export * from './type';
 export * from './text';
+export * from './DateWithFormats';

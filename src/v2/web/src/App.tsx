@@ -2,6 +2,8 @@ import { useState } from 'react';
 import reactLogo from 'resources/assets/adcb.svg';
 import './App.css';
 import { print, message } from 'common/global';
+
+//@ts-ignore
 import useHandShake from 'common/hooks/useHandShake';
 
 function App() {
