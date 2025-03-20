@@ -135,7 +135,7 @@ export const Invoker = () => {
 
   var invokeOperation = async (operationName, headers, params, onSuccessCallBack, onFailureCallBack) => {
     try {
-      console.log(loginResponseData, appConfigResponseData);
+      // console.log(loginResponseData, appConfigResponseData);
       // const url = `${appConfigResponseData.integsvc.IBMIB}/${operationName}`;
       const url = `${appConfigResponseData.integsvc.DreamHomePortal}/${operationName}`;
       var dheaders = {
