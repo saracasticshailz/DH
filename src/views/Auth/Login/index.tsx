@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 import TextInput from '@/components/common/TextInput';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 import { IMG } from '@/assets/images';
@@ -16,7 +15,7 @@ import OtpModal from '@/components/modal/otpModal';
 import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
 import { useAppDispatch } from '@/hooks/redux.js';
-import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
@@ -50,18 +49,7 @@ const LoginScreen = () => {
 
   const initialValues = { phoneNumber: '' };
 
-  const validationSchema = Yup.object({
-    phoneNumber: Yup.string()
-      .length(9, t('loginScreen.phoneNumberMustBe9Digits'))
-      .required(t('loginScreen.phoneNumberRequired')),
-  });
-
-  const handleSubmit = async (values: any, { setErrors }: any) => {
-    if (values.phoneNumber.length !== 9) {
-      setErrors({ phoneNumber: t('loginScreen.phoneNumberMustBe9Digits') });
-      return; // Don't proceed if validation fails
-    }
-
+  const handleSubmit = async (values: any) => {
     //RESPONSE
     // "emailMasked".""
     // "lapsRefNumber"."'
@@ -71,8 +59,7 @@ const LoginScreen = () => {
     modNetwork(
       API.SIGNUP_API, // as discussed with noman will use same API
       {
-        // mobileNumber: '971' + values.phoneNumber,
-        mobileNumber: '971545953954',
+        mobileNumber: '971' + values.phoneNumber,
         journeyType: 'RET',
       },
       (res: any) => {
@@ -112,16 +99,7 @@ const LoginScreen = () => {
             return;
           }
 
-          dispatch(updateProfile(res));
-          // dispatch(
-          //   updateCustomerMobileNumberAndNameAndEmiratedId({
-          //     mobileNumber: `971${currentPhoneNumber}`,
-          //     customerName: currentName,
-          //     emiratesId: emiratesId,
-          //   })
-          // );
-
-          dispatch(loginSuccess(res));
+          dispatch(updateProfile(res)); //
 
           navigate('/Dashboard', {
             state: { preventBack: true },
@@ -158,12 +136,7 @@ const LoginScreen = () => {
         }}
       >
         <Grid size={{ xs: 12, md: 8 }}>
-          <img
-            src={IMG.LoginImage || '/placeholder.svg'}
-            alt="ADCB"
-            loading="lazy"
-            className="rounded-3xl max-w-full"
-          />
+          <img src={IMG.LoginImage} alt="ADCB" loading="lazy" className="rounded-3xl max-w-full" />
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
           <Card
@@ -177,19 +150,17 @@ const LoginScreen = () => {
                 paddingX: { md: 4 },
               }}
             >
-              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-                {({ values, errors, touched, handleChange }) => (
+              <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                {({ values, handleChange }) => (
                   <Form className="mb-10">
                     <TextInput
-                      name="phoneNumber"
+                       name={t('loginScreen.phoneNumber')}
                       countryCode="+971"
                       value={values.phoneNumber}
                       onChange={handleChange}
-                      placeholder={t('000000000')}
+                     placeholder={t('000000000')}
                       label={t('loginScreen.phoneNumber')}
-                      onBlur={handleChange}
-                      error={touched.phoneNumber && Boolean(errors.phoneNumber)}
-                      helperText={touched.phoneNumber ? errors.phoneNumber : ''}
+                      onBlur={() => undefined}
                     />
 
                     <AppButton

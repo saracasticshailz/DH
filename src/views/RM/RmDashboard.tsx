@@ -22,8 +22,8 @@ import { isLoading } from '@/store/slices/CustomerAuthSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import NextActionDetailsModal from '@/components/modal/rm/NextActionDetailsModal';
 import { setApplications, setError, setLoading } from '@/store/slices/RmDashboardSlice';
+
 // Filter configurations
-//adding test button
 const filterConfigs: FilterConfig[] = [
   {
     name: 'searchTerm',

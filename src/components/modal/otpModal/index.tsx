@@ -47,6 +47,19 @@ export default function OtpDrawer({
   const inputRefs: any = useRef<(HTMLInputElement | null)[]>([]);
   const { t } = useTranslation();
 
+
+  // useEffect to focus the first input field after the modal is rendered
+  useEffect(() => {
+    if (open) {
+      // Use setTimeout to delay the focus until after the modal renders
+      setTimeout(() => {
+        inputRefs.current[0]?.focus(); // Focus the first input field
+      }, 300);
+    }
+  }, [open]);
+
+
+
   useEffect(() => {
     if (!open) return;
 
@@ -102,6 +115,8 @@ export default function OtpDrawer({
     <Drawer
       anchor="left"
       open={open}
+      disableEnforceFocus={true}
+      disableAutoFocus={true}
       onClose={onClose}
       PaperProps={{
         sx: {
@@ -144,6 +159,7 @@ export default function OtpDrawer({
             {otp.map((digit, index) => (
               <OtpInput
                 key={index || title}
+                autoFocus
                 type="text"
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}

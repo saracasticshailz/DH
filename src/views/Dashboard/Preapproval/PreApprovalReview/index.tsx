@@ -20,7 +20,6 @@ import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
-import { getFormattedDateTimeWithIntl } from '@/utils';
 
 interface ReviewSection {
   label: string;
@@ -217,47 +216,69 @@ const PreApprovalReview = () => {
   };
 
   const handleCancel = () => {
+    //dispatch(setPreApprovalStep(0));
     navigate(-1);
   };
 
   const handleSubmit = async () => {
-    const reqBody = {
-      applicationRefNumber: userDetails.applicationRefNumber,
-      lapsRefNumber: userDetails.lapsRefNumber,
-      mobileNo: userDetails.customerMobileNumber,
-      customerName: userDetails.customerName,
-      emiratesId: userDetails.emiratesId,
-
-      loanPreference: loanDetails.loanPreference,
-      financePricingOption: loanDetails.financingOption,
-      typeOfPurchase: loanDetails.purchaseType,
-      mortgageSpecialistCode: loanDetails.specialistCode,
-      requestedLoanAmount: loanDetails.loanAmount,
-      loanTenure: loanDetails.loanTenure,
-
-      employmentType: employmentDetails.employmentType,
-      employerName: employmentDetails.employerName,
-      employerCode: employmentDetails.employerCode,
-      DOJ: employmentDetails.joiningDate,
-
-      monthlyFixedSalary: String(incomeDetails.fixedMonthlyIncome),
-      isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
-      monthlyOtherIncome: String(incomeDetails.otherMonthlyIncome),
-      annualRentalIncome: String(incomeDetails.annualRentalIncome),
-      termsConditionsAgreedOn: getFormattedDateTimeWithIntl(),
-
-      gender: personalDetails.gender,
-      residencePOBox: personalDetails.poBox,
-      residenceState: personalDetails.state,
-      nationalityCode: personalDetails.countryOfResidence,
-      passportExpiryDate: personalDetails.passportExpiry,
-      passportNumber: personalDetails.passportNumber,
-      residenceCountry: personalDetails.countryOfResidence,
-    };
-
     modNetwork(
       API.SUBMIT_LOAN_API,
-      reqBody,
+      {
+        applicationRefNumber: userDetails.applicationRefNumber,
+        lapsRefNumber: userDetails.lapsRefNumber,
+        loanPreference: loanDetails.loanPreference,
+        financePricingOption: loanDetails.financingOption,
+        typeOfPurchase: loanDetails.purchaseType,
+        mortgageSpecialistCode: loanDetails.specialistCode,
+        requestedLoanAmount: loanDetails.loanAmount,
+        loanTenure: loanDetails.loanTenure,
+        employmentType: employmentDetails.employmentType,
+        employerName: employmentDetails.employerName,
+        employerCode: employmentDetails.employerCode,
+        DOJ: employmentDetails.joiningDate,
+
+        monthlyFixedSalary: incomeDetails.fixedMonthlyIncome,
+        isCompanyAccommodation: incomeDetails.stayingInCompanyAccommodation,
+        monthlyOtherIncome: incomeDetails.otherMonthlyIncome,
+        annualRentallncome: incomeDetails.annualRentalIncome,
+
+        mobileNo: userDetails.customerMobileNumber,
+        gender: personalDetails.gender,
+        customerName: userDetails.customerName,
+        residencePOBox: personalDetails.poBox,
+        residenceState: personalDetails.state,
+        nationalityCode: personalDetails.countryOfResidence,
+        emiratesId: userDetails.emiratesId,
+
+        passportExpiryDate: personalDetails.passportExpiry,
+        passportNumber: personalDetails.passportNumber,
+        residenceCountry: personalDetails.countryOfResidence,
+      },
+      // {
+      //   applicationRefNumber: 'LP-ML-00014397',
+      //   lapsRefNumber: '017904',
+      //   loanPreference: 'A',
+      //   financePricingOption: 'Fixed',
+      //   typeOfPurchase: '2',
+      //   mortgageSpecialistCode: 'C106',
+      //   requestedLoanAmount: '2000000',
+      //   loanTenure: '25',
+      //   employmentType: 'SA',
+      //   employerName: 'ADNOC ONSHORE',
+      //   employerCode: '002100',
+      //   DOJ: '03/01/2010',
+      //   housingRentAllowance: 100000,
+      //   isCompanyAccommodation: 'yes',
+      //   monthlyOtherIncome: 1000000,
+      //   annualRentallncome: 100000,
+      //   mobileNo: '971582109809',
+      //   gender: 'Female',
+      //   customerName: 'SHAILESH',
+      //   residencePOBox: 'PO Box 7',
+      //   residenceState: 'dubai',
+      //   nationalityCode: 'uae',
+      //   clientTime: '1742289582895',
+      // },
       (res: any) => {
         console.log('sub_loan_application RES', res);
         dispatch(
@@ -326,7 +347,7 @@ const PreApprovalReview = () => {
         <Box sx={{ px: { xs: 2, md: 0 } }}>
           {userDetails?.customerType === 'NTB' && (
             <Section
-              title={t('preApproval.personalDetails.title')}
+              title={t('preApproval.incomeDetails.personalDetails.title')}
               items={reviewDataState.PersonalDetails}
               onEdit={() => dispatch(setPreApprovalStep(preApproval.activeStep + 1))}
               isLoading={isLoading}
