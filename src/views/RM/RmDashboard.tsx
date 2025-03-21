@@ -22,7 +22,6 @@ import { isLoading } from '@/store/slices/CustomerAuthSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import NextActionDetailsModal from '@/components/modal/rm/NextActionDetailsModal';
 import { setApplications, setError, setLoading } from '@/store/slices/RmDashboardSlice';
-//git test
 // Filter configurations
 const filterConfigs: FilterConfig[] = [
   {
