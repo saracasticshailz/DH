@@ -11,6 +11,8 @@ import * as Yup from 'yup';
 import TextInput from '@/components/common/TextInput';
 import { AppButton } from '@/components';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
+import CustomDatePicker from '@/components/common/CustomDatePicker';
 import { setPreApprovalStep, updatePersonalDetails } from '@/store/slices/MortgageSlice';
 
 const PersonalDetailsForm: React.FC = () => {
@@ -53,7 +55,7 @@ const PersonalDetailsForm: React.FC = () => {
   });
 
   const handleSubmit = (values: any) => {
-    console.log(values);
+    console.log("handleSubmit values ",values);
 
     setSubmitted(true);
     dispatch(updatePersonalDetails(values));
@@ -99,7 +101,7 @@ const PersonalDetailsForm: React.FC = () => {
           },
         }}
       >
-         {t('preApproval.personalDetails.title')}
+         {t('preApproval.incomeDetails.personalDetails.title')}
       </Typography>
 
       <Formik
@@ -108,7 +110,7 @@ const PersonalDetailsForm: React.FC = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ errors, touched }) => (
+        {({ errors, touched, values, setFieldValue, setFieldTouched }) => (
           <Form>
             <Grid
               container
@@ -124,8 +126,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label= {t('preApproval.personalDetails.customerName')}
-                      placeholder={t('preApproval.personalDetails.enterNameAsPerPassport')}
+                      label= {t('preApproval.incomeDetails.personalDetails.customerName')}
+                      placeholder={t('preApproval.incomeDetails.personalDetails.enterNameAsPerPassport')}
                       fullWidth
                       error={touched.customerName && Boolean(errors.customerName)}
                       helperText={touched.customerName && errors.customerName}
@@ -140,8 +142,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label={t('preApproval.personalDetails.gender')}
-                      placeholder={t('preApproval.personalDetails.pleaseSelect')}
+                      label={t('preApproval.incomeDetails.personalDetails.gender')}
+                      placeholder={t('preApproval.incomeDetails.personalDetails.pleaseSelect')}
                       select
                       fullWidth
                       error={touched.gender && Boolean(errors.gender)}
@@ -158,19 +160,25 @@ const PersonalDetailsForm: React.FC = () => {
               <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <Field name="dateOfBirth">
                   {({ field }: any) => (
-                    <TextInput
-                      {...field}
-                      label={t('preApproval.personalDetails.dateOfBirth')}
-                      placeholder="DD/MM / YYYY"
-                      fullWidth
-                      error={touched.dateOfBirth && Boolean(errors.dateOfBirth)}
-                      helperText={touched.dateOfBirth && errors.dateOfBirth}
-                      InputProps={{
-                        endAdornment: <Calendar size={isMobile ? 16 : 20} color="#5d656b" />,
-                      }}
-                    />
+                    <CustomDatePicker
+                    value={values.dateOfBirth}
+                    placeholder="DD/MM/YYYY"
+                    onChange={(newValue) => {
+                      const formattedDate = newValue ? dayjs(newValue, 'DD/MM/YYYY').format('DD/MM/YYYY') : '';
+                      //const formattedDate = newValue ? dayjs(newValue).format('MM/DD/YYYY') : '';
+                      setFieldValue('dateOfBirth', formattedDate);
+                    }}
+                    label={t('preApproval.incomeDetails.personalDetails.dateOfBirth')}
+                    type={'date'}
+                    maxDate={new Date()}
+                    error={touched.dateOfBirth && Boolean(errors.dateOfBirth)}
+                    onBlur={() => setFieldTouched('dateOfBirth', true)}
+                  />
                   )}
                 </Field>
+
+                <Box>
+            </Box>
               </Grid>
 
               {/* Nationality */}
@@ -179,8 +187,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label={t('preApproval.personalDetails.nationality')}
-                      placeholder={t('preApproval.personalDetails.pleaseSelect')}
+                      label={t('preApproval.incomeDetails.personalDetails.nationality')}
+                      placeholder={t('preApproval.incomeDetails.personalDetails.pleaseSelect')}
                       select
                       fullWidth
                       error={touched.nationality && Boolean(errors.nationality)}
@@ -199,7 +207,7 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label={t('preApproval.personalDetails.passportNumber')}
+                      label={t('preApproval.incomeDetails.personalDetails.passportNumber')}
                       placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
                       fullWidth
                       error={touched.passportNumber && Boolean(errors.passportNumber)}
@@ -213,17 +221,21 @@ const PersonalDetailsForm: React.FC = () => {
               <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <Field name="passportExpiry">
                   {({ field }: any) => (
-                    <TextInput
-                      {...field}
-                      label={t('preApproval.personalDetails.passportExpiry')}
-                      placeholder="DD/MM / YYYY"
-                      fullWidth
-                      error={touched.passportExpiry && Boolean(errors.passportExpiry)}
-                      helperText={touched.passportExpiry && errors.passportExpiry}
-                      InputProps={{
-                        endAdornment: <Calendar size={isMobile ? 16 : 20} color="#5d656b" />,
-                      }}
-                    />
+
+                      <CustomDatePicker
+                        value={values.passportExpiry}
+                         placeholder="DD/MM/YYYY"
+                        onChange={(newValue) => {
+                          console.log('passportExpiry newValue ', newValue);
+                        const formattedDate = newValue ? dayjs(newValue, 'DD/MM/YYYY').format('DD/MM/YYYY') : '';//newValue ? dayjs(newValue).format('MM/DD/YYYY') : '';
+                        console.log('passportExpiry formattedDate ', formattedDate);
+                        setFieldValue('passportExpiry', formattedDate);
+                        }}
+                        label={t('preApproval.incomeDetails.personalDetails.passportExpiry')}
+                        type={'date'}
+                        error={touched.passportExpiry && Boolean(errors.passportExpiry)}
+                        onBlur={() => setFieldTouched('passportExpiry', true)}
+                      />
                   )}
                 </Field>
               </Grid>
@@ -234,7 +246,7 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label={t('preApproval.personalDetails.passportExpiry')}
+                      label={t('preApproval.incomeDetails.personalDetails.poBoxNumber')}
                       placeholder={t('preApproval.employmentDetails.employerName.placeholder')}
                       fullWidth
                       error={touched.poBox && Boolean(errors.poBox)}
@@ -250,8 +262,8 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label={t('preApproval.personalDetails.state.title')}
-                      placeholder={t('preApproval.purchaseType.placeholder')}
+                      label={t('preApproval.incomeDetails.personalDetails.state.title')}
+                      placeholder={t('preApproval.incomeDetails.purchaseType.placeholder')}
                       select
                       fullWidth
                       error={touched.state && Boolean(errors.state)}
@@ -275,7 +287,7 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label={t('preApproval.personalDetails.countryofResidence')}
+                      label={t('preApproval.incomeDetails.personalDetails.countryofResidence')}
                       placeholder={t('preApproval.purchaseType.placeholder')}
                       select
                       fullWidth

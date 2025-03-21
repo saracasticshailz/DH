@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Children } from 'react';
 import { LabelText, StyledFormControlLabel, StyledRadio } from './styles';
 import { Box } from '@mui/material';
+import { IMG } from '@/assets/images';
 
 interface RadioCardProps {
   value: string;
@@ -31,7 +32,8 @@ export default function RadioCard({
       height={height}
       control={<StyledRadio checked={selected} onChange={() => onChange(value)} onBlur={onBlur} />}
       label={
-        <Box sx={{ alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ alignItems: 'center', gap: 1.5 , display:'flex'}}>
+           {icon ? icon() : null}
           <LabelText isTitle={true}>{label}</LabelText>
           <LabelText>{description}</LabelText>
         </Box>

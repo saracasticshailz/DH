@@ -52,6 +52,7 @@ const SignupScreen = () => {
   const [dialogPrimaryAction, setDialogPrimaryAction] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
+
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -65,14 +66,16 @@ const SignupScreen = () => {
     }
   }, []);
 
-  const initialValues = {
-    name: 'Shailesh',
-    emiratesId: '784199425634369',
-    phoneNumber: '545953954',
-    email: 'shailesh30@test.com',
-    // journeyType: 'CUSTOMER',
-    // clientTime: '1742281922764',
-  };
+  const initialValues =
+    //{ name: '', phoneNumber: '', email: '', emiratesId: '' };
+    {
+      name: 'Shailesh',
+      emiratesId: '784199425634369',
+      phoneNumber: '545953954',
+      email: 'shailesh14@test.com',
+      // journeyType: 'CUSTOMER',
+      // clientTime: '1742281922764',
+    };
 
   const handleSubmit = async (values: any) => {
     setCurrentPhoneNumber(values.phoneNumber);
@@ -112,12 +115,12 @@ const SignupScreen = () => {
           } catch (error) {
             setDialogText(res.errmsg);
           }
-
-          setDialogTitle('ERROR');
-          setDialogPrimaryAction('OK');
-          setShowAlert(true);
+         
+    setDialogTitle('ERROR')
+    setDialogPrimaryAction('OK');
+    setShowAlert(true);
         }
-
+       
         //alert(JSON.stringify(res));
         // setAuthModalOpen(true);
       },
@@ -164,14 +167,15 @@ const SignupScreen = () => {
           });
         } else {
           // navigate('/Dashboard');
-
+         
           // Create new state
           setDialogText(res.errMsg_EN);
-          console.log('Error Message ', res.errmsg);
+          console.log('Error Message ',res.errmsg);
 
-          setDialogTitle('ERROR');
+          setDialogTitle('ERROR')
           setDialogPrimaryAction('OK');
           setShowAlert(true);
+
         }
       },
       '',
@@ -197,12 +201,12 @@ const SignupScreen = () => {
 
       <CommonDialog
         open={showAlert}
-        onClose={(): void => {
-          setShowAlert(false);
-        }}
-        onPrimaryAction={(): void => {
-          setShowAlert(false);
-        }}
+       onClose={(): void => {
+        setShowAlert(false);
+      }}
+      onPrimaryAction={(): void => {
+        setShowAlert(false);
+      }}
         title={dialogTitle}
         description={dialogText}
         primaryButtonText={dialogPrimaryAction}
