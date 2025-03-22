@@ -23,6 +23,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import NextActionDetailsModal from '@/components/modal/rm/NextActionDetailsModal';
 import { setApplications, setError, setLoading } from '@/store/slices/RmDashboardSlice';
 import { getLoanStatusText } from '@/utils/helper';
+import { IconButton } from '@mui/material';
+import { ChevronRight } from 'lucide-react';
+import { setValuationActiveStep } from '@/store/slices/ValuationSlice';
 
 // Filter configurations
 const filterConfigs: FilterConfig[] = [
@@ -90,11 +93,11 @@ const RmDashboard: React.FC = () => {
   const dashboardError = useAppSelector((state) => state.rmDashboard.error);
   const dispatch = useAppDispatch();
 
-  const handleRowClick = (application: Application) => {
+  function moreInfoAction(application: Application) {
     console.log('Application clicked:', application);
     setSelectedApplication(application);
     setIsModalOpen(true);
-  };
+  }
 
   const columns = [
     {
@@ -108,8 +111,8 @@ const RmDashboard: React.FC = () => {
       sortable: true,
     },
     {
-      field: 'referenceNo' as const,
-      label: 'Reference No.',
+      field: 'applicationNo' as const,
+      label: 'Application No.',
       sortable: true,
     },
     {
@@ -123,21 +126,160 @@ const RmDashboard: React.FC = () => {
       sortable: true,
       render: (item: Application) => (
         <StatusChip
-          status={getLoanStatusText(item.status)}
-          getStatusColor={() => getStatusColor(item.status)}
-          getStatusTextColor={() => getStatusTextColor(item.status)}
+          status={getLoanStatusText(item.applicationStatus)}
+          getStatusColor={() => getStatusColor(item.applicationStatus)}
+          getStatusTextColor={() => getStatusTextColor(item.applicationStatus)}
         />
       ),
     },
   ];
 
   const fetchTableData = () => {
+    const restemp = {
+      rmCode: 'C106794',
+      oprstatus: 0,
+      rmMobile: '971562910316',
+      returnCode: '0',
+      rmEmailId: 'HeenaRajwani.ext@adcb.com',
+      opstatus: 0,
+      applicationDetails: [
+        {
+          applicationReferenceNo: 'LP-ML-00014335',
+          customerType: 'ETB',
+          applicationStatus: 'PP',
+          applicationNo: 'BYUT0005678',
+          applicationSubmittedDate: '2025-03-05 10:09:24.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-00014335',
+          customerName: 'ONE N THREE  FIFTY ONE  NINETY SEVEN',
+          lastUpdated: '2025-03-05 10:09:24.0',
+          status: null,
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143209',
+          customerType: 'ETB',
+          applicationStatus: 'UP',
+          applicationNo: 'BYUT0005674',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143209',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143358',
+          customerType: 'ETB',
+          applicationStatus: 'PR',
+          applicationNo: 'BYUT00056788',
+          applicationSubmittedDate: '2025-03-05 10:09:24.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143358',
+          customerName: 'ONE N THREE  FIFTY ONE  NINETY SEVEN',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143207',
+          customerType: 'ETB',
+          applicationStatus: 'PC',
+          applicationNo: 'BYUT00056747',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143207',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143206',
+          customerType: 'ETB',
+          applicationStatus: 'NO',
+          applicationNo: 'BYUT00056746',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143206',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143205',
+          customerType: 'ETB',
+          applicationStatus: 'DU',
+          applicationNo: 'BYUT00056745',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143205',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143204',
+          customerType: 'ETB',
+          applicationStatus: 'CP',
+          applicationNo: 'BYUT00056744',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143204',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143203',
+          customerType: 'ETB',
+          applicationStatus: 'OI',
+          applicationNo: 'BYUT00056743',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143203',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+        {
+          applicationReferenceNo: 'LP-ML-000143202',
+          customerType: 'ETB',
+          applicationStatus: 'VC',
+          applicationNo: 'BYUT00056742',
+          applicationSubmittedDate: '2025-02-20 16:48:15.0',
+          emailId: 'e***l@***.com',
+          mobileNo: '***954',
+          leadReferenceNo: 'LP-ML-000143202',
+          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+          lastUpdated: '2025-03-05 10:09:24.0',
+
+          orderDetails: null,
+        },
+      ],
+      rmName: 'MAHJOOB MUSTAFA',
+      httpStatusCode: 0,
+    };
+    dispatch(setApplications(restemp.applicationDetails));
+
     modNetwork(
       API.FETCH_RM_DASHBOARD,
       { searchParameterType: 'RMCODE', searchParameterValue: 'C121010' },
       (res: any) => {
         if (res.oprstatus == 0 && res.returnCode == 0) {
-          console.log('FETCH_RM_DASHBOARD', res);
+          console.log('FETCH_RM_DASHBOARD LOADING', res);
           // Update Redux store instead of local state
           dispatch(setApplications(res.applicationDetails));
           dispatch(setLoading(false));
@@ -175,11 +317,20 @@ const RmDashboard: React.FC = () => {
 
   const _isLoading = useAppSelector(isLoading);
 
-  function onNextActionClick(item: Application) {
+  function handleValuationAction(item: Application) {
     console.log('Next action clicked:', item);
 
     setSelectedApplication(item);
-    setIsModalOpen(true);
+
+    if (item.applicationStatus === 'VC' || item.applicationStatus === 'OI') {
+      return;
+    } else if (item.applicationStatus === 'PC' || item.applicationStatus === 'UP') {
+    } else if (item.applicationStatus === 'NO') {
+      dispatch(setValuationActiveStep(2));
+    } else if (item.applicationStatus === 'CP' || item.applicationStatus === 'DU') {
+      dispatch(setValuationActiveStep(3));
+    }
+    navigate('/PropertyValuation');
   }
 
   const handleModalClose = () => {
@@ -200,44 +351,47 @@ const RmDashboard: React.FC = () => {
               ? {
                   customerName: selectedApplication.customerName,
                   mobileNo: selectedApplication.mobileNo,
-                  referenceNo: selectedApplication.referenceNo,
+                  applicationNo: selectedApplication.applicationNo,
                   lastUpdated: selectedApplication.lastUpdated,
                   submittedOn: selectedApplication.applicationSubmittedDate,
-                  status: selectedApplication.status,
+                  applicationStatus: selectedApplication.applicationStatus,
                 }
               : {
                   customerName: '',
                   mobileNo: '',
-                  referenceNo: '',
+                  applicationNo: '',
                   lastUpdated: '',
                   submittedOn: '',
-                  status: '',
+                  applicationStatus: '',
                 }
           }
           applicationSteps={[
             {
               id: 1,
               name: 'Pre-approval',
-              status: selectedApplication?.status?.toLowerCase().includes('pre-approval') ? 'in_progress' : 'completed',
+              status: 'in_progress',
+              //  status: selectedApplication?.status?.toLowerCase().includes('pre-approval') ? 'in_progress' : 'completed',
             },
             {
               id: 2,
               name: 'Property Valuation',
-              status: selectedApplication?.status?.toLowerCase().includes('valuation')
-                ? 'in_progress'
-                : selectedApplication?.status?.toLowerCase().includes('pre-approval')
-                  ? 'pending'
-                  : 'completed',
+              status: 'in_progress',
+              // status: selectedApplication?.status?.toLowerCase().includes('valuation')
+              //   ? 'in_progress'
+              //   : selectedApplication?.status?.toLowerCase().includes('pre-approval')
+              //     ? 'pending'
+              //     : 'completed',
             },
             {
               id: 3,
               name: 'Final Offer Letter',
-              status: selectedApplication?.status?.toLowerCase().includes('offer')
-                ? 'in_progress'
-                : selectedApplication?.status?.toLowerCase().includes('pre-approval') ||
-                    selectedApplication?.status?.toLowerCase().includes('valuation')
-                  ? 'pending'
-                  : 'completed',
+              status: 'in_progress',
+              // status: selectedApplication?.status?.toLowerCase().includes('offer')
+              //   ? 'in_progress'
+              //   : selectedApplication?.status?.toLowerCase().includes('pre-approval') ||
+              //       selectedApplication?.status?.toLowerCase().includes('valuation')
+              //     ? 'pending'
+              //     : 'completed',
             },
           ]}
         />
@@ -261,34 +415,15 @@ const RmDashboard: React.FC = () => {
 
         {/* Data Table */}
         <PaginatedDataTable
-          data={
-            applications
-            //   [
-            //   {
-            //     customerName: 'SHIVAM KUMAR',
-            //     mobileNo: '9876543210',
-            //     emailId: 's@s.com',
-            //     applicationNo: '12434532',
-            //     leadReferenceNo: 'dsadqe13',
-            //     applicationReferenceNo: '12wdsdas323',
-            //     applicationSubmittedDate: '12/12/1290',
-            //     applicationStatus: 'OPEN',
-            //     customerType: 'dnsakda',
-            //     orderDetails: [{ orderld: 'dasa', orderStatus: 'dsad' }],
-            //     referenceNo: 'dasd',
-            //     lastUpdated: 'dasda',
-            //     status: 'Pre-approval Rejected',
-            //   },
-            // ]
-          }
+          data={applications}
           columns={columns}
           initialSortField="customerName"
-          keyExtractor={(item) => item.referenceNo}
-          onRowClick={handleRowClick}
+          keyExtractor={(item) => item.applicationNo}
+          //onRowClick={handleRowClick}
           actionColumn={{
             label: 'Next Action',
             render: (item: Application) =>
-              item.nextAction ? (
+              t('valuationButton.' + item.applicationStatus, { defaultValue: 'NA' }) !== 'NA' ? (
                 <AppButton
                   variant="outlined"
                   size="small"
@@ -303,11 +438,20 @@ const RmDashboard: React.FC = () => {
                     },
                   }}
                   onClick={() => {
-                    onNextActionClick(item);
+                    handleValuationAction(item);
                   }}
                 >
-                  {item.nextAction}
+                  {t('valuationButton.' + item.applicationStatus, { defaultValue: 'NA' })}
                 </AppButton>
+              ) : null,
+          }}
+          moreDetailsColumn={{
+            label: 'More Info',
+            render: (item: Application) =>
+              t('valuationButton.' + item.applicationStatus, { defaultValue: 'NA' }) !== 'NA' ? (
+                <IconButton size="small" sx={{ color: '#6B7280' }}>
+                  <ChevronRight size={20} />
+                </IconButton>
               ) : null,
           }}
           emptyMessage="No applications found"

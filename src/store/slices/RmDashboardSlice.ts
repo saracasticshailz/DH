@@ -42,7 +42,7 @@ const rmDashboardSlice = createSlice({
 
     // Update a single application
     updateApplication: (state, action: PayloadAction<Application>) => {
-      const index = state.applications.findIndex((app) => app.referenceNo === action.payload.referenceNo);
+      const index = state.applications.findIndex((app) => app.applicationNo === action.payload.applicationNo);
       if (index !== -1) {
         state.applications[index] = action.payload;
       }

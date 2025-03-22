@@ -15,7 +15,7 @@ import OtpModal from '@/components/modal/otpModal';
 import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
 import { useAppDispatch } from '@/hooks/redux.js';
-import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { updateProfile, loginSuccess } from '@/store/slices/CustomerAuthSlice.js';
 
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
@@ -34,20 +34,7 @@ const LoginScreen = () => {
   const [isEmailVerification, setIsEmailVerification] = useState(false);
   const [maskedEmail, setMaskedEmail] = useState('');
 
-  useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/public/service-worker.js')
-        .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-  }, []);
-
-  const initialValues = { phoneNumber: '' };
+  const initialValues = { phoneNumber: '501312334' };
 
   const handleSubmit = async (values: any) => {
     //RESPONSE
@@ -100,8 +87,8 @@ const LoginScreen = () => {
           }
 
           dispatch(updateProfile(res)); //
-
-          navigate('/Dashboard', {
+          dispatch(loginSuccess(res));
+          navigate('/RMDashboard', {
             state: { preventBack: true },
           });
         } else {

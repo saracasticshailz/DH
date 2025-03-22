@@ -1,6 +1,7 @@
 'use client';
 import { Drawer, IconButton, Typography, Box, Grid, Chip, useTheme, useMediaQuery, styled } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { getLoanStatusText } from '@/utils/helper';
 
 interface ApplicationStep {
   id: number;
@@ -11,10 +12,10 @@ interface ApplicationStep {
 interface CustomerDetails {
   customerName: string;
   mobileNo: string;
-  referenceNo: string;
+  applicationNo: string;
   lastUpdated: string;
   submittedOn: string;
-  status: string;
+  applicationStatus: string;
 }
 
 interface NextActionDetailsModalProps {
@@ -174,7 +175,7 @@ export default function NextActionDetailsModal({
             </Grid>
             <Grid item xs={12} sm={4}>
               <InfoLabel>Reference No.</InfoLabel>
-              <InfoValue>{customerDetails.referenceNo}</InfoValue>
+              <InfoValue>{customerDetails.applicationNo}</InfoValue>
             </Grid>
             <Grid item xs={12} sm={4}>
               <InfoLabel>Last Updated</InfoLabel>
@@ -186,7 +187,7 @@ export default function NextActionDetailsModal({
             </Grid>
             <Grid item xs={12} sm={4}>
               <InfoLabel>Status</InfoLabel>
-              <StatusChip {...getStatusChipProps(customerDetails.status)} />
+              <StatusChip {...getStatusChipProps(customerDetails.applicationStatus)} />
             </Grid>
           </InfoGrid>
 

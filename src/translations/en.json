@@ -38,8 +38,8 @@
     "": "APPLY"
   },
   "valuationButton": {
-    "PR": "",
-    "PP": "",
+    "PR": "NA",
+    "PP": "NA",
     "PC": "REQUEST VALUATION",
     "UP": "RESTART VALUATION",
     "NO": "CONTINUE VALUATION",
@@ -417,7 +417,7 @@
     "newApplication": "NEW APPLICATION",
     "customerName": "Customer Name",
     "mobileNo": "Mobile No.",
-    "referenceNo": "Reference No.",
+    "applicationNo": "Application No.",
     "lastUpdated": "Last Updated",
     "nextAction": "Next Action"
   },
