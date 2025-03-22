@@ -7,3 +7,4 @@ export * from './sleep';
 export * from './type';
 export * from './text';
 export * from './DateWithFormats';
+export * from './helper';

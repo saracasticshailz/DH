@@ -1,16 +1,60 @@
 {
+  "preapprovalSubStatus": {
+    "PR": "Rejected",
+    "PP": "InProgress",
+    "PC": "Complete",
+    "UP": "Complete",
+    "NO": "Complete",
+    "DU": "Complete",
+    "CP": "Complete",
+    "VC": "Complete",
+    "OI": "Complete"
+  },
+  "valuationSubStatus": {
+    "PR": "",
+    "NP": "",
+    "PP": "",
+    "PC": "",
+    "UP": "",
+    "NO": "Pending",
+    "DU": "Pending",
+    "CP": "Pending",
+    "VC": "Complete",
+    "OI": "InProgress"
+  },
+
+  "preapprovalButton": {
+    "PR": "",
+    "PP": "",
+    "PC": "RESEND",
+    "NP": "APPLY",
+    "UP": "RESEND",
+    "NO": "RESEND",
+    "CP": "RESEND",
+    "DU": "RESEND",
+    "VC": "RESEND"
+  },
+  "valuationButton": {
+    "PR": "",
+    "PP": "",
+    "PC": "REQUEST VALUATION",
+    "UP": "RESTART VALUATION",
+    "NO": "CONTINUE VALUATION",
+    "CP": "CONTINUE PAYMENT",
+    "DU": "CONTINUE PAYMENT",
+    "VC": "RESEND"
+  },
   "common": {
     "noOptions": "No Options Found",
     "loading": "Loading",
     "typeMoreChars": "Type 3 or more characters!",
-    "somethingWentWrong" : "Something went wrong",
+    "somethingWentWrong": "Something went wrong",
     "openanADCBAccount": "Open an ADCB Account",
-    "downloadHayyakAppMessage" : "You can download the ADCB Hayyak app and open an account now. An account will be needed to receive your Final Offer Letter."
-
+    "downloadHayyakAppMessage": "You can download the ADCB Hayyak app and open an account now. An account will be needed to receive your Final Offer Letter."
   },
   "header": {
     "language": "عربي",
-     "sureWantToLogout": "Sure Want to logout?"
+    "sureWantToLogout": "Sure Want to logout?"
   },
   "footer": {
     "copyRight": "Copyright © 2025 ADCB. All rights reserved.",
@@ -30,9 +74,9 @@
     "enterYourEid": "Enter your Emirates ID number",
     "createYourProfile": "CREATE YOUR PROFILE",
     "cancelPre-ApprovalApplication": "Cancel Pre-Approval Application",
-    "AreYouSureYouWantToCancelYourprogress" : "Are you sure you want to cancel? Your progress will not be saved and you will be returned to your mortgage dashboard.",
-    "yesCancel" : "yes, cancel",
-    "continuePre-approval" : "continue pre-approval"
+    "AreYouSureYouWantToCancelYourprogress": "Are you sure you want to cancel? Your progress will not be saved and you will be returned to your mortgage dashboard.",
+    "yesCancel": "yes, cancel",
+    "continuePre-approval": "continue pre-approval"
   },
   "otpModal": {
     "oneTimePassword": "One Time Password",
@@ -57,7 +101,7 @@
   },
   "dashboardScreen": {
     "hero": {
-      "welcome": "WELCOME SALIM",
+      "welcome": "WELCOME ",
       "title": "Your Mortgage Dashboard"
     },
     "steps": {
@@ -72,8 +116,7 @@
       },
       "propertyValuation": {
         "title": "2. Property Valuation",
-        "description": "Our independent third-party review will help determine your property's true value, ensuring a fair price and providing you peace of mind.",
-        "requestCalculation": "REQUEST VALUATION"
+        "description": "Our independent third-party review will help determine your property's true value, ensuring a fair price and providing you peace of mind."
       },
       "finalOffer": {
         "title": "3. Final Offer Letter",
@@ -88,7 +131,7 @@
     "deals": {
       "title": "Deals and Discount",
       "viewAll": "View All",
-      "lastUpdatedMessage" : "Last updated 10:45 19/10/2024",
+      "lastUpdatedMessage": "Last updated 10:45 19/10/2024",
       "description": "Discover home deals and discounts, curated to support you on your dream home journey.",
       "items": {
         "truck": {
@@ -212,34 +255,34 @@
         }
       },
       "personalDetails": {
-        "title" : "Personal Details",
-        "customerName" : "Customer name (as per passport)",
-        "enterNameAsPerPassport" : "Enter name as per passport",
-        "gender" : "Gender",
-        "pleaseSelect" : "Please select",
-        "male" : "Male",
-        "female" : "Female",
-        "other" : "Other",
+        "title": "Personal Details",
+        "customerName": "Customer name (as per passport)",
+        "enterNameAsPerPassport": "Enter name as per passport",
+        "gender": "Gender",
+        "pleaseSelect": "Please select",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
         "dateOfBirth": "Date of birth",
-        "nationality" : "Nationality",
-        "uae" : "UAE",
-        "india" : "INDIA",
-        "usa" : "USA",
-        "uk" : "UK",
-        "passportNumber" : "Passport number",
-        "passportExpiry" : "Passport expiry",
-        "poBoxNumber" : "PO box number",
-        "state" : {
-          "title" : "State",
-          "dubai" : "Dubai",
-          "abuDhabi" : "Abu Dhabi",
-          "sharjah" : "Sharjah",
-          "ajman" : "Ajman",
-          "fujairah" : "Fujairah",
-          "rasAlkhaimah" : "Ras Al khaimah",
-          "ummAlQuwain" : "Umm Al Quwain"
+        "nationality": "Nationality",
+        "uae": "UAE",
+        "india": "INDIA",
+        "usa": "USA",
+        "uk": "UK",
+        "passportNumber": "Passport number",
+        "passportExpiry": "Passport expiry",
+        "poBoxNumber": "PO box number",
+        "state": {
+          "title": "State",
+          "dubai": "Dubai",
+          "abuDhabi": "Abu Dhabi",
+          "sharjah": "Sharjah",
+          "ajman": "Ajman",
+          "fujairah": "Fujairah",
+          "rasAlkhaimah": "Ras Al khaimah",
+          "ummAlQuwain": "Umm Al Quwain"
         },
-        "countryofResidence" : "Country of residence"
+        "countryofResidence": "Country of residence"
       },
       "accommodation": {
         "label": "Staying in company provided accommodation",
@@ -284,7 +327,7 @@
         "back": "BACK",
         "cancel": "CANCEL",
         "submit": "SUBMIT",
-        "continue" : "CONTINUE"
+        "continue": "CONTINUE"
       }
     }
   },
@@ -303,104 +346,103 @@
         "invalidDiscount": "Invalid discount code"
       }
     },
-   "accessDetailForm": {
-      "contactName" : "Contact Name",
-      "placeHolderCN" : "Enter contact name",
-      "emailAddress" : "Email Address",
-      "placeHolderEmail" : "Enter email address",
-      "mobileNumber" : "Mobile number",
-      "placeHolderMobile" : "Enter mobile number",
-      "alternateMobileNumber" : "Alternate mobile number",
-      "placeholderAlternateMN" : "Enter alternate mobile number",
-      "selectDate" : "Select date",
-      "time" : "Time",
-      "specialInstructions" : "Special instructions",
-      "placeholderSpecialInst" : "Enter any special instructions"
-    }, 
-    "documentUpload" : {
-       "noteDocumentMaxandFileType" : " Documents should be max 2MB. Accepted file types are PDF, JPG, PNG.",
-       "choosefile" : "Choose file"
+    "accessDetailForm": {
+      "contactName": "Contact Name",
+      "placeHolderCN": "Enter contact name",
+      "emailAddress": "Email Address",
+      "placeHolderEmail": "Enter email address",
+      "mobileNumber": "Mobile number",
+      "placeHolderMobile": "Enter mobile number",
+      "alternateMobileNumber": "Alternate mobile number",
+      "placeholderAlternateMN": "Enter alternate mobile number",
+      "selectDate": "Select date",
+      "time": "Time",
+      "specialInstructions": "Special instructions",
+      "placeholderSpecialInst": "Enter any special instructions"
     },
-    "propertyDetails" : {
-     "title" : "Property Details",
-     "pleaseReviewPropertyMessage" : "Please review the property details carefully before moving to the next section. Once submitted, this section cannot be changed.",
-     "propertyType" : {
-     "title" :"Property Type",
-     "apartment" : "Apartment",
-     "townhouse" : "Townhouse",
-     "villa" : "Villa"
-     },
-     "completionStatus" : {
-      "title" : "Completion status",
-      "completed" : "Completed",
-      "underConstruction" : "Under Construction",
-      "offPlan" : "Off Plan"
-     } ,
-     "developmentProjectName" : "Development project name",
-     "nameofbuilding" : "Name of building/phase/cluster",
-     "locality" : "Locality/Area",
-     "emirate" : "Emirate",
-     "flatNumber"  : "Flat/House number",
-     "floorNumber" : "Floor number",
-     "landmarks" : "Landmarks (if any)"
+    "documentUpload": {
+      "noteDocumentMaxandFileType": " Documents should be max 2MB. Accepted file types are PDF, JPG, PNG.",
+      "choosefile": "Choose file"
+    },
+    "propertyDetails": {
+      "title": "Property Details",
+      "pleaseReviewPropertyMessage": "Please review the property details carefully before moving to the next section. Once submitted, this section cannot be changed.",
+      "propertyType": {
+        "title": "Property Type",
+        "apartment": "Apartment",
+        "townhouse": "Townhouse",
+        "villa": "Villa"
+      },
+      "completionStatus": {
+        "title": "Completion status",
+        "completed": "Completed",
+        "underConstruction": "Under Construction",
+        "offPlan": "Off Plan"
+      },
+      "developmentProjectName": "Development project name",
+      "nameofbuilding": "Name of building/phase/cluster",
+      "locality": "Locality/Area",
+      "emirate": "Emirate",
+      "flatNumber": "Flat/House number",
+      "floorNumber": "Floor number",
+      "landmarks": "Landmarks (if any)"
     }
-   
   },
   "review": {
-    "title" : "Review",
-    "offlineMessage" : "You're currently offline. Changes will be saved locally.",
-    "edit" : "EDIT",
-    "generateConsentRequest" :"GENERATE CONSENT REQUEST",
-    "iAgreeToThe" : "I agree to the",
-    "termsAndConditions" : "Terms & Conditions",
-    "adcbPrivacyPolicy" : "ADCB Privacy Policy"
+    "title": "Review",
+    "offlineMessage": "You're currently offline. Changes will be saved locally.",
+    "edit": "EDIT",
+    "generateConsentRequest": "GENERATE CONSENT REQUEST",
+    "iAgreeToThe": "I agree to the",
+    "termsAndConditions": "Terms & Conditions",
+    "adcbPrivacyPolicy": "ADCB Privacy Policy"
   },
-  "rmDashboard" : {
-    "searchMobileNumber" : "Search by Mobile or Ref. Number",
-    "duration" : {
-      "3months" : "3 months",
-      "6months" : "6 months",
-      "1year" : "1 year"
+  "rmDashboard": {
+    "searchMobileNumber": "Search by Mobile or Ref. Number",
+    "duration": {
+      "3months": "3 months",
+      "6months": "6 months",
+      "1year": "1 year"
     },
-    "status" : {
-      "title" : "Status",
-      "approved" : "Approved",
-      "pending" : "Pending",
-       "rejected" : "Rejected"
+    "status": {
+      "title": "Status",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
     },
-    "newApplication" : "NEW APPLICATION",
-       "customerName" : "Customer Name",
-       "mobileNo" : "Mobile No.",
-       "referenceNo" : "Reference No.",
-       "lastUpdated" : "Last Updated",
-       "nextAction" : "Next Action"
+    "newApplication": "NEW APPLICATION",
+    "customerName": "Customer Name",
+    "mobileNo": "Mobile No.",
+    "referenceNo": "Reference No.",
+    "lastUpdated": "Last Updated",
+    "nextAction": "Next Action"
   },
   "welcome": {
-    "createYourProfile" : "Create Your Profile",
-    "onetimeRegisterMessage" : "This one-time registration will create your profile on the ADCB Dream Home platform, enhancing your home purchase experience.",
-    "signIN" : "SIGN IN",
-    "copyrightMessage" : "Copyright © 2025 ADCB. All rights reserved.",
-    "termaandConditions" : "Terms & Conditions",
-    "privacyPolicy" : "Privacy Policy"
+    "createYourProfile": "Create Your Profile",
+    "onetimeRegisterMessage": "This one-time registration will create your profile on the ADCB Dream Home platform, enhancing your home purchase experience.",
+    "signIN": "SIGN IN",
+    "copyrightMessage": "Copyright © 2025 ADCB. All rights reserved.",
+    "termaandConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy"
   },
-  "notFoundView" : {
-    "pageNotFound" : "Page not found!",
-    "requestedAddressMessage" : "Requested address is unknown, please check your URL or go to the",
-    "homePage" : "home page",
-    "error404Message" : "Error 404 - Page not found",
-    "gotoHomePage" : "Go to Home Page",
-    "homepage" : "home page",
-    "isUnderConstruction" : "is under construction",
-    "thisViewisnotImplemented" : "This view is not implemented yet. Go to",
-    "youcalledthe" : "You've called the",
-    "url" : "url",
-    "where" : "where",
-    "isaparameter" : "is a parameter"
+  "notFoundView": {
+    "pageNotFound": "Page not found!",
+    "requestedAddressMessage": "Requested address is unknown, please check your URL or go to the",
+    "homePage": "home page",
+    "error404Message": "Error 404 - Page not found",
+    "gotoHomePage": "Go to Home Page",
+    "homepage": "home page",
+    "isUnderConstruction": "is under construction",
+    "thisViewisnotImplemented": "This view is not implemented yet. Go to",
+    "youcalledthe": "You've called the",
+    "url": "url",
+    "where": "where",
+    "isaparameter": "is a parameter"
   },
-  "createCustomerProfile" : {
-    "title" : "Create Customer Profile",
-    "formValues" : "Form Values:",
-    "formErrors" : "Form Errors:",
-    "touchedFields" : "Touched Fields:"
+  "createCustomerProfile": {
+    "title": "Create Customer Profile",
+    "formValues": "Form Values:",
+    "formErrors": "Form Errors:",
+    "touchedFields": "Touched Fields:"
   }
 }

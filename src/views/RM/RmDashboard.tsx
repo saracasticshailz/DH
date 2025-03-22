@@ -22,6 +22,7 @@ import { isLoading } from '@/store/slices/CustomerAuthSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import NextActionDetailsModal from '@/components/modal/rm/NextActionDetailsModal';
 import { setApplications, setError, setLoading } from '@/store/slices/RmDashboardSlice';
+import { getLoanStatusText } from '@/utils/helper';
 
 // Filter configurations
 const filterConfigs: FilterConfig[] = [
@@ -122,7 +123,7 @@ const RmDashboard: React.FC = () => {
       sortable: true,
       render: (item: Application) => (
         <StatusChip
-          status={item.status}
+          status={getLoanStatusText(item.status)}
           getStatusColor={() => getStatusColor(item.status)}
           getStatusTextColor={() => getStatusTextColor(item.status)}
         />
@@ -133,7 +134,7 @@ const RmDashboard: React.FC = () => {
   const fetchTableData = () => {
     modNetwork(
       API.FETCH_RM_DASHBOARD,
-      { searchParameterType: '', searchParameterValue: '' },
+      { searchParameterType: 'RMCODE', searchParameterValue: 'C121010' },
       (res: any) => {
         if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('FETCH_RM_DASHBOARD', res);
