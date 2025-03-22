@@ -10,52 +10,50 @@ export type ApplicationStatus =
 export interface Application {
   customerName: string;
   mobileNo: string;
-  referenceNo: string;
+  applicationNo: string;
   lastUpdated: string;
-  status: ApplicationStatus;
   nextAction?: string;
   emailId: string;
-  applicationNo: string;
   leadReferenceNo: string;
   applicationReferenceNo: string;
   applicationSubmittedDate: string;
   applicationStatus: string;
   customerType: string;
-  orderDetails: [{ orderld: string; orderStatus: string }];
+  orderDetails: [{ orderld: string; orderStatus: string }] | null;
 }
 
-export const getStatusColor = (status: ApplicationStatus) => {
+export const getStatusColor = (status: string) => {
   switch (status) {
-    case 'Pre-approval Rejected':
+    case 'PR':
       return '#FFEBEE';
-    case 'Valuation In Progress':
-    case 'Valuation Initiated':
+    case 'OI':
       return '#E3F2FD';
-    case 'Valuation Report Generated':
+    case 'VC':
       return '#E8F5E9';
-    case 'Pre-approval In Progress':
-    case 'Pre-approval Initiated':
+    case 'NO':
       return '#E3F2FD';
-    case 'Valuation Payment Pending':
+    case 'DU':
+      return '#FFF3E0';
+    case 'CP':
       return '#FFF3E0';
     default:
       return '#E0E0E0';
   }
 };
 
-export const getStatusTextColor = (status: ApplicationStatus) => {
+export const getStatusTextColor = (status: string) => {
   switch (status) {
-    case 'Pre-approval Rejected':
+    case 'PR':
       return '#C62828';
-    case 'Valuation In Progress':
-    case 'Valuation Initiated':
+    case 'NO':
       return '#1565C0';
-    case 'Valuation Report Generated':
+    case 'VC':
       return '#2E7D32';
-    case 'Pre-approval In Progress':
-    case 'Pre-approval Initiated':
+    case 'OI':
       return '#1565C0';
-    case 'Valuation Payment Pending':
+    case 'CP':
+      return '#EF6C00';
+    case 'DU':
       return '#EF6C00';
     default:
       return '#424242';

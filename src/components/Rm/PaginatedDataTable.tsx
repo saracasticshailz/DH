@@ -55,6 +55,10 @@ interface PaginatedDataTableProps<T, K extends string> {
     label?: string;
     render: (item: T) => React.ReactNode;
   };
+  moreDetailsColumn?: {
+    label?: string;
+    render: (item: T) => React.ReactNode;
+  };
   emptyMessage?: string;
   rowsPerPageOptions?: number[];
   defaultRowsPerPage?: number;
@@ -68,6 +72,7 @@ function PaginatedDataTable<T, K extends string>({
   keyExtractor,
   onRowClick,
   actionColumn,
+  moreDetailsColumn,
   emptyMessage = 'No data found',
   rowsPerPageOptions = [5, 10, 25],
   defaultRowsPerPage = 10,
@@ -252,11 +257,11 @@ function PaginatedDataTable<T, K extends string>({
                       {actionColumn.render(item)}
                     </TableCell>
                   )}
-                  <TableCell sx={{ padding: '12px 16px', borderBottom: '1px solid #E5E7EB' }}>
-                    <IconButton size="small" sx={{ color: '#6B7280' }}>
-                      <ChevronRight size={20} />
-                    </IconButton>
-                  </TableCell>
+                  {moreDetailsColumn && (
+                    <TableCell sx={{ padding: '12px 16px', borderBottom: '1px solid #E5E7EB' }}>
+                      {/* {moreDetailsColumn.render(item)} */}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
 
