@@ -154,11 +154,11 @@ const LoginScreen = () => {
                 {({ values, handleChange }) => (
                   <Form className="mb-10">
                     <TextInput
-                       name={t('loginScreen.phoneNumber')}
+                      name="phoneNumber"
                       countryCode="+971"
                       value={values.phoneNumber}
                       onChange={handleChange}
-                     placeholder={t('000000000')}
+                      placeholder={t('000000000')}
                       label={t('loginScreen.phoneNumber')}
                       onBlur={() => undefined}
                     />

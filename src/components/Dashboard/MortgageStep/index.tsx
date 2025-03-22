@@ -12,7 +12,7 @@ interface MortgageStepProps {
   active?: boolean;
   onButtonClick?: () => void;
   withButton?: boolean;
-  status?: 'in_progress' | 'completed' | 'new';
+  applnstatus?: 'InProgress' | 'Rejected' | 'Complete' | 'Pending' | undefined;
 }
 
 export default function MortgageStep({
@@ -23,33 +23,40 @@ export default function MortgageStep({
   active = false,
   onButtonClick,
   withButton = false,
-  status,
+  applnstatus,
 }: MortgageStepProps) {
+  console.log('buttonText ', buttonText);
+  console.log('applnstatus ', applnstatus);
   const { t } = useTranslation();
   const renderStatusChip = () => {
-    if (!status) return null;
+    if (!applnstatus) return null;
 
     const chipStyles = {
-      in_progress: {
+      InProgress: {
         bgcolor: '#FFF3E9',
         color: '#E86B1C',
         label: 'In Progress',
       },
-      completed: {
+      Pending: {
+        bgcolor: '#FFF3E9',
+        color: '#E86B1C',
+        label: 'Pending',
+      },
+      Complete: {
         bgcolor: '#E8F5E9',
         color: '#2E7D32',
         label: 'Completed',
       },
-      new: {
-        bgcolor: '#F5F5F5',
-        color: '#757575',
-        label: 'new',
+      Rejected: {
+        bgcolor: '#E8F5E9',
+        color: '#2E7D32',
+        label: 'Rejected',
       },
     };
 
-    const style = chipStyles[status];
+    const style = chipStyles[applnstatus];
 
-    if (status !== 'new') {
+    if (applnstatus !== 'Rejected') {
       return (
         <Chip
           label={style.label}
@@ -72,17 +79,17 @@ export default function MortgageStep({
   };
 
   const renderButton = () => {
-    if (status === 'in_progress') {
+    if (applnstatus === 'InProgress') {
       return null;
     }
 
-    if (status === 'completed') {
-      return (
-        <AppButton onClick={onButtonClick} fullWidth={false} withBorder={true}>
-           {t("dashboardScreen.steps.preApproval.resend")}
-        </AppButton>
-      );
-    }
+    // if (status === 'completed') {
+    //   return (
+    //     <AppButton onClick={onButtonClick} fullWidth={false} withBorder={true}>
+    //        {t("dashboardScreen.steps.preApproval.resend")}
+    //     </AppButton>
+    //   );
+    // }
 
     if (buttonText) {
       return (

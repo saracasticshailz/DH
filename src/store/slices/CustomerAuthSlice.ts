@@ -212,34 +212,5 @@ export const selectCustomerDetails = (state: RootState) => ({
 export const isLoading = (state: RootState) => state.customerAuth.loading;
 
 // Helper function to get human-readable status
-export const getLoanStatusText = (status: LoanApplicationStatus | null): string => {
-  if (!status) return 'Not Available';
-
-  switch (status) {
-    //@ts-ignore
-    case '':
-      return 'Not Started';
-    case 'PR':
-      return 'Rejected';
-    case 'PP':
-      return 'Pending Pre-Approval';
-    case 'PC':
-      return 'Approved';
-    case 'UP':
-      return 'Unapproved Property';
-    case 'NO':
-      return 'Valuation Draft In-Progress';
-    case 'CP':
-      return 'Pending Consent and Payment';
-    case 'DU':
-      return 'Pending Consent and Payment';
-    case 'OI':
-      return 'Valuation In-Progress';
-    case 'VC':
-      return 'Valuation Complete';
-    default:
-      return status;
-  }
-};
 
 export default customerAuthSlice.reducer;
