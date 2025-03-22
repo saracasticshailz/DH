@@ -133,11 +133,11 @@ export default function MortgageDashboard() {
                         : t('dashboardScreen.steps.preApproval.description')
                   }
                   subDescription={t('dashboardScreen.steps.preApproval.subDescription')}
-                  buttonText={t('preapprovalButton.' + journeyStatus)}
+                  buttonText={t('preapprovalButton.' + journeyStatus, { defaultValue: 'APPLY' })}
                   active={true}
                   onButtonClick={handlePreapprovalAction}
                   applnstatus={
-                    t('preapprovalSubStatus.' + journeyStatus) as
+                    t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
                       | 'Rejected'
                       | 'Complete'
@@ -149,10 +149,10 @@ export default function MortgageDashboard() {
                 <MortgageStep
                   title={t('dashboardScreen.steps.propertyValuation.title')}
                   description={t('dashboardScreen.steps.propertyValuation.description')}
-                  buttonText={t('valuationButton.' + journeyStatus)}
+                  buttonText={t('valuationButton.' + journeyStatus, { defaultValue: 'NA' })}
                   onButtonClick={handleValuationAction}
                   applnstatus={
-                    t('valuationSubStatus.' + journeyStatus) as
+                    t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
                       | 'Rejected'
                       | 'Complete'
