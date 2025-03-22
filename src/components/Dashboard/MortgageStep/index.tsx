@@ -25,8 +25,6 @@ export default function MortgageStep({
   withButton = false,
   applnstatus,
 }: MortgageStepProps) {
-  console.log('buttonText ', buttonText);
-  console.log('applnstatus ', applnstatus);
   const { t } = useTranslation();
   const renderStatusChip = () => {
     if (!applnstatus) return null;
@@ -52,11 +50,16 @@ export default function MortgageStep({
         color: '#2E7D32',
         label: 'Rejected',
       },
+      undefined: {
+        bgcolor: '#FFFFFF',
+        color: '',
+        label: '',
+      },
     };
 
     const style = chipStyles[applnstatus];
 
-    if (applnstatus !== 'Rejected') {
+    if (applnstatus !== undefined) {
       return (
         <Chip
           label={style.label}
@@ -91,7 +94,7 @@ export default function MortgageStep({
     //   );
     // }
 
-    if (buttonText) {
+    if (buttonText && buttonText !== 'NA') {
       return (
         <AppButton onClick={onButtonClick} fullWidth={false}>
           {buttonText}
@@ -112,7 +115,7 @@ export default function MortgageStep({
               <Typography fontWeight={active ? 600 : undefined} variant="h6">
                 {title}
               </Typography>
-              {renderStatusChip()}
+              {applnstatus !== undefined ? renderStatusChip() : null}
             </Box>
             <Typography fontSize={16} color="text.secondary">
               {description}
@@ -136,7 +139,7 @@ export default function MortgageStep({
         <Box>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <Typography variant="h6">{title}</Typography>
-            {renderStatusChip()}
+            {applnstatus !== undefined ? renderStatusChip() : null}
           </Box>
           <Typography color="text.secondary">{description}</Typography>
           {subDescription && <Typography color="text.secondary">{subDescription}</Typography>}

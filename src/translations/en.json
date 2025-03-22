@@ -8,7 +8,8 @@
     "DU": "Complete",
     "CP": "Complete",
     "VC": "Complete",
-    "OI": "Complete"
+    "OI": "Complete",
+    "": "undefined"
   },
   "valuationSubStatus": {
     "PR": "",
@@ -20,7 +21,8 @@
     "DU": "Pending",
     "CP": "Pending",
     "VC": "Complete",
-    "OI": "InProgress"
+    "OI": "InProgress",
+    "": "undefined"
   },
 
   "preapprovalButton": {
@@ -32,7 +34,8 @@
     "NO": "RESEND",
     "CP": "RESEND",
     "DU": "RESEND",
-    "VC": "RESEND"
+    "VC": "RESEND",
+    "": "APPLY"
   },
   "valuationButton": {
     "PR": "",
@@ -42,7 +45,8 @@
     "NO": "CONTINUE VALUATION",
     "CP": "CONTINUE PAYMENT",
     "DU": "CONTINUE PAYMENT",
-    "VC": "RESEND"
+    "VC": "RESEND",
+    "": "NA"
   },
   "common": {
     "noOptions": "No Options Found",
