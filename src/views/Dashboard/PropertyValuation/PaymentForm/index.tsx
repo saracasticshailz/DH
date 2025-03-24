@@ -12,6 +12,11 @@ import { AppButton } from '@/components';
 import TextInput from '@/components/common/TextInput';
 import { setPreApprovalStep } from '@/store/slices/MortgageSlice';
 import { useAppSelector } from '@/hooks/redux';
+import {generateJsonDocumentFetch , generateJsonDocumentList, generateJsonDocumentRemove, generateJsonDocumentUpdate} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
 const validationSchema = Yup.object({
   discountCode: Yup.string().max(20, 'Discount code must be 20 characters or less'),

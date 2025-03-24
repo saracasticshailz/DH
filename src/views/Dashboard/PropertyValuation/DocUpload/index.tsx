@@ -9,6 +9,14 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDocuments, setValuationActiveStep } from '@/store/slices/ValuationSlice';
 import type { RootState } from '@/store';
+import { useAppSelector } from '@/hooks/redux';
+import { selectAuth} from '@/store/slices/CustomerAuthSlice'; 
+import {generateJsonDocumentFetch , generateJsonDocumentList, generateJsonDocumentRemove, generateJsonDocumentUpdate} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
+
 
 interface DocumentValues {
   propertyAddress: File | null;
@@ -29,16 +37,91 @@ const validationSchema = Yup.object({
 const DocumentUploadForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const documents = useSelector((state: RootState) => state.valuation.documents);
+  const userDetails = useAppSelector(selectAuth);
 
+  const documents = useSelector((state: RootState) => state.valuation.documents);
+  
   const formik = useFormik<DocumentValues>({
     initialValues: documents,
     validationSchema,
     onSubmit: (values) => {
+      console.log('on submit click ', values);
       dispatch(updateDocuments(values));
       dispatch(setValuationActiveStep(3)); // Move to Review step
     },
   });
+
+  const documentFetch = () =>{
+    // const document = {bankReferenceId : userDetails.lapsRefNumber};
+    //   const finalJson = generateJsonDocumentFetch(document);
+    //   apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_FETCH, "fetch");
+  }
+  const documentList = () =>{
+    // const document = {transactionTypeClientCode : ""};
+    //   const finalJson = generateJsonDocumentList(document);
+    // apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_LIST, "list");
+  }
+  const documentRemove= () =>{
+    // const document = {bankReferenceId : userDetails.lapsRefNumber, documentId : ""};
+    //   const finalJson = generateJsonDocumentRemove(document);
+    //   apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, "remove");
+  }
+
+  const documentUpdate = (values: DocumentValues) =>{
+    const document = {
+        leadRefNo: "",//userDetails.lapsRefNumber,
+        sourceRefNo:"",
+        valuationOrderRefNo: "",
+        paymentRefNo: "",
+        orderRemarks: "Customer Consent Recevied",
+        orderStatus: "DU",
+        loanApplicationNo : "",
+        rmCode : "",
+        journeyType : "",
+        creditVerificationConsentDateTime : "",
+        privacyPolicyConsentDateTime : "",
+        generalTermsConsentDateTime : "",
+        cpsTermsConsentDateTime : "",
+        kfsConsentDateTime : `${""} ${""}`,
+        uaeFtsRequestConsentDateTime :  `${""} ${""}`,
+
+    };
+      const finalJson = generateJsonDocumentUpdate(document);
+      apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_CUST_ORDER_UPDATE, "update");
+  }
+
+  const apiCallOnContinue = async (finalJson: any, apiName: string, type:string) => {
+    /* type may be fetch , upload or remove */
+    modNetwork(
+      apiName,//API.PROPERTY_VALUATION_ORDER_CREATE,
+      
+      ...finalJson,
+      (res: any) => {
+        console.log('PROPERTY_VALUATION_Document', res);
+
+        if (res.oprstatus == 0 && res.returnCode == 0) { 
+          console.log('PROPERTY_VALUATION_Document response ', res);
+          /* empty */ } else {
+          // navigate('/Dashboard');
+         
+          // Create new state
+          //setDialogText(res.errMsg_EN);
+          console.log('Error Message ',res.errmsg);
+
+          //setDialogTitle('ERROR')
+          //setDialogPrimaryAction('OK');
+          //setShowAlert(true);
+
+        }
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
+    );
+  };
+
+
 
   const handleBack = () => {
     dispatch(setValuationActiveStep(1)); // Go back to Access Details

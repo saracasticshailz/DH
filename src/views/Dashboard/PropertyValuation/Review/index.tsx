@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { Box, Grid, Typography, Button, Divider, Paper, Checkbox, FormControlLabel, Link } from '@mui/material';
+import { Box, Grid, Typography, Button, Divider, Paper, Checkbox, FormControlLabel, Link ,useMediaQuery, useTheme} from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/store';
@@ -11,6 +11,8 @@ import { updatePrivacyAcceptance, updateTermsAcceptance, setValuationActiveStep 
 const ReviewForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { propertyDetails, accessDetails, documents, termsAccepted, privacyAccepted } = useSelector(
     (state: RootState) => state.valuation
   );
@@ -67,6 +69,19 @@ const ReviewForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Box sx={{ p: 3 }}>
+      <Typography
+          variant={isMobile ? 'h5' : 'h4'}
+          sx={{
+            mb: { xs: 2, md: 4 },
+            color: '#111827',
+            fontWeight: 600,
+            px: { xs: 2, md: 0 },
+            marginLeft: 1.25,
+          }}
+        >
+          {t('review.title')}
+        </Typography>
+
         {renderSection('Property Details', propertyDetails)}
         {renderSection('Access Details', accessDetails, 1)}
         {renderSection('Documents', documents, 2)}

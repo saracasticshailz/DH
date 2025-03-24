@@ -218,7 +218,7 @@ export default function LoanDetails() {
 
               <ActionButtons>
                 <AppButton fullWidth={false} onClick={handleBack} withBorder>
-                  {t('preApproval.loanDetails.buttons.cancel')}
+                {t('preApproval.incomeDetails.buttons.back')}
                 </AppButton>
 
                 <AppButton
