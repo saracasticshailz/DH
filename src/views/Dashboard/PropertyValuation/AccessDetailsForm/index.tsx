@@ -8,6 +8,9 @@ import Grid from '@mui/material/Grid2';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector } from '@/hooks/redux';
+import { selectAuth } from '@/store/slices/CustomerAuthSlice';
+
 import dayjs, { type Dayjs } from 'dayjs';
 import TextInput from '@/components/common/TextInput';
 import PrimaryButton from '@/components/common/AppButton/AppButton';
@@ -17,6 +20,13 @@ import AppButton from '@/components/common/AppButton/AppButton';
 import CustomDatePicker from '@/components/common/CustomDatePicker';
 import DateTimePicker from '@/components/common/CustomDatePicker';
 import { useTranslation } from 'react-i18next';
+import { getFormData } from '@/utils/offlineStorage';
+import {generateJsonOrder} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
+
 
 interface AccessDetailsFormValues {
   contactName: string;
@@ -39,6 +49,7 @@ const validationSchema = Yup.object({
 const AccessDetailsForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const userDetails = useAppSelector(selectAuth);
   const accessDetails = useSelector((state: RootState) => state.valuation.accessDetails);
 
   const initialValues: AccessDetailsFormValues = {
@@ -55,16 +66,62 @@ const AccessDetailsForm: React.FC = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      dispatch(
+       const savedData = getFormData('propertyDetails');
+       const personalAccessDetails = { ...savedData, ...values, bankReference : userDetails.lapsRefNumber, applicationReference : userDetails.applicationRefNumber};
+       const finalJson = generateJsonOrder(personalAccessDetails);
+       dispatch(
         updateAccessDetails({
-          ...values,
-          date: values.date?.format('YYYY-MM-DD') || '',
-          time: values.time?.format('HH:mm:ss') || '',
+          ...finalJson,
+          //date: values.date?.format('YYYY-MM-DD') || '',
+          //time: values.time?.format('HH:mm:ss') || '',
         })
       );
       dispatch(setValuationActiveStep(2)); // Move to Document Upload
+     // apiCallOnContinue(finalJson);
+      
     },
   });
+
+  const apiCallOnContinue = async (finalJson: any) => {
+    console.log('Access Detail Forms apiCallOnContinue finalJson 85', finalJson);
+    modNetwork(
+      API.PROPERTY_VALUATION_ORDER_CREATE,{
+      ...finalJson},
+      (res: any) => {
+        console.log('PROPERTY_VALUATION', res);
+
+        if (res.oprstatus == 0 && res.returnCode == 0) { 
+          console.log('Access Detail PROPERTY_VALUATIONs response ', res);
+          dispatch(
+            updateAccessDetails({
+              ...finalJson,
+              //date: values.date?.format('YYYY-MM-DD') || '',
+              //time: values.time?.format('HH:mm:ss') || '',
+            })
+          );
+          dispatch(setValuationActiveStep(2)); // Move to Document Upload
+          /* empty */ } else {
+          // navigate('/Dashboard');
+         
+          // Create new state
+          //setDialogText(res.errMsg_EN);
+          console.log('Error Message ',res.errmsg);
+
+          //setDialogTitle('ERROR')
+          //setDialogPrimaryAction('OK');
+          //setShowAlert(true);
+
+        }
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
+    );
+  };
+
+
+
 
   const handleBack = () => {
     dispatch(setValuationActiveStep(0)); // Go back to Property Details
@@ -202,14 +259,12 @@ const AccessDetailsForm: React.FC = () => {
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ mt: 3, display: 'flex',justifyContent: 'space-between',gap:2}}>
           <AppButton onClick={handleBack} withBorder>
           {t('preApproval.incomeDetails.buttons.back')}
           </AppButton>
-          <Box sx={{ display: 'flex', gap: 2 }}>
             <PrimaryButton withBorder>{t('preApproval.incomeDetails.buttons.cancel')}</PrimaryButton>
             <PrimaryButton type="submit">{t('preApproval.incomeDetails.buttons.continue')}</PrimaryButton>
-          </Box>
         </Box>
       </Box>
     </form>

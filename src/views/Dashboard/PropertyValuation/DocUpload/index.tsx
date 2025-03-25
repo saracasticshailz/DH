@@ -1,6 +1,7 @@
 'use client';
 
-import type React from 'react';
+//import type React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Grid, Typography, Button, Alert, IconButton } from '@mui/material';
@@ -9,6 +10,14 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDocuments, setValuationActiveStep } from '@/store/slices/ValuationSlice';
 import type { RootState } from '@/store';
+import { useAppSelector } from '@/hooks/redux';
+import { selectAuth} from '@/store/slices/CustomerAuthSlice'; 
+import {generateJsonDocumentFetch , generateJsonDocumentList, generateJsonDocumentRemove, generateJsonDocumentUpload} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
+//@ts-ignore
+import modNetwork from '@/v2/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
+
 
 interface DocumentValues {
   propertyAddress: File | null;
@@ -29,16 +38,89 @@ const validationSchema = Yup.object({
 const DocumentUploadForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const documents = useSelector((state: RootState) => state.valuation.documents);
+  
+  const userDetails = useAppSelector(selectAuth);
 
+  const documents = useSelector((state: RootState) => state.valuation.documents);
+  
   const formik = useFormik<DocumentValues>({
     initialValues: documents,
     validationSchema,
     onSubmit: (values) => {
+      console.log('on submit click ', values);
       dispatch(updateDocuments(values));
       dispatch(setValuationActiveStep(3)); // Move to Review step
     },
   });
+
+
+  useEffect(()=>{
+    documentFetch();
+    documentList();
+  },[userDetails])
+
+  const documentFetch = () =>{
+      const document = {bankReferenceId : 1234 };//userDetails.lapsRefNumber
+      const finalJson = generateJsonDocumentFetch(document);
+      apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_FETCH, "fetch");
+  }
+  const documentList = () =>{
+     const document = {transactionTypeClientCode : ""};
+       const finalJson = generateJsonDocumentList(document);
+     apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_LIST, "list");
+  }
+  const documentUpload= (file: any) =>{
+    const document = {bankReferenceId : userDetails.lapsRefNumber};
+      //const finalJson = generateJsonDocumentUpload(document);
+      apiCallOnContinue(file, document, API.PROPERTY_VALUATION_DOCS_UPLOAD, "upload");
+ }
+
+  const documentRemove= () =>{
+     const document = {bankReferenceId : userDetails.lapsRefNumber, documentId : ""};
+       const finalJson = generateJsonDocumentRemove(document);
+       apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, "remove");
+  }
+
+  const apiCallOnContinue = async (file?: File,finalJson: any, apiName: string, type:string) => {
+    /* type may be fetch , upload or remove */
+    const formData = new FormData();
+  
+    // Append the file to FormData
+    // formData.append('file', "demofilenamed");
+    // formData.append('bankReferenceId', finalJson.bankReferenceId);
+    // formData.append('clientTime',new Date().toDateString());
+   
+
+  
+    modNetwork(
+      apiName,//API.PROPERTY_VALUATION_ORDER_CREATE,
+      {bankReferenceId : 1234, file : file}, 
+      (res: any) => {
+        console.log('PROPERTY_VALUATION_Document', res);
+
+        if (res.oprstatus == 0 && res.returnCode == 0) { 
+          console.log('PROPERTY_VALUATION_Document response ', res);
+          /* empty */ } else {
+          // navigate('/Dashboard');
+         
+          // Create new state
+          //setDialogText(res.errMsg_EN);
+          console.log('Error Message ',res.errmsg);
+
+          //setDialogTitle('ERROR')
+          //setDialogPrimaryAction('OK');
+          //setShowAlert(true);
+
+        }
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
+    );
+  };
+
+
 
   const handleBack = () => {
     dispatch(setValuationActiveStep(1)); // Go back to Access Details
@@ -48,6 +130,7 @@ const DocumentUploadForm: React.FC = () => {
     const file = event.currentTarget.files?.[0];
     if (file) {
       formik.setFieldValue(field, file);
+      documentUpload(file);
     }
   };
 
