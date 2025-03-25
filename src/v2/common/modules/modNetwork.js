@@ -10,15 +10,15 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
   const platform = getPlatform();
   print(`calling ${operatorId}  from ${platform}`);
   // debugger;
-  params.clientTime = '' + modDateTimeUtil.getCurrentTime();
+  //params.clientTime = '' + modDateTimeUtil.getCurrentTime();
   // params.b = '';
 
   // print('params', params);
-  console.log('params', params);
+  console.log('modNetwork params', params);
 
   const authKey = CryptoObj.generateAuthKey(operatorId, authStep);
   const encryptedData = CryptoObj.EncryptTxtJS(JSON.stringify(params), authKey);
-  // console.log('encryptedData', encryptedData);
+   console.log('modNetwork encryptedData', encryptedData);
 
   const inputParamObj = {
     data: encryptedData,
@@ -39,10 +39,10 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
         console.log('MOD NETWORK response ', response);
         const parsedResponse = response;
         const responseData = parsedResponse.results[0].data;
-        // console.log('responseData', responseData);
+         console.log('modNetwork responseData', responseData);
 
         const actualResponse = CryptoObj.DecryptTxtJS(responseData, authKey);
-         console.log('actualResponse', actualResponse);
+         console.log('modNetwork actualResponse', actualResponse);
         // This decrytption not workin
         const res = JSON.parse(actualResponse);
         // console.log(res.oprstatus);
@@ -63,7 +63,7 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
           mNetworkCallback(JSON.parse(actualResponse), operatorId, inputParamObj);
         }
       } catch (error) {
-        console.log('modNetwork -->' + error);
+        console.log('modNetwork  error -->' + error);
       }
     },
   };

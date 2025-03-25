@@ -32,7 +32,7 @@ interface MortgageDiscount {
 export  function generateJsonMortgagePricing(MortgagePricing: MortgagePricing): object {
    
   const jsonObject  = {
-    proprtyType: MortgagePricing.propertyType,
+      proprtyType: MortgagePricing.propertyType,
       CustomerCategory: MortgagePricing.propertyType,
       applicationRefNumber: MortgagePricing.propertyType,
       journeyType: MortgagePricing.propertyType,

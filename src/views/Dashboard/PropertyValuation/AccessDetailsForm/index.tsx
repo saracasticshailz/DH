@@ -66,12 +66,10 @@ const AccessDetailsForm: React.FC = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-    //   const savedData = getFormData('propertyDetails');
-    //   const personalAccessDetails = { ...savedData, ...values, bankReference : userDetails.lapsRefNumber, applicationReference : userDetails.applicationRefNumber};
-    //   const finalJson = generateJsonOrder(personalAccessDetails);
-    //  console.log('check type of finalJson ', typeof finalJson);
-      //apiCallOnContinue(finalJson);
-      dispatch(
+       const savedData = getFormData('propertyDetails');
+       const personalAccessDetails = { ...savedData, ...values, bankReference : userDetails.lapsRefNumber, applicationReference : userDetails.applicationRefNumber};
+       const finalJson = generateJsonOrder(personalAccessDetails);
+       dispatch(
         updateAccessDetails({
           ...finalJson,
           //date: values.date?.format('YYYY-MM-DD') || '',
@@ -79,20 +77,29 @@ const AccessDetailsForm: React.FC = () => {
         })
       );
       dispatch(setValuationActiveStep(2)); // Move to Document Upload
+     // apiCallOnContinue(finalJson);
+      
     },
   });
 
   const apiCallOnContinue = async (finalJson: any) => {
     console.log('Access Detail Forms apiCallOnContinue finalJson 85', finalJson);
     modNetwork(
-      API.PROPERTY_VALUATION_ORDER_CREATE,
-      
-      ...finalJson,
+      API.PROPERTY_VALUATION_ORDER_CREATE,{
+      ...finalJson},
       (res: any) => {
         console.log('PROPERTY_VALUATION', res);
 
         if (res.oprstatus == 0 && res.returnCode == 0) { 
           console.log('Access Detail PROPERTY_VALUATIONs response ', res);
+          dispatch(
+            updateAccessDetails({
+              ...finalJson,
+              //date: values.date?.format('YYYY-MM-DD') || '',
+              //time: values.time?.format('HH:mm:ss') || '',
+            })
+          );
+          dispatch(setValuationActiveStep(2)); // Move to Document Upload
           /* empty */ } else {
           // navigate('/Dashboard');
          
@@ -252,14 +259,12 @@ const AccessDetailsForm: React.FC = () => {
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between',gap: 2  }}>
+        <Box sx={{ mt: 3, display: 'flex',justifyContent: 'space-between',gap:2}}>
           <AppButton onClick={handleBack} withBorder>
           {t('preApproval.incomeDetails.buttons.back')}
           </AppButton>
-          <Box sx={{ display: 'flex', gap: 2 }}>
             <PrimaryButton withBorder>{t('preApproval.incomeDetails.buttons.cancel')}</PrimaryButton>
             <PrimaryButton type="submit">{t('preApproval.incomeDetails.buttons.continue')}</PrimaryButton>
-          </Box>
         </Box>
       </Box>
     </form>

@@ -24,6 +24,23 @@ interface PersonalAccessDetails {
     bankReferenceId: string;
   }
   
+  interface ReviewOrderUpdate {
+    leadRefNo: string;
+    sourceRefNo: string;
+    valuationOrderRefNo: string;
+    paymentRefNo: string;
+    orderRemarks: string;
+    orderStatus: string;
+    loanApplicationNo: string;
+    rmCode: string;
+    journeyType: string;
+    creditVerificationConsentDateTime: string;
+    privacyPolicyConsentDateTime: string;
+    generalTermsConsentDateTime: string;
+    cpsTermsConsentDateTime: string;
+    kfsConsentDateTime: string;
+    uaeFtsRequestConsentDateTime: string;
+  }
 
 export  function generateJsonOrder(personalAccessDetails: PersonalAccessDetails): object {
    
@@ -54,6 +71,29 @@ export  function generateJsonOrderFetch(OrderFetch: OrderFetch): object {
    
   const jsonObject  = {
            bankReference : OrderFetch.bankReference,
+    };
+    return jsonObject;
+
+}
+
+export  function generateJsonOrderUpdate(reviewOrderUpdate: ReviewOrderUpdate): object {
+  
+  const jsonObject  = {
+    leadRefNo: reviewOrderUpdate.leadRefNo,
+    sourceRefNo: reviewOrderUpdate.sourceRefNo,
+    valuationOrderRefNo: reviewOrderUpdate.valuationOrderRefNo,
+    paymentRefNo: reviewOrderUpdate.paymentRefNo,
+    orderRemarks: "Customer Consent Recevied",
+    orderStatus: "DU",
+    loanApplicationNo : reviewOrderUpdate.loanApplicationNo,
+    rmCode : reviewOrderUpdate.rmCode,
+    journeyType : reviewOrderUpdate.journeyType,
+    creditVerificationConsentDateTime : reviewOrderUpdate.creditVerificationConsentDateTime,
+    privacyPolicyConsentDateTime : reviewOrderUpdate.privacyPolicyConsentDateTime,
+    generalTermsConsentDateTime : reviewOrderUpdate.generalTermsConsentDateTime,
+    cpsTermsConsentDateTime : reviewOrderUpdate.cpsTermsConsentDateTime,
+    kfsConsentDateTime : reviewOrderUpdate.kfsConsentDateTime ,
+    uaeFtsRequestConsentDateTime : reviewOrderUpdate.uaeFtsRequestConsentDateTime,
     };
     return jsonObject;
 

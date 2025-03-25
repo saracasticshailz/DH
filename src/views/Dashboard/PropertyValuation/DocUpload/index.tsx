@@ -1,6 +1,7 @@
 'use client';
 
-import type React from 'react';
+//import type React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Box, Grid, Typography, Button, Alert, IconButton } from '@mui/material';
@@ -11,7 +12,7 @@ import { updateDocuments, setValuationActiveStep } from '@/store/slices/Valuatio
 import type { RootState } from '@/store';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth} from '@/store/slices/CustomerAuthSlice'; 
-import {generateJsonDocumentFetch , generateJsonDocumentList, generateJsonDocumentRemove, generateJsonDocumentUpdate} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
+import {generateJsonDocumentFetch , generateJsonDocumentList, generateJsonDocumentRemove, generateJsonDocumentUpload} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
@@ -37,6 +38,7 @@ const validationSchema = Yup.object({
 const DocumentUploadForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  
   const userDetails = useAppSelector(selectAuth);
 
   const documents = useSelector((state: RootState) => state.valuation.documents);
@@ -51,51 +53,48 @@ const DocumentUploadForm: React.FC = () => {
     },
   });
 
+
+  useEffect(()=>{
+    documentFetch();
+    documentList();
+  },[userDetails])
+
   const documentFetch = () =>{
-    // const document = {bankReferenceId : userDetails.lapsRefNumber};
-    //   const finalJson = generateJsonDocumentFetch(document);
-    //   apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_FETCH, "fetch");
+      const document = {bankReferenceId : 1234 };//userDetails.lapsRefNumber
+      const finalJson = generateJsonDocumentFetch(document);
+      apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_FETCH, "fetch");
   }
   const documentList = () =>{
-    // const document = {transactionTypeClientCode : ""};
-    //   const finalJson = generateJsonDocumentList(document);
-    // apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_LIST, "list");
+     const document = {transactionTypeClientCode : ""};
+       const finalJson = generateJsonDocumentList(document);
+     apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_LIST, "list");
   }
+  const documentUpload= (file: any) =>{
+    const document = {bankReferenceId : userDetails.lapsRefNumber};
+      //const finalJson = generateJsonDocumentUpload(document);
+      apiCallOnContinue(file, document, API.PROPERTY_VALUATION_DOCS_UPLOAD, "upload");
+ }
+
   const documentRemove= () =>{
-    // const document = {bankReferenceId : userDetails.lapsRefNumber, documentId : ""};
-    //   const finalJson = generateJsonDocumentRemove(document);
-    //   apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, "remove");
+     const document = {bankReferenceId : userDetails.lapsRefNumber, documentId : ""};
+       const finalJson = generateJsonDocumentRemove(document);
+       apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, "remove");
   }
 
-  const documentUpdate = (values: DocumentValues) =>{
-    const document = {
-        leadRefNo: "",//userDetails.lapsRefNumber,
-        sourceRefNo:"",
-        valuationOrderRefNo: "",
-        paymentRefNo: "",
-        orderRemarks: "Customer Consent Recevied",
-        orderStatus: "DU",
-        loanApplicationNo : "",
-        rmCode : "",
-        journeyType : "",
-        creditVerificationConsentDateTime : "",
-        privacyPolicyConsentDateTime : "",
-        generalTermsConsentDateTime : "",
-        cpsTermsConsentDateTime : "",
-        kfsConsentDateTime : `${""} ${""}`,
-        uaeFtsRequestConsentDateTime :  `${""} ${""}`,
-
-    };
-      const finalJson = generateJsonDocumentUpdate(document);
-      apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_CUST_ORDER_UPDATE, "update");
-  }
-
-  const apiCallOnContinue = async (finalJson: any, apiName: string, type:string) => {
+  const apiCallOnContinue = async (file?: File,finalJson: any, apiName: string, type:string) => {
     /* type may be fetch , upload or remove */
+    const formData = new FormData();
+  
+    // Append the file to FormData
+    // formData.append('file', "demofilenamed");
+    // formData.append('bankReferenceId', finalJson.bankReferenceId);
+    // formData.append('clientTime',new Date().toDateString());
+   
+
+  
     modNetwork(
       apiName,//API.PROPERTY_VALUATION_ORDER_CREATE,
-      
-      ...finalJson,
+      {bankReferenceId : 1234, file : file}, 
       (res: any) => {
         console.log('PROPERTY_VALUATION_Document', res);
 
@@ -131,6 +130,7 @@ const DocumentUploadForm: React.FC = () => {
     const file = event.currentTarget.files?.[0];
     if (file) {
       formik.setFieldValue(field, file);
+      documentUpload(file);
     }
   };
 

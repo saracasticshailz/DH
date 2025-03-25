@@ -1,3 +1,5 @@
+
+
 import { Box, Container, Typography, Grid2 as Grid } from '@mui/material';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 import { useTranslation } from 'react-i18next';
@@ -23,27 +25,53 @@ import {
 } from '@/store/slices/CustomerAuthSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import API from '@/utils/apiEnpoints';
+import {generateJsonOrderFetch} from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
 
 export default function MortgageDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isFocused, setIsFocused] = useState(true);
   const applicationDetails = useAppSelector(selectApplicationDetails);
   const customerDetails = useAppSelector(selectCustomerDetails);
   const [lapsRefNumber, setlapsRefNumber] = useState('');
   const selectRMDetails_ = useAppSelector(selectRMDetails);
   const journeyStatus: any = applicationDetails.loanApplicationStatus;
   const customerName: any = customerDetails.customerName;
+  const userDetails = useAppSelector(selectAuth);
+  
 
-  // console.log('journeyStatus', journeyStatus);
-  // console.log('selectRMDetails_', selectRMDetails_);
+   useEffect(()=>{
+       valuationOrderFetch();
+       window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+ });
+   },[]);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, []);
+
+  const valuationOrderFetch = async () => {
+    console.log('valuationOrderFetch api before call', userDetails.lapsRefNumber);
+    modNetwork(
+      API.PROPERTY_VALUATION_ORDER_FETCH,
+      {
+        bankReferenceId : userDetails.lapsRefNumber,
+      },
+      (res: any) => {
+        console.log(API.PROPERTY_VALUATION_ORDER_FETCH, res);
+
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          console.log('valuationOrderFetch api response ', res);
+        } else {
+          alert(res.errmsg);
+        }
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
+    );
+  };
 
   const deals = [
     {
@@ -90,6 +118,7 @@ export default function MortgageDashboard() {
     }
   };
   const handleValuationAction = async () => {
+    console.log('handleValuationAction journeyStatus ',journeyStatus );
     if (journeyStatus === 'VC' || journeyStatus === 'OI') {
       return;
     } else if (journeyStatus === 'PC' || journeyStatus === 'UP') {

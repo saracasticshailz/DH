@@ -1,6 +1,6 @@
 'use client';
 
-import type React from 'react';
+import React from 'react';
 import { Box, Container, Grid2, Paper } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageProgressBar from '@/components/common/ImageProgressBar/ImageProgressBar';
@@ -65,4 +65,4 @@ const PropertyValuation: React.FC = () => {
   );
 };
 
-export default PropertyValuation;
+export default React.memo(PropertyValuation);
