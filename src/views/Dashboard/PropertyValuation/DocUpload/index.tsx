@@ -12,7 +12,7 @@ import { updateDocuments, setValuationActiveStep } from '@/store/slices/Valuatio
 import type { RootState } from '@/store';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth} from '@/store/slices/CustomerAuthSlice'; 
-import {generateJsonDocumentFetch , generateJsonDocumentList, generateJsonDocumentRemove, generateJsonDocumentUpload} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
+import { generateJsonDocumentList, generateJsonDocumentRemove,} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
@@ -38,8 +38,9 @@ const validationSchema = Yup.object({
 const DocumentUploadForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  
+  const [documentListData, setDocumentListData] = useState<any[]>([]);
   const userDetails = useAppSelector(selectAuth);
+  const fetchdata: any[] = [];
 
   const documents = useSelector((state: RootState) => state.valuation.documents);
   
@@ -47,7 +48,6 @@ const DocumentUploadForm: React.FC = () => {
     initialValues: documents,
     validationSchema,
     onSubmit: (values) => {
-      console.log('on submit click ', values);
       dispatch(updateDocuments(values));
       dispatch(setValuationActiveStep(3)); // Move to Review step
     },
@@ -56,51 +56,77 @@ const DocumentUploadForm: React.FC = () => {
 
   useEffect(()=>{
     documentFetch();
-    documentList();
-  },[userDetails])
+  },[]);
+
+  function mergeArraysById(arr1: any[], arr2: any[]) {
+    // Iterate over arr1 and try to merge with matching documentTypeId from arr2
+    console.log('matching item arr2', arr2);
+    return arr1.map(item1 => {
+      const matchingItem2 = arr2.find(item2 => item2.documentTypeId == item1.id);
+      console.log('matching item ', matchingItem2);
+      if (matchingItem2) {
+        // If there's a match, merge the two objects
+        return {
+          ...matchingItem2,
+          ...item1
+        };
+      }
+      // If no match, return the item from arr1 as is
+      return item1;
+    })
+    .concat(
+      // After mapping, we also add items from arr2 that don't match any item in arr1
+      arr2.filter(item2 => !arr1.some(item1 => item1.id === item2.documentTypeId))
+    );
+  }
 
   const documentFetch = () =>{
-      const document = {bankReferenceId : 1234 };//userDetails.lapsRefNumber
-      const finalJson = generateJsonDocumentFetch(document);
-      apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_FETCH, "fetch");
+      const document = {bankReferenceId : "1234" };//userDetails.lapsRefNumber
+      //const finalJson = generateJsonDocumentFetch(document);
+      orderApiCall(document, API.PROPERTY_VALUATION_DOCS_FETCH, "fetch");
+      
   }
   const documentList = () =>{
-     const document = {transactionTypeClientCode : ""};
+     const document = {transactionTypeClientCode : "0"};
        const finalJson = generateJsonDocumentList(document);
-     apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_LIST, "list");
+       orderApiCall(finalJson, API.PROPERTY_VALUATION_DOCS_LIST, "list");
   }
   const documentUpload= (file: any) =>{
-    const document = {bankReferenceId : userDetails.lapsRefNumber};
+    const document = {bankReferenceId : "1234"};
       //const finalJson = generateJsonDocumentUpload(document);
-      apiCallOnContinue(file, document, API.PROPERTY_VALUATION_DOCS_UPLOAD, "upload");
+      orderApiCall(document, API.PROPERTY_VALUATION_DOCS_UPLOAD, "upload");
  }
 
   const documentRemove= () =>{
-     const document = {bankReferenceId : userDetails.lapsRefNumber, documentId : ""};
+     const document = {bankReferenceId :"1234", documentId : ""};
        const finalJson = generateJsonDocumentRemove(document);
-       apiCallOnContinue(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, "remove");
+       orderApiCall(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, "remove");
   }
 
-  const apiCallOnContinue = async (file?: File,finalJson: any, apiName: string, type:string) => {
-    /* type may be fetch , upload or remove */
-    const formData = new FormData();
-  
-    // Append the file to FormData
-    // formData.append('file', "demofilenamed");
-    // formData.append('bankReferenceId', finalJson.bankReferenceId);
-    // formData.append('clientTime',new Date().toDateString());
-   
-
-  
+  const orderApiCall = async (finalJson: any, apiName: string, type:string) => {
+    /* type may be fetch, list, upload or remove */
     modNetwork(
-      apiName,//API.PROPERTY_VALUATION_ORDER_CREATE,
-      {bankReferenceId : 1234, file : file}, 
+      apiName,
+      {...finalJson},
       (res: any) => {
-        console.log('PROPERTY_VALUATION_Document', res);
-
         if (res.oprstatus == 0 && res.returnCode == 0) { 
-          console.log('PROPERTY_VALUATION_Document response ', res);
-          /* empty */ } else {
+          /* empty */ 
+         if(type === 'list'){
+            
+            if(res.docsList && fetchdata.length>0){
+              const merged = mergeArraysById(res.docsList, fetchdata[0]);
+              setDocumentListData(merged);
+            }
+         }else if(type === 'fetch'){
+            if(fetchdata.length==0){
+              fetchdata.push(res.docsList);
+              setTimeout(()=>{
+                documentList();
+              },800); 
+            }
+           
+          }
+        } else {
           // navigate('/Dashboard');
          
           // Create new state
@@ -143,7 +169,9 @@ const DocumentUploadForm: React.FC = () => {
     const error = formik.touched[field] && formik.errors[field];
 
     return (
-      <Grid item xs={12} md={6}>
+      <Grid 
+      key={field}
+      item xs={12} md={6}>
         <Typography variant="subtitle2" gutterBottom>
           {label}
         </Typography>
@@ -188,12 +216,7 @@ const DocumentUploadForm: React.FC = () => {
         </Alert>
 
         <Grid container spacing={3}>
-          {renderFileInput('propertyAddress', 'Standard property address capture')}
-          {renderFileInput('titleDeed', 'Title deed')}
-          {renderFileInput('salePurchaseAgreement', 'Sale purchase agreement')}
-          {renderFileInput('floorPlan', 'Floor plan')}
-          {renderFileInput('oqood', 'Oqood')}
-          {renderFileInput('additionalDocuments', 'Additional Documents')}
+          {documentListData.map((field) => renderFileInput(field.code, field.name))}
         </Grid>
 
         <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>

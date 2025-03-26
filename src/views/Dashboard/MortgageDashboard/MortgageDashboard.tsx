@@ -55,7 +55,7 @@ export default function MortgageDashboard() {
     modNetwork(
       API.PROPERTY_VALUATION_ORDER_FETCH,
       {
-        bankReferenceId : userDetails.lapsRefNumber,
+        bankReferenceId : "1234",
       },
       (res: any) => {
         console.log(API.PROPERTY_VALUATION_ORDER_FETCH, res);

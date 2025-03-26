@@ -9,6 +9,7 @@ const API = {
   PROPERTY_VALUATION_ORDER_CREATE: 'sub_valuation_order_create',
   PROPERTY_VALUATION_CUST_ORDER_UPDATE: 'sub_cust_order_update',
   PROPERTY_VALUATION_ORDER_UPDATE: 'sub_valuation_order_update',
+  PROPERTY_VALUATION_ORDER_CANCEL: 'sub_valuation_order_cancel',
   PROPERTY_VALUATION_DOCS_LIST: 'inq_valuation_docs_list',
   PROPERTY_VALUATION_DOCS_FETCH: 'inq_valuation_docs_fetch',
   PROPERTY_VALUATION_DOCS_UPLOAD: 'sub_valuation_docs_upload',
