@@ -47,7 +47,7 @@ const LoginScreen = () => {
     }
   }, []);
 
-  const initialValues = { phoneNumber: '' };
+  const initialValues = { phoneNumber: '501312334' };
 
   const handleSubmit = async (values: any) => {
     //RESPONSE
@@ -59,7 +59,7 @@ const LoginScreen = () => {
     modNetwork(
       API.SIGNUP_API, // as discussed with noman will use same API
       {
-        mobileNumber: '971' + values.phoneNumber,
+        mobileNumber: '971' + '501312334',//values.phoneNumber,
         journeyType: 'RET',
       },
       (res: any) => {
@@ -154,7 +154,7 @@ const LoginScreen = () => {
                 {({ values, handleChange }) => (
                   <Form className="mb-10">
                     <TextInput
-                       name={'phoneNumber'}
+                      name={'phoneNumber'}
                       countryCode="+971"
                       value={values.phoneNumber}
                       onChange={handleChange}

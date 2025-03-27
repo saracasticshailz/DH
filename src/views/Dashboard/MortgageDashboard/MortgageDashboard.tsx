@@ -1,5 +1,3 @@
-
-
 import { Box, Container, Typography, Grid2 as Grid } from '@mui/material';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +23,7 @@ import {
 } from '@/store/slices/CustomerAuthSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import API from '@/utils/apiEnpoints';
-import {generateJsonOrderFetch} from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
+import { generateJsonOrderFetch } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
 
 export default function MortgageDashboard() {
   const { t } = useTranslation();
@@ -39,16 +37,14 @@ export default function MortgageDashboard() {
   const journeyStatus: any = applicationDetails.loanApplicationStatus;
   const customerName: any = customerDetails.customerName;
   const userDetails = useAppSelector(selectAuth);
-  
 
-   useEffect(()=>{
-       valuationOrderFetch();
-       window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
- });
-   },[]);
-
+  useEffect(() => {
+    valuationOrderFetch();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   const valuationOrderFetch = async () => {
     console.log('valuationOrderFetch api before call', userDetails.lapsRefNumber);
@@ -118,7 +114,7 @@ export default function MortgageDashboard() {
     }
   };
   const handleValuationAction = async () => {
-    console.log('handleValuationAction journeyStatus ',journeyStatus );
+    console.log('handleValuationAction journeyStatus ', journeyStatus);
     if (journeyStatus === 'VC' || journeyStatus === 'OI') {
       return;
     } else if (journeyStatus === 'PC' || journeyStatus === 'UP') {
@@ -129,6 +125,7 @@ export default function MortgageDashboard() {
     }
     navigate('/PropertyValuation');
   };
+  console.log('journeyStatus', journeyStatus);
 
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>

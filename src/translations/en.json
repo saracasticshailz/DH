@@ -365,6 +365,7 @@
       "placeholderSpecialInst": "Enter any special instructions"
     },
     "documentUpload": {
+      "title": "Document Upload",
       "noteDocumentMaxandFileType": " Documents should be max 2MB. Accepted file types are PDF, JPG, PNG.",
       "choosefile": "Choose file"
     },
