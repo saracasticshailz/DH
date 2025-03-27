@@ -32,6 +32,9 @@ const initialState: ValuationFormData = {
     alternateMobile: '',
     selectedDate: '',
     selectedTime: '',
+    draftJobld: '',
+    privacyPolicyDateTime: '',
+    termsConditionDateTime: '',
   },
   documents: {
     propertyAddress: null,
@@ -52,6 +55,8 @@ const initialState: ValuationFormData = {
   isSubmitting: false,
   isSubmitted: false,
   error: null,
+  termsConditionDateTime: '',
+  privacyPolicyDateTime: '',
 };
 
 const valuationSlice = createSlice({
@@ -129,8 +134,14 @@ const valuationSlice = createSlice({
     updateTermsAcceptance: (state, action: PayloadAction<boolean>) => {
       state.termsAccepted = action.payload;
     },
+    updateTermsAcceptanceDateTime: (state, action: PayloadAction<string>) => {
+      state.termsConditionDateTime = action.payload;
+    },
     updatePrivacyAcceptance: (state, action: PayloadAction<boolean>) => {
       state.privacyAccepted = action.payload;
+    },
+    updatePrivacyAcceptanceDateTime: (state, action: PayloadAction<string>) => {
+      state.privacyPolicyDateTime = action.payload;
     },
 
     // Form submission actions
@@ -177,6 +188,8 @@ export const {
   setError,
   resetForm,
   resetSection,
+  updatePrivacyAcceptanceDateTime,
+  updateTermsAcceptanceDateTime,
 } = valuationSlice.actions;
 
 // Selectors
@@ -187,6 +200,8 @@ export const selectDocuments = (state: { valuation: ValuationFormData }) => stat
 export const selectPayment = (state: { valuation: ValuationFormData }) => state.valuation.payment;
 export const selectTermsAccepted = (state: { valuation: ValuationFormData }) => state.valuation.termsAccepted;
 export const selectPrivacyAccepted = (state: { valuation: ValuationFormData }) => state.valuation.privacyAccepted;
+export const selectTermsDateTime = (state: { valuation: ValuationFormData }) => state.valuation.termsConditionDateTime;
+export const selectPrivacyDateTime = (state: { valuation: ValuationFormData }) => state.valuation.privacyPolicyDateTime;
 export const selectIsSubmitting = (state: { valuation: ValuationFormData }) => state.valuation.isSubmitting;
 export const selectIsSubmitted = (state: { valuation: ValuationFormData }) => state.valuation.isSubmitted;
 export const selectError = (state: { valuation: ValuationFormData }) => state.valuation.error;
