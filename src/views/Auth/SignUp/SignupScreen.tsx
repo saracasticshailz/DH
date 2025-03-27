@@ -27,7 +27,8 @@ import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
-
+import CryptoJS from 'crypto-js';
+import { getQueryParams } from '@/utils/queryParams';
 const SignupScreen = () => {
   const { t } = useTranslation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -51,7 +52,6 @@ const SignupScreen = () => {
 
   const [dialogPrimaryAction, setDialogPrimaryAction] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -115,12 +115,12 @@ const SignupScreen = () => {
           } catch (error) {
             setDialogText(res.errmsg);
           }
-         
-    setDialogTitle('ERROR')
-    setDialogPrimaryAction('OK');
-    setShowAlert(true);
+
+          setDialogTitle('ERROR');
+          setDialogPrimaryAction('OK');
+          setShowAlert(true);
         }
-       
+
         //alert(JSON.stringify(res));
         // setAuthModalOpen(true);
       },
@@ -167,15 +167,14 @@ const SignupScreen = () => {
           });
         } else {
           // navigate('/Dashboard');
-         
+
           // Create new state
           setDialogText(res.errMsg_EN);
-          console.log('Error Message ',res.errmsg);
+          console.log('Error Message ', res.errmsg);
 
-          setDialogTitle('ERROR')
+          setDialogTitle('ERROR');
           setDialogPrimaryAction('OK');
           setShowAlert(true);
-
         }
       },
       '',
@@ -201,12 +200,12 @@ const SignupScreen = () => {
 
       <CommonDialog
         open={showAlert}
-       onClose={(): void => {
-        setShowAlert(false);
-      }}
-      onPrimaryAction={(): void => {
-        setShowAlert(false);
-      }}
+        onClose={(): void => {
+          setShowAlert(false);
+        }}
+        onPrimaryAction={(): void => {
+          setShowAlert(false);
+        }}
         title={dialogTitle}
         description={dialogText}
         primaryButtonText={dialogPrimaryAction}

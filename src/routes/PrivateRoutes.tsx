@@ -13,6 +13,7 @@ import PropertyValuation from '@/views/Dashboard/PropertyValuation';
 import RmLoginScreen from '@/views/Auth/RM/RmLogin';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';
+import PaymentLanding from '@/views/Dashboard/PropertyValuation/PaymentForm/PaymentLanding';
 
 const MortgageDashboard = lazy(() => import('@/views/Dashboard/MortgageDashboard/MortgageDashboard'));
 const RmDashboard = lazy(() => import('@/views/RM/RmDashboard'));
@@ -84,6 +85,10 @@ const PRIVATE_ROUTES = [
       {
         path: './RmLogin',
         element: <RmLoginScreen />,
+      },
+      {
+        path: '/PaymentLanding',
+        element: <PaymentLanding />,
       },
     ],
   },

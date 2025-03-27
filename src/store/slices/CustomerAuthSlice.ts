@@ -43,6 +43,8 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   lapsApplicationNo: string | null;
+  paymentDescription: string | null;
+  feeAmount: string | null;
 }
 
 // Define the initial state
@@ -69,6 +71,8 @@ const initialState: AuthState = {
   error: null,
   emiratesId: null,
   lapsApplicationNo: '',
+  feeAmount: '',
+  paymentDescription: '',
 };
 
 // Create the auth slice
@@ -173,6 +177,30 @@ export const customerAuthSlice = createSlice({
         state.lapsApplicationNo = action.payload.lapsApplicationNo;
       }
     },
+
+    // New reducer for updating application details after payment
+    updateApplicationDetailsAfterPayment: (
+      state,
+      action: PayloadAction<{
+        transactionId?: string | null;
+        paymentId?: string | null;
+        feeAmount?: string | null;
+        paymentDescription?: string | null;
+        loanApplicationStatus?: LoanApplicationStatus;
+      }>
+    ) => {
+      state.orderId = state.lapsApplicationNo;
+
+      if (action.payload.feeAmount) {
+        state.feeAmount = action.payload.feeAmount;
+      }
+      if (action.payload.paymentDescription) {
+        state.paymentDescription = action.payload.paymentDescription;
+      }
+      if (action.payload.loanApplicationStatus) {
+        state.loanApplicationStatus = action.payload.loanApplicationStatus;
+      }
+    },
   },
 });
 
@@ -186,6 +214,7 @@ export const {
   updateRMDetails,
   updateCustomerMobileNumberAndNameAndEmiratedId,
   updateLapsApplicationNo,
+  updateApplicationDetailsAfterPayment,
 } = customerAuthSlice.actions;
 
 // Export selectors
@@ -196,6 +225,10 @@ export const selectApplicationDetails = (state: RootState) => ({
   loanApplicationNo: state.customerAuth.loanApplicationNo,
   loanApplicationStatus: state.customerAuth.loanApplicationStatus,
   lapsRefNumber: state.customerAuth.lapsRefNumber,
+  lapsApplicationNo: state.customerAuth.lapsApplicationNo,
+  feeAmount: state.customerAuth.feeAmount,
+  paymentDescription: state.customerAuth.paymentDescription,
+  orderId: state.customerAuth.orderId,
 });
 export const selectRMDetails = (state: RootState) => ({
   rmName: state.customerAuth.rmName,
