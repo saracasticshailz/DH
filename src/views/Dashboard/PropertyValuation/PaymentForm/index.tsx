@@ -50,69 +50,6 @@ const PaymentForm: React.FC = () => {
   const { initiateCheckout }: any = usePaymentCheckout();
   const applicationDetails = useAppSelector(selectApplicationDetails);
 
-  // const initiateCheckout = async (): Promise<void> => {
-  //   try {
-  //     // Calculate the hash (SHA1 of the reference number + fee amount + password)
-  //     const hash = generateHash('BYUT34343', '2000.00AEDVALUATIONTESTFEE', 'aa81310cb6a27b222d13658927d1a31e');
-
-  //     // Construct the body of the request
-  //     const checkoutData = {
-  //       merchant_key: 'c61ff088-fd93-11ef-9640-3210e0c8f150',
-  //       success_url: 'https://bling.com/', // Success URL-landing -> order confirmation -> payment success -> Dashboard -> update payment/journey status to 'OI'
-  //       cancel_url: 'https://google.com/', // Cancel URL
-  //       operation: 'purchase', // Operation type
-  //       hash: hash, // Hash for security and verification
-  //       order: {
-  //         number: 'BYUT34343', // Order number
-  //         amount: '2000.00', // Order amount
-  //         currency: 'AED', // Currency type
-  //         description: 'VALUATIONTESTFEE', // Order description
-  //       },
-  //     };
-
-  //     // Send the POST request to the backend (your server)
-  //     const response = await fetch('http://localhost:3003/initiate-checkout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(checkoutData),
-  //     });
-
-  //     // Check if the response is successful
-  //     if (response.ok) {
-  //       const data = await response.json();
-
-  //       // If the payment URL is returned from the server, redirect the client to it
-  //       if (data.payment_url) {
-  //         window.location.href = data.payment_url; // Redirect to the payment URL returned from the backend
-  //       } else {
-  //         console.error('Failed to retrieve payment URL:', data.error_message);
-  //       }
-  //     } else {
-  //       const data = await response.json();
-  //       console.error('Error:', data.error_message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Request failed:', error);
-  //   }
-  // };
-
-  const generateHash = (referenceNumber: string, feeAmount: string, password: string): string => {
-    const stringToHash = referenceNumber + feeAmount + password;
-    //return SHA1(stringToHash).toString().toUpperCase();
-
-    const md5Encoded = CryptoJS.MD5(stringToHash.toUpperCase()).toString(CryptoJS.enc.Hex);
-
-    // Step 2: SHA1 of the MD5 encoded string
-    const sha1Hash = CryptoJS.SHA1(md5Encoded);
-
-    const result = CryptoJS.enc.Hex.stringify(sha1Hash);
-
-    // Step 3: Return the SHA1 result in uppercase
-    return result;
-  };
-
   const formik = useFormik({
     initialValues: payment,
     validationSchema,

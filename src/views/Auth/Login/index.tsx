@@ -15,7 +15,7 @@ import OtpModal from '@/components/modal/otpModal';
 import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
 import { useAppDispatch } from '@/hooks/redux.js';
-import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
@@ -47,7 +47,7 @@ const LoginScreen = () => {
     }
   }, []);
 
-  const initialValues = { phoneNumber: '501312334' };
+  const initialValues = { phoneNumber: '542334366' }; //'501312334',
 
   const handleSubmit = async (values: any) => {
     //RESPONSE
@@ -100,7 +100,7 @@ const LoginScreen = () => {
           }
 
           dispatch(updateProfile(res)); //
-
+          dispatch(loginSuccess(res));
           navigate('/Dashboard', {
             state: { preventBack: true },
           });

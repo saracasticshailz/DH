@@ -21,12 +21,11 @@ import CustomDatePicker from '@/components/common/CustomDatePicker';
 import DateTimePicker from '@/components/common/CustomDatePicker';
 import { useTranslation } from 'react-i18next';
 import { getFormData } from '@/utils/offlineStorage';
-import {generateJsonOrder} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
+import { generateJsonOrder } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
-
 
 interface AccessDetailsFormValues {
   contactName: string;
@@ -66,10 +65,15 @@ const AccessDetailsForm: React.FC = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-       const savedData = getFormData('propertyDetails');
-       const personalAccessDetails = { ...savedData, ...values, bankReference : userDetails.lapsRefNumber, applicationReference : userDetails.applicationRefNumber};
-       const finalJson = generateJsonOrder(personalAccessDetails);
-       dispatch(
+      const savedData = getFormData('propertyDetails');
+      const personalAccessDetails = {
+        ...savedData,
+        ...values,
+        bankReference: userDetails.lapsRefNumber,
+        applicationReference: userDetails.applicationRefNumber,
+      };
+      const finalJson = generateJsonOrder(personalAccessDetails);
+      dispatch(
         updateAccessDetails({
           ...finalJson,
           //date: values.date?.format('YYYY-MM-DD') || '',
@@ -77,21 +81,28 @@ const AccessDetailsForm: React.FC = () => {
         })
       );
       dispatch(setValuationActiveStep(2)); // Move to Document Upload
-     // apiCallOnContinue(finalJson);
-      
+      apiCallOnContinue(finalJson);
     },
   });
 
   const apiCallOnContinue = async (finalJson: any) => {
     console.log('Access Detail Forms apiCallOnContinue finalJson 85', finalJson);
     modNetwork(
-      API.PROPERTY_VALUATION_ORDER_CREATE,{
-      ...finalJson},
+      API.PROPERTY_VALUATION_ORDER_CREATE,
+      {
+        ...finalJson,
+      },
       (res: any) => {
         console.log('PROPERTY_VALUATION', res);
 
-        if (res.oprstatus == 0 && res.returnCode == 0) { 
+        // "orderld": "81676817-5fae-4bce-8851-9c2d140793d0",
+        // "orderNumber": "VNO-O16F",
+        // "draftJobld": "cd6d9c28-ab07-4285-a3fa-c46485fe9ced",
+        // "draftJobNumber": "VNO-OI6F-V26"
+
+        if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('Access Detail PROPERTY_VALUATIONs response ', res);
+          //draftJobld
           dispatch(
             updateAccessDetails({
               ...finalJson,
@@ -100,17 +111,17 @@ const AccessDetailsForm: React.FC = () => {
             })
           );
           dispatch(setValuationActiveStep(2)); // Move to Document Upload
-          /* empty */ } else {
+          /* empty */
+        } else {
           // navigate('/Dashboard');
-         
+
           // Create new state
           //setDialogText(res.errMsg_EN);
-          console.log('Error Message ',res.errmsg);
+          console.log('Error Message ', res.errmsg);
 
           //setDialogTitle('ERROR')
           //setDialogPrimaryAction('OK');
           //setShowAlert(true);
-
         }
       },
       '',
@@ -119,9 +130,6 @@ const AccessDetailsForm: React.FC = () => {
       MOD_CONSTANTS.REGISTER
     );
   };
-
-
-
 
   const handleBack = () => {
     dispatch(setValuationActiveStep(0)); // Go back to Property Details
@@ -134,39 +142,39 @@ const AccessDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="contactName"
-              label={t("valuation.accessDetailForm.contactName")}
+              label={t('valuation.accessDetailForm.contactName')}
               value={formik.values.contactName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.contactName && Boolean(formik.errors.contactName)}
               helperText={formik.touched.contactName && formik.errors.contactName}
-              placeholder={t("valuation.accessDetailForm.placeHolderCN")}
+              placeholder={t('valuation.accessDetailForm.placeHolderCN')}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="email"
-              label={t("valuation.accessDetailForm.emailAddress")}
+              label={t('valuation.accessDetailForm.emailAddress')}
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
-              placeholder={t("valuation.accessDetailForm.placeHolderEmail")}
+              placeholder={t('valuation.accessDetailForm.placeHolderEmail')}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="mobileNumber"
-              label={t("valuation.accessDetailForm.mobileNumber")}
+              label={t('valuation.accessDetailForm.mobileNumber')}
               value={formik.values.mobileNumber}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
               helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
-              placeholder={t("valuation.accessDetailForm.placeHolderMobile")}
+              placeholder={t('valuation.accessDetailForm.placeHolderMobile')}
               countryCode="+971"
             />
           </Grid>
@@ -174,11 +182,11 @@ const AccessDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12, md: 6 }}>
             <TextInput
               name="alternateMobileNumber"
-              label={t("valuation.accessDetailForm.alternateMobileNumber")}
+              label={t('valuation.accessDetailForm.alternateMobileNumber')}
               value={formik.values.alternateMobileNumber || ''}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder={t("valuation.accessDetailForm.placeholderAlternateMN")}
+              placeholder={t('valuation.accessDetailForm.placeholderAlternateMN')}
               countryCode="+971"
             />
           </Grid>
@@ -203,7 +211,7 @@ const AccessDetailsForm: React.FC = () => {
               onChange={(newValue) => {
                 formik.setFieldValue('date', newValue);
               }}
-              label={t("valuation.accessDetailForm.selectDate")}
+              label={t('valuation.accessDetailForm.selectDate')}
               type={'date'}
             />
           </Grid>
@@ -236,7 +244,7 @@ const AccessDetailsForm: React.FC = () => {
 
             <DateTimePicker
               type="time"
-              label={t("valuation.accessDetailForm.time")}
+              label={t('valuation.accessDetailForm.time')}
               value={formik.values.time}
               onChange={(newValue) => {
                 formik.setFieldValue('time', newValue);
@@ -248,23 +256,23 @@ const AccessDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12 }}>
             <TextInput
               name="specialInstructions"
-              label={t("valuation.accessDetailForm.specialInstructions")}
+              label={t('valuation.accessDetailForm.specialInstructions')}
               value={formik.values.specialInstructions || ''}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               multiline
               rows={4}
-              placeholder={t("valuation.accessDetailForm.placeholderSpecialInst")}
+              placeholder={t('valuation.accessDetailForm.placeholderSpecialInst')}
             />
           </Grid>
         </Grid>
 
-        <Box sx={{ mt: 3, display: 'flex',justifyContent: 'space-between',gap:2}}>
+        <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between', gap: 2 }}>
           <AppButton onClick={handleBack} withBorder>
-          {t('preApproval.incomeDetails.buttons.back')}
+            {t('preApproval.incomeDetails.buttons.back')}
           </AppButton>
-            <PrimaryButton withBorder>{t('preApproval.incomeDetails.buttons.cancel')}</PrimaryButton>
-            <PrimaryButton type="submit">{t('preApproval.incomeDetails.buttons.continue')}</PrimaryButton>
+          <PrimaryButton withBorder>{t('preApproval.incomeDetails.buttons.cancel')}</PrimaryButton>
+          <PrimaryButton type="submit">{t('preApproval.incomeDetails.buttons.continue')}</PrimaryButton>
         </Box>
       </Box>
     </form>

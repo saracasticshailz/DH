@@ -2,26 +2,51 @@
 
 //import type React from 'react';
 import React, { useState } from 'react';
-import { Box, Grid, Typography, Button, Divider, Paper, Checkbox, FormControlLabel, Link ,useMediaQuery, useTheme} from '@mui/material';
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Divider,
+  Paper,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { Edit } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/store';
 import { useTranslation } from 'react-i18next';
-import { updatePrivacyAcceptance, updateTermsAcceptance, setValuationActiveStep } from '@/store/slices/ValuationSlice';
-import { useAppSelector } from '@/hooks/redux';
-import { selectAuth} from '@/store/slices/CustomerAuthSlice'; 
-import {generateJsonOrderUpdate } from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
+import {
+  updatePrivacyAcceptance,
+  updateTermsAcceptance,
+  setValuationActiveStep,
+  selectPrivacyDateTime,
+  selectTermsDateTime,
+  updateTermsAcceptanceDateTime,
+  updatePrivacyAcceptanceDateTime,
+} from '@/store/slices/ValuationSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { selectAuth } from '@/store/slices/CustomerAuthSlice';
+import { generateJsonOrderUpdate } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
+import { getFormattedDateTimeWithIntl } from '@/utils';
 
 const ReviewForm: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const theme = useTheme();
-  const [termsConditionDateTime, setTermsConditionDateTime] = useState('');
-  const [privacyPolicyDateTime, setPrivacyPolicyDateTime] = useState('');
+  // const [termsConditionDateTime, setTermsConditionDateTime] = useState('');
+  // const [privacyPolicyDateTime, setPrivacyPolicyDateTime] = useState('');
+
+  const termsConditionDateTime = useAppSelector(selectTermsDateTime);
+  const privacyPolicyDateTime = useAppSelector(selectPrivacyDateTime);
+
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const userDetails = useAppSelector(selectAuth);
   const { propertyDetails, accessDetails, documents, termsAccepted, privacyAccepted } = useSelector(
@@ -31,51 +56,50 @@ const ReviewForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (termsAccepted && privacyAccepted) {
-      const reviewDetails = { 
+      const reviewDetails = {
         leadRefNo: userDetails.lapsRefNumber,
         sourceRefNo: userDetails.applicationRefNumber,
-        valuationOrderRefNo: "VBN-ZKWC",
-        paymentRefNo: "",
-        orderRemarks: "Customer Consent Recevied",
-        orderStatus: "DU",
-        loanApplicationNo : "BYUT00005649",
-        rmCode : "C106794",
-        journeyType : 'CUSTOMER',
-        creditVerificationConsentDateTime : "",
-        privacyPolicyConsentDateTime : termsConditionDateTime,
-        generalTermsConsentDateTime :  privacyPolicyDateTime,
-        cpsTermsConsentDateTime :  "",
-        kfsConsentDateTime : "",
-        uaeFtsRequestConsentDateTime :   "",
+        valuationOrderRefNo: 'VBN-ZKWC',
+        paymentRefNo: '',
+        orderRemarks: 'Customer Consent Recevied',
+        orderStatus: 'DU',
+        loanApplicationNo: 'BYUT00005649',
+        rmCode: 'C106794',
+        journeyType: 'CUSTOMER',
+        creditVerificationConsentDateTime: '',
+        privacyPolicyConsentDateTime: termsConditionDateTime,
+        generalTermsConsentDateTime: privacyPolicyDateTime,
+        cpsTermsConsentDateTime: '',
+        kfsConsentDateTime: '',
+        uaeFtsRequestConsentDateTime: '',
       };
       //apiCallOnContinue(reviewDetails,API.PROPERTY_VALUATION_CUST_ORDER_UPDATE,"update");
       dispatch(setValuationActiveStep(4)); // Move to Payment step
     }
   };
 
-  const apiCallOnContinue = async (finalJson: any, apiName: string, type:string) => {
+  const apiCallOnContinue = async (finalJson: any, apiName: string, type: string) => {
     /* type may be fetch , upload or remove */
     modNetwork(
       apiName,
-     { ...finalJson },
+      { ...finalJson },
       (res: any) => {
         console.log('PROPERTY_VALUATION_Document', res);
 
-        if (res.oprstatus == 0 && res.returnCode == 0) { 
+        if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('PROPERTY_VALUATION_REVIEW response ', res);
-          /* empty */ 
+          /* empty */
           dispatch(setValuationActiveStep(4)); // Move to Payment step
         } else {
           // navigate('/Dashboard');
-         
+
           // Create new state
           //setDialogText(res.errMsg_EN);
-          console.log('Error Message ',res.errmsg);
+          console.log('Error Message ', res.errmsg);
 
           //setDialogTitle('ERROR')
           //setDialogPrimaryAction('OK');
           //setShowAlert(true);
-
         }
       },
       '',
@@ -84,8 +108,6 @@ const ReviewForm: React.FC = () => {
       MOD_CONSTANTS.REGISTER
     );
   };
-
-
 
   const handleBack = () => {
     dispatch(setValuationActiveStep(2)); // Go back to Documents
@@ -132,7 +154,7 @@ const ReviewForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <Box sx={{ p: 3 }}>
-      <Typography
+        <Typography
           variant={isMobile ? 'h5' : 'h4'}
           sx={{
             mb: { xs: 2, md: 4 },
@@ -146,8 +168,8 @@ const ReviewForm: React.FC = () => {
         </Typography>
 
         {propertyDetails && renderSection('Property Details', propertyDetails)}
-        {accessDetails && accessDetails.length > 0 && renderSection('Access Details', accessDetails, 1)}
-        {documents && documents.length > 0 && renderSection('Documents', documents, 2)} 
+        {accessDetails && renderSection('Access Details', accessDetails, 1)}
+        {documents && 0 && renderSection('Documents', documents, 2)}
 
         <Divider sx={{ my: 3 }} />
 
@@ -157,14 +179,9 @@ const ReviewForm: React.FC = () => {
               <Checkbox
                 checked={termsAccepted}
                 onChange={(e) => {
-                  const currentDate = new Date();
-                  const formattedDate = currentDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-                  
-                  // Get current time in 'HH:mm:ss' format
-                  const formattedTime = currentDate.toTimeString().split(' ')[0]; // 'HH:mm:ss'
-                  setTermsConditionDateTime(`${formattedDate} ${formattedTime}`);
-                  dispatch(updateTermsAcceptance(e.target.checked))}
-              }
+                  dispatch(updateTermsAcceptanceDateTime(getFormattedDateTimeWithIntl()));
+                  dispatch(updateTermsAcceptance(e.target.checked));
+                }}
                 color="primary"
               />
             }
@@ -172,7 +189,7 @@ const ReviewForm: React.FC = () => {
               <Typography variant="body2">
                 {t('review.iAgreeToThe')}
                 <Link href="#" color="primary" sx={{ color: '#E31B23' }}>
-                {t('review.termsAndConditions')}
+                  {t('review.termsAndConditions')}
                 </Link>
               </Typography>
             }
@@ -181,17 +198,10 @@ const ReviewForm: React.FC = () => {
             control={
               <Checkbox
                 checked={privacyAccepted}
-                
                 onChange={(e) => {
-                  const currentDate = new Date();
-                  const formattedDate = currentDate.toISOString().split('T')[0]; // 'YYYY-MM-DD'
-                  
-                  // Get current time in 'HH:mm:ss' format
-                  const formattedTime = currentDate.toTimeString().split(' ')[0]; // 'HH:mm:ss'
-                  setPrivacyPolicyDateTime(`${formattedDate} ${formattedTime}`);
-                  dispatch(updatePrivacyAcceptance(e.target.checked)
-                )
+                  dispatch(updatePrivacyAcceptanceDateTime(getFormattedDateTimeWithIntl()));
 
+                  dispatch(updatePrivacyAcceptance(e.target.checked));
                 }}
                 color="primary"
               />
@@ -200,7 +210,7 @@ const ReviewForm: React.FC = () => {
               <Typography variant="body2">
                 {t('review.iAgreeToThe')}{' '}
                 <Link href="#" color="primary" sx={{ color: '#E31B23' }}>
-                {t('review.adcbPrivacyPolicy')}
+                  {t('review.adcbPrivacyPolicy')}
                 </Link>
               </Typography>
             }
