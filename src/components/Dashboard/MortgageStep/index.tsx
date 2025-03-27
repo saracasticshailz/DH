@@ -25,6 +25,8 @@ export default function MortgageStep({
   withButton = false,
   applnstatus,
 }: MortgageStepProps) {
+  console.log('applnstatus', applnstatus);
+
   const { t } = useTranslation();
   const renderStatusChip = () => {
     if (!applnstatus) return null;
