@@ -373,6 +373,8 @@
       "title": "Property Details",
       "pleaseReviewPropertyMessage": "Please review the property details carefully before moving to the next section. Once submitted, this section cannot be changed.",
       "propertyAddress" : "Property Address",
+      "valuationApplication": "Valuation Application",
+      "paymentPending": "Payment pending.",
       "propertyType": {
         "title": "Property Type",
         "apartment": "Apartment",
