@@ -15,7 +15,7 @@ import OtpModal from '@/components/modal/otpModal';
 import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
 import { useAppDispatch } from '@/hooks/redux.js';
-import { updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
@@ -47,7 +47,7 @@ const LoginScreen = () => {
     }
   }, []);
 
-  const initialValues = { phoneNumber: '501312334' };
+  const initialValues = { phoneNumber: '501312334' }; //'501312334',  // //542334366
 
   const handleSubmit = async (values: any) => {
     //RESPONSE
@@ -59,7 +59,7 @@ const LoginScreen = () => {
     modNetwork(
       API.SIGNUP_API, // as discussed with noman will use same API
       {
-        mobileNumber: '971' + '501312334',//values.phoneNumber,
+        mobileNumber: '971' + values.phoneNumber,
         journeyType: 'RET',
       },
       (res: any) => {
@@ -100,7 +100,7 @@ const LoginScreen = () => {
           }
 
           dispatch(updateProfile(res)); //
-
+          dispatch(loginSuccess(res));
           navigate('/Dashboard', {
             state: { preventBack: true },
           });

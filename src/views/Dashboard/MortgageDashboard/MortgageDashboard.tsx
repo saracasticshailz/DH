@@ -29,7 +29,7 @@ export default function MortgageDashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [isFocused, setIsFocused] = useState(true);
+  const [fetchOrderData, setFetchOrderData] = useState(null);
   const applicationDetails = useAppSelector(selectApplicationDetails);
   const customerDetails = useAppSelector(selectCustomerDetails);
   const [lapsRefNumber, setlapsRefNumber] = useState('');
@@ -54,10 +54,44 @@ export default function MortgageDashboard() {
         bankReferenceId : "1234",
       },
       (res: any) => {
-        console.log(API.PROPERTY_VALUATION_ORDER_FETCH, res);
+        // {
+        //   "oprstatus": 0,
+        //   "address": {
+        //     "buildingName": "Azizi Riviera 13",
+        //     "pincode": "",
+        //     "country": "United Arab Emirates",
+        //     "streetAddress": "",
+        //     "city": "Dubai",
+        //     "localityArea": "Meydan City",
+        //     "state": "Dubai",
+        //     "landmarks": "LANDMARK",
+        //     "projectName": "AZIZIZ",
+        //     "floor": "11",
+        //     "houseNoFlatNo": "1107"
+        //   },
+        //   "contactPerson": {
+        //     "name": "sdhsdhs",
+        //     "contactNumber": "456456456"
+        //   },
+        //   "results": [
+        //     {
+        //       "data": "7PmsPbIxe/BDdhsoLpmvmqXZQKkwk2oq3jI4kzZoe1Fzdcdl+FKxFCGy3HGOWkWnWXFSzBRrAsM5UpB6Al6ID4y/dCzNUB18d7qPDCsOaShiaSewQsFuTZ6iJLUpXiN5LnhNppYYkZVdgMyeH8/d008YjjOr8wel5VN1J+GKl+ae0PqgJj/VLhYsBMLM8sQ+RU0Xf1/GU2hRrsG4an8RJRw5cAKMdzAstKOSa2xSD60DVo2qmJz25VXjZFADkrDafYUIU4b/yyzwQVcQw/QFvLIgazikaVQbVEsZ82DBx04A6TTu/QilckbS5DaUup9Pnw3++kfy3H1xfb1nCGcdJ+VIXVGwvxFmFFqyWXLR4vYq15q/FMOYDGPEauCG9O+0pLBaPy669se6pOhX1DuJ3AmUf6DN975TBiUSt+KOlneNG1ZeinKc95Id18n7mm4wzlXCbaJ25rcopuGq9LmDG6MKvqeyOEGAGgcPTjjuu6qxKyGAABNyuvJsKchUtMNbXGG/1fv7rI9kgY8+KIcreM9OOVKkq/m4yJnX2nKafZ+OQDseqvTuU5tsx27yKC5Dlzezcro30eYpbc73OlAGG1n5EkPTwvS7uSts+KWxdb5hydF3CNolZN8k6vRLDFVCiT5VSxifclLeWaTjWsm2kaNb8FlbtRvpUxin2/p6MKyFe9s1uAvlzXAzbFOCI/QeYR1UlkB2uxR2ke7WIG51CeCqedOuWnG+OZaC1EphsAejuYFTj9C0vdppN7/IL7cXHuTNQ6gsFH9BotJdzs4+Kj9PyPxY6uy5nJLYjFdbFHpJGNAz1X+hRq8Ru6tdcTPJ01IoSR5pRiNBtTH1Q7zheIAFDUHELwKQvRbcL9A+Fm/2NWjaV5QcfJil2yp7Op6CO1bX1rdIEAyBylZPwmk1ea+1wfUIZ97dOL1L9f7LsxnDu4yLH2odvT60pYffGSFSGBkrW/EJfr49s1zBCXzBNWV6tAQFd0c8BcMWZSHx53Q5AjpajaU3Q1xxOteOgXIb0WrtsXeDohbE675JHS7K+Z6KBsMUIsi1bu657RInNijtWrQ57hv1jsuGfqKqlQ/TAfB6FNDV13Eh5oU9ufOXdQVwyV9GGrL6yrad5MHiRNycEKlOseDcYk1v4rwAExkoBZ4qhYegro6eGsnx25jms9Pfz70JB0edi82p+tVd/izGic4z5Wcy2tqxK3JJcnAX9tZpYAWeaEdhgNzIili0kq+HXXLq6nI5bHPP3H/433txzBcarkNeGbibiY+Pev7G+RYgsiaECncOO8OrZzwir+qOo74+fGvPQ0F72ckeHKQJx/6VVUzhDZdECJPgoDyu9VM/TLD5z8c7BvSGxZBkG1oaGgbJzn+6niw8HeiFmiUpePFb4ijgeUZOhnyZarGkACDQP9h2cCcL3/uNQogWOLaz394jHRW/w7R+XL3BKnVOkrKccUhsUJ3XWIDS3/y0bG2JKC6G2BepVOy5c4JWu6gqclzvSw/wRJVmWyFCsTX/RAZmL068Irqn4z0Isk/+yyrKr+phW41JrdwnKHwNLO6fqRo="
+        //     }
+        //   ],
+        //   "defaultJob": {
+        //     "preferredStartDateTimeFrom": "8/8/2024 9:00:00 AM",
+        //     "preferredStartDateTimeTo": "8/8/2024 11:00:00 AM"
+        //   }
+        // }
+       
 
         if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('valuationOrderFetch api response ', res);
+          if(fetchOrderData===null){
+            setFetchOrderData(res);
+          }
+         
+          console.log("dashboard",API.PROPERTY_VALUATION_ORDER_FETCH, res);
         } else {
           alert(res.errmsg);
         }
@@ -162,6 +196,8 @@ export default function MortgageDashboard() {
                   buttonText={t('preapprovalButton.' + journeyStatus, { defaultValue: 'APPLY' })}
                   active={true}
                   onButtonClick={handlePreapprovalAction}
+                  fetchOrderData = {fetchOrderData}
+                  journeyStatus = {journeyStatus}
                   applnstatus={
                     t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
@@ -177,6 +213,8 @@ export default function MortgageDashboard() {
                   description={t('dashboardScreen.steps.propertyValuation.description')}
                   buttonText={t('valuationButton.' + journeyStatus, { defaultValue: 'NA' })}
                   onButtonClick={handleValuationAction}
+                  fetchOrderData = {fetchOrderData}
+                  journeyStatus = {journeyStatus}
                   applnstatus={
                     t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
@@ -190,6 +228,8 @@ export default function MortgageDashboard() {
                 <MortgageStep
                   title={t('dashboardScreen.steps.finalOffer.title')}
                   description={t('dashboardScreen.steps.finalOffer.description')}
+                  fetchOrderData = {fetchOrderData}
+                  journeyStatus = {journeyStatus}
                 />
               </Box>
             </StyledCard>

@@ -45,7 +45,11 @@ export interface ValuationFormData {
   documents: DocumentDetails;
   payment: PaymentDetails;
   termsAccepted: boolean;
+  termsConditionDateTime: string;
+
   privacyAccepted: boolean;
+  privacyPolicyDateTime: string;
+
   isSubmitting: boolean;
   isSubmitted: boolean;
   error: string | null;
@@ -59,6 +63,9 @@ export interface AccessDetails {
   selectedDate: string;
   selectedTime: string;
   specialInstructions: string;
+  draftJobld: string;
+  privacyPolicyDateTime: string;
+  termsConditionDateTime: string;
 }
 
 export interface DocumentUpload {

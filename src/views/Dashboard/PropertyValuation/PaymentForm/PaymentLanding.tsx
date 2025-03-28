@@ -33,6 +33,7 @@ import modNetwork from '@/v2/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { useAppSelector } from '@/hooks/redux';
 import { selectApplicationDetails } from '@/store/slices/CustomerAuthSlice';
+import { selectAccessDetails, selectPrivacyAccepted, selectTermsAccepted } from '@/store/slices/ValuationSlice';
 
 interface PaymentCallbackParams {
   payment_id: string | null;
@@ -57,7 +58,10 @@ const PaymentLanding: React.FC = () => {
   const [dialogPrimaryAction, setDialogPrimaryAction] = useState<string>('Continue to Dashboard');
 
   const { getQueryParams, validatePaymentOutputHash } = usePaymentCheckout();
-
+  const accessDetails = useAppSelector(selectAccessDetails);
+  const termsAccepted = useAppSelector(selectTermsAccepted);
+  const privacyAccepted = useAppSelector(selectPrivacyAccepted);
+  // const applicationDetails = useAppSelector(selectApplicationDetails);
   const updatePaymentStatus = async (params: PaymentCallbackParams, isValid: boolean) => {
     try {
       console.log('Updating payment status in backend:', {
@@ -87,19 +91,19 @@ const PaymentLanding: React.FC = () => {
       modNetwork(
         API.SUBMIT_VALUATION_ORDER_CONFIRMATION,
         {
-          bankReferenceId: params.order_id,
+          bankReferenceId: params.order_id, // loanApplicationNo
           autoAllocateJobs: true,
           fees: applicationDetails.feeAmount,
-          leadRefNo: '',
-          valuationOrderRefNo: '',
-          journeyType: '',
+          leadRefNo: applicationDetails.applicationRefNumber, // app ref no
+          valuationOrderRefNo: accessDetails.draftJobld, //draftOrderId
+          journeyType: 'CUSTOMER', // CUSTOMER
           paymentRefNo: params.payment_id,
-          creditVerificationConsentDateTime: '',
-          privacyPolicyConsentDateTime: '2024-12-20 11:08:32',
-          generalTermsConsentDateTime: '2024-12-20 11:08:31',
-          cpsTermsConsentDateTime: '',
-          kfsConsentDateTime: '',
-          uaeFtsRequestConsentDateTime: '',
+          creditVerificationConsentDateTime: '', //skip
+          privacyPolicyConsentDateTime: privacyAccepted, // review
+          generalTermsConsentDateTime: termsAccepted, // Review
+          cpsTermsConsentDateTime: '', //skip
+          kfsConsentDateTime: '', //skip
+          uaeFtsRequestConsentDateTime: '', //skip
         },
 
         (res: any) => {
@@ -152,7 +156,7 @@ const PaymentLanding: React.FC = () => {
         // description?: string | null;
 
         const paymentParams = {
-          payment_id: params.payment_id,
+          payment_id: status !== 'success' ? '' : params.payment_id,
           trans_id: params.trans_id,
           order_id: applicationDetails.orderId,
           hash: params.hash,

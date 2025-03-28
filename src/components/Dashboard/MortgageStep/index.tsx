@@ -1,8 +1,9 @@
 import React from 'react';
-import { Box, Typography, Chip } from '@mui/material';
+import { Box, Typography, Chip, Grid2 } from '@mui/material';
 import { AppButton } from '@/components/common';
 import { useTranslation } from 'react-i18next';
 import { StepBar, StepContainer, StepContent, StepWithButtonContainer } from './styles';
+import { IMG } from '@/assets/images';
 
 interface MortgageStepProps {
   title: string;
@@ -11,6 +12,8 @@ interface MortgageStepProps {
   buttonText?: string;
   active?: boolean;
   onButtonClick?: () => void;
+  fetchOrderData?: any;
+  journeyStatus?: string;
   withButton?: boolean;
   applnstatus?: 'InProgress' | 'Rejected' | 'Complete' | 'Pending' | undefined;
 }
@@ -22,6 +25,8 @@ export default function MortgageStep({
   buttonText,
   active = false,
   onButtonClick,
+  fetchOrderData,
+  journeyStatus,
   withButton = false,
   applnstatus,
 }: MortgageStepProps) {
@@ -133,7 +138,8 @@ export default function MortgageStep({
       </StepContainer>
     );
   }
-
+  console.log('applnstatus ', applnstatus);
+  console.log('in step file pass as param fetchOrderData ', fetchOrderData);
   return (
     <StepContainer>
       <StepContent>
@@ -145,8 +151,44 @@ export default function MortgageStep({
           </Box>
           <Typography color="text.secondary">{description}</Typography>
           {subDescription && <Typography color="text.secondary">{subDescription}</Typography>}
+          {fetchOrderData &&
+          ((applnstatus !== undefined && applnstatus === 'Pending') || applnstatus === 'InProgress') &&
+          title === '2. Property Valuation' ? (
+            <>
+              <Box sx={{ alignItems: 'flex-start',  mt: 1 }}>
+                <Typography sx={{fontWeight: 'bold', fontSize: '1.1rem',}}>{t('valuation.propertyDetails.title')}</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2, mt: 1 }}>
+                  <img src={IMG.LocationIcon || '/placeholder.svg'} alt="edit" width={16} height={16} />
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', ml: '12px', flexDirection: 'column' }}>
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold' }}>
+                      {t('valuation.propertyDetails.propertyAddress')}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      {[
+                        fetchOrderData.address.houseNoFlatNo,
+                        fetchOrderData.address.floor,
+                        fetchOrderData.address.buildingName,
+                        fetchOrderData.address.streetAddress,
+                        fetchOrderData.address.landmarks,
+                        fetchOrderData.address.localityArea,
+                        fetchOrderData.address.state,
+                        fetchOrderData.address.country,
+                      ]
+                        .filter(Boolean) // Filters out any empty strings or falsy values
+                        .join(', ')}{' '}
+                      {/* Join the non-empty values with a comma */}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 3 }}>
+                    { (journeyStatus === 'CP' || journeyStatus === 'DU') ? renderButton() : null }
+                    </Box>
+                  </Box>
+                </Box>
+                <Box></Box>
+              </Box>
+            </>
+          ) : null}
         </Box>
-        {renderButton()}
+        { (journeyStatus != 'CP' && journeyStatus != 'DU') ? renderButton() : null }
       </StepContent>
     </StepContainer>
   );
