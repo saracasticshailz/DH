@@ -74,6 +74,7 @@ const AppButton: React.FC<PrimaryButtonProps> = ({
         paddingY: 1.25,
         borderRadius: 2,
         fontSize: '0.8rem',
+        maxHeight: '48px',
         fontFamily: 'proximanova-regular-webfont',
         maxWidth: !fullWidth ? '180px' : undefined,
         ...getButtonStyles(),

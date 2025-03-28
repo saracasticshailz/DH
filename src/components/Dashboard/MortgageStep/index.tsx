@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Chip, Grid2 } from '@mui/material';
+import { Box, Typography, Chip, Card} from '@mui/material';
 import { AppButton } from '@/components/common';
 import { useTranslation } from 'react-i18next';
 import { StepBar, StepContainer, StepContent, StepWithButtonContainer } from './styles';
@@ -143,8 +143,10 @@ export default function MortgageStep({
   return (
     <StepContainer>
       <StepContent>
-        <StepBar active={active} />
-        <Box>
+      <Box sx={{ display: 'flex', flexDirection: 'row', mb: 1, }}>
+      <Card sx={{display: 'flex', mb: 3, borderLeft: `4px solid ${active ? '#E31B23' : '#9E9E9E'}`,boxShadow: "none", borderBottom: "none"  }}>
+        {/* <StepBar active={active} /> */}
+        <Box sx={{ mb: 2, ml:2, }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <Typography variant="h6">{title}</Typography>
             {applnstatus !== undefined ? renderStatusChip() : null}
@@ -155,7 +157,7 @@ export default function MortgageStep({
           ((applnstatus !== undefined && applnstatus === 'Pending') || applnstatus === 'InProgress') &&
           title === '2. Property Valuation' ? (
             <>
-              <Box sx={{ alignItems: 'flex-start',  mt: 1 }}>
+              <Box sx={{ alignItems: 'flex-start',  mt: 1, border: '0.5px solid lightgrey', borderRadius: '8px', padding: '16px'  }}>
                 <Typography sx={{fontWeight: 'bold', fontSize: '1.1rem',}}>{t('valuation.propertyDetails.title')}</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2, mt: 1 }}>
                   <img src={IMG.LocationIcon || '/placeholder.svg'} alt="edit" width={16} height={16} />
@@ -178,17 +180,17 @@ export default function MortgageStep({
                         .join(', ')}{' '}
                       {/* Join the non-empty values with a comma */}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', mt: 3 }}>
-                    { (journeyStatus === 'CP' || journeyStatus === 'DU') ? renderButton() : null }
-                    </Box>
+                   
                   </Box>
                 </Box>
-                <Box></Box>
+                { (journeyStatus === 'CP' || journeyStatus === 'DU') ? renderButton() : null }
               </Box>
             </>
           ) : null}
         </Box>
         { (journeyStatus != 'CP' && journeyStatus != 'DU') ? renderButton() : null }
+        </Card>
+        </Box>
       </StepContent>
     </StepContainer>
   );
