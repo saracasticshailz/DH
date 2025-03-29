@@ -59,7 +59,7 @@ export  function generateJsonOrder(personalAccessDetails: PersonalAccessDetails)
         contactNumber : personalAccessDetails.mobileNumber,
         preferredStartDateTimeFrom : `${personalAccessDetails.date} ${personalAccessDetails.time}`,
         preferredStartDateTimeTo : `${personalAccessDetails.date} ${personalAccessDetails.time}` ,
-        specialInstruction : `${personalAccessDetails.specialInstructions}|${personalAccessDetails.alternateMobileNumber}`,
+        specialInstruction : `${personalAccessDetails.specialInstructions},${personalAccessDetails.alternateMobileNumber}`,
         bankReference : personalAccessDetails.bankReference,
         applicationReference : personalAccessDetails.applicationReference
       };

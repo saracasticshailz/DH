@@ -65,23 +65,19 @@ const AccessDetailsForm: React.FC = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      const savedData = getFormData('propertyDetails');
-      const personalAccessDetails = {
-        ...savedData,
-        ...values,
-        bankReference: userDetails.lapsRefNumber,
-        applicationReference: userDetails.applicationRefNumber,
-      };
-      const finalJson = generateJsonOrder(personalAccessDetails);
-      dispatch(
-        updateAccessDetails({
-          ...finalJson,
-          //date: values.date?.format('YYYY-MM-DD') || '',
-          //time: values.time?.format('HH:mm:ss') || '',
-        })
-      );
-      dispatch(setValuationActiveStep(2)); // Move to Document Upload
+       const savedData = getFormData('propertyDetails');
+       const personalAccessDetails = { ...savedData, ...values, bankReference : '1234', applicationReference : userDetails.applicationRefNumber};
+       const finalJson = generateJsonOrder(personalAccessDetails);
+      //  dispatch(
+      //   updateAccessDetails({
+      //     ...finalJson,
+      //     //date: values.date?.format('YYYY-MM-DD') || '',
+      //     //time: values.time?.format('HH:mm:ss') || '',
+      //   })
+      // );
+      // dispatch(setValuationActiveStep(2)); // Move to Document Upload
       apiCallOnContinue(finalJson);
+      
     },
   });
 

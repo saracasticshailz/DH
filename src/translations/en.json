@@ -365,12 +365,16 @@
       "placeholderSpecialInst": "Enter any special instructions"
     },
     "documentUpload": {
+      "title": "Document Upload",
       "noteDocumentMaxandFileType": " Documents should be max 2MB. Accepted file types are PDF, JPG, PNG.",
       "choosefile": "Choose file"
     },
     "propertyDetails": {
       "title": "Property Details",
       "pleaseReviewPropertyMessage": "Please review the property details carefully before moving to the next section. Once submitted, this section cannot be changed.",
+      "propertyAddress" : "Property Address",
+      "valuationApplication": "Valuation Application",
+      "paymentPending": "Payment pending.",
       "propertyType": {
         "title": "Property Type",
         "apartment": "Apartment",

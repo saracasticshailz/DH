@@ -2,7 +2,7 @@ import { Box, styled } from '@mui/material';
 
 export const StepBar = styled(Box)<{ active?: boolean }>(({ active }) => ({
   width: 4,
-  height: '100px',
+  height: '100%', // Adjust height dynamically based on parent container's height//'100px',
   backgroundColor: active ? '#E31B23' : '#9E9E9E',
   borderRadius: 2,
   marginRight: 16,

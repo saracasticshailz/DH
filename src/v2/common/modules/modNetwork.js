@@ -10,7 +10,7 @@ const modNetwork = (operatorId, params, mNetworkCallback, type, divId, tag, auth
   const platform = getPlatform();
   print(`calling ${operatorId}  from ${platform}`);
   // debugger;
-  //params.clientTime = '' + modDateTimeUtil.getCurrentTime();
+  params.clientTime = '' + modDateTimeUtil.getCurrentTime();
   // params.b = '';
 
   // print('params', params);

@@ -1,6 +1,6 @@
 
 interface DocumentFetch {
-    bankReferenceId: number | null;
+    bankReferenceId: string | null;
   }
 
   interface DocumentList {
@@ -9,7 +9,7 @@ interface DocumentFetch {
 
   interface DocumentRemove {
     documentId: string;
-    bankReferenceId: number | null;
+    bankReferenceId: string | null;
   }
 
   interface DocumentUpload {
