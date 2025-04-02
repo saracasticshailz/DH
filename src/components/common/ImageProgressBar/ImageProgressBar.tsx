@@ -1,3 +1,4 @@
+import { IMG } from '@/assets/images';
 import { Box, Typography, styled } from '@mui/material';
 
 const StyledBox = styled(Box)({
@@ -44,19 +45,22 @@ interface ImageProgressBarProps {
 export default function ImageProgressBar({ currentStep, totalSteps, title }: ImageProgressBarProps) {
   return (
     <StyledBox>
-      <StyledImage
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201321316143-ZDhSCixmVlofSvtB0yEo0sTh9Oouty.png"
-        alt="Modern property exterior"
-        height={'100%'}
-      />
+      <StyledImage src={IMG.ImageProgressBarBg} alt="Modern property exterior" height={'100%'} />
       <Overlay sx={{}}>
         <Box
           sx={{
             position: 'absolute',
-            bottom: 65,
-            left: 40,
-            right: 40,
-            backgroundColor: 'black',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: { xs: '20px', sm: '25px 30px', md: '30px 40px' },
+            backdropFilter: 'blur(10px)',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            borderRadius: '0',
+            minHeight: { xs: '100px', sm: '120px', md: '140px' },
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
           }}
         >
           <Box sx={{ mb: 3 }}>

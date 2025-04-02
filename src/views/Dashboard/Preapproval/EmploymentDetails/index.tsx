@@ -56,6 +56,7 @@ export default function EmploymentDetails() {
   const navigate = useNavigate();
   const isLoading: any = useSelector(_isLoading);
   const [showAlert, setShowAlert] = useState(false);
+
   const validationSchema = Yup.object({
     employmentType: Yup.string()
       .oneOf(['SA', 'SE', 'PE'], t('preApproval.employmentDetails.validation.employmentType.invalid'))
