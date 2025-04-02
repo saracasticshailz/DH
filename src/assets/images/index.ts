@@ -12,7 +12,7 @@ import BusinessIcon from './png/businessIcon.png';
 import UserIconcard from './png/userIconcard.png';
 import EditIcon from './png/EditIcon.png';
 import LocationIcon from './png/location.png';
-
+import ImageProgressBarBg from './png/imageProgressBg.png';
 
 export const IMG = {
   signupImage,
@@ -28,5 +28,6 @@ export const IMG = {
   BusinessIcon,
   UserIconcard,
   EditIcon,
-  LocationIcon
+  LocationIcon,
+  ImageProgressBarBg,
 };
