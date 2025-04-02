@@ -1,5 +1,6 @@
 import { IMG } from '@/assets/images';
 import { Box, Typography, styled } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const StyledBox = styled(Box)({
   position: 'relative',
@@ -43,6 +44,8 @@ interface ImageProgressBarProps {
 }
 
 export default function ImageProgressBar({ currentStep, totalSteps, title }: ImageProgressBarProps) {
+  const { t } = useTranslation();
+
   return (
     <StyledBox>
       <StyledImage src={IMG.ImageProgressBarBg} alt="Modern property exterior" height={'100%'} />
@@ -73,7 +76,7 @@ export default function ImageProgressBar({ currentStep, totalSteps, title }: Ima
                 fontWeight: 1000,
               }}
             >
-              Step {currentStep} of {totalSteps}
+              {`${t('imageProgressBar.step')} ${currentStep} ${t('imageProgressBar.of')} ${totalSteps}`}
             </Typography>
             <ProgressBar>
               {[...Array(totalSteps)].map((_, index) => (

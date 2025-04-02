@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
 import valuationReducer from './slices/ValuationSlice';
 import mortgageSlice from './slices/MortgageSlice';
 import customerAuthSlice from './slices/CustomerAuthSlice';

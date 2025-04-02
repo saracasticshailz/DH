@@ -1,4 +1,13 @@
 {
+  "imageProgressBar": {
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "step": "Step",
+    "of": "of",
+    "preApproval": "Pre-Approval",
+    "propertyValuation": "Property Valuation"
+  },
   "preapprovalSubStatus": {
     "PR": "Rejected",
     "PP": "InProgress",
@@ -373,7 +382,7 @@
     "propertyDetails": {
       "title": "Property Details",
       "pleaseReviewPropertyMessage": "Please review the property details carefully before moving to the next section. Once submitted, this section cannot be changed.",
-      "propertyAddress" : "Property Address",
+      "propertyAddress": "Property Address",
       "valuationApplication": "Valuation Application",
       "paymentPending": "Payment pending.",
       "propertyType": {
