@@ -36,7 +36,7 @@ const PRIVATE_ROUTES = [
       // Public routes
       {
         path: '/',
-        element: <PreApprovalPage />,
+        element: <SignupScreen />,
       },
       {
         path: '/Login',
