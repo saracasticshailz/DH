@@ -47,7 +47,7 @@ const LoginScreen = () => {
     }
   }, []);
 
-  const initialValues = { phoneNumber: '542334366' }; //'501312334',  // //542334366
+  const initialValues = { phoneNumber: '501312334' }; //'501312334',  // //542334366
 
   const handleSubmit = async (values: any) => {
     //RESPONSE
