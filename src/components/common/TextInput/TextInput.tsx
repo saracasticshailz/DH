@@ -74,7 +74,7 @@ const TextInput: React.FC<TextInputProps> = ({
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderWidth: '2px',
+        borderWidth: '1px',
         borderColor: '#bec1c4',
       },
       '&:hover fieldset': {

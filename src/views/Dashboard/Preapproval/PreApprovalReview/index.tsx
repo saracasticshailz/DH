@@ -417,14 +417,17 @@ const PreApprovalReview = () => {
             px: { xs: 2, md: 0 },
           }}
         >
-          <Grid container height={48} spacing={2} sx={{ maxWidth: { xs: '100%', md: '30%' } }}>
-            <Grid size={{ xs: 6 }}>
+          <Grid container height={48} spacing={2} sx={{justifyContent: 'flex-start' }}> 
+          {/* maxWidth: { xs: '100%', md: '30%' },  */}
+            <Grid size={{ xs: 6 }} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <AppButton
                 variant="outlined"
                 fullWidth
                 onClick={handleBack}
                 sx={{
                   borderColor: '#D1D5DB',
+                  //width: '180px', // Set the width to 180px
+                  minWidth: { md:180 },
                   color: '#374151',
                   '&:hover': {
                     borderColor: '#9CA3AF',
@@ -435,13 +438,15 @@ const PreApprovalReview = () => {
                 {t('preApproval.incomeDetails.buttons.back')}
               </AppButton>
             </Grid>
-            <Grid size={{ xs: 6 }}>
+            <Grid size={{ xs: 6 }} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <AppButton
-                variant="outlined"
+                variant="text"
                 fullWidth
                 onClick={handleCancel}
                 sx={{
                   borderColor: '#D1D5DB',
+                 // width: '180px', // Set the width to 180px
+                 minWidth: { md:120 },
                   color: '#374151',
                   '&:hover': {
                     borderColor: '#9CA3AF',
@@ -462,7 +467,7 @@ const PreApprovalReview = () => {
               '&:hover': {
                 bgcolor: '#C81E24',
               },
-              minWidth: { md: 250 },
+              minWidth: { md:180 },
             }}
             onClick={handleSubmit}
           >
