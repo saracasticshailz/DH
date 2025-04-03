@@ -1,5 +1,0 @@
-Kony-Version=202305.0.0
-Build-Date=20230414
-Build-Time=2311
-Web-Version=202305.0.0
-Web-Plugin-Version=202305.0.0

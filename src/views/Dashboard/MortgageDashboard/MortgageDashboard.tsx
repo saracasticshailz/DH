@@ -10,7 +10,7 @@ import DealsCard from '@/components/Dashboard/DealsCard';
 import ContactCard from '@/components/common/SpecialistCard';
 import { COLORS } from '@/theme/colors';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { setValuationActiveStep } from '@/store/slices/ValuationSlice';
 

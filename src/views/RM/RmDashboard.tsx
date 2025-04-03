@@ -15,7 +15,7 @@ import StatusChip from '@/components/Rm/StatusChip';
 import { useTranslation } from 'react-i18next';
 import TableFilters, { type FilterConfig, type FilterValues } from '@/components/Rm/TableFilters';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { isLoading } from '@/store/slices/CustomerAuthSlice';

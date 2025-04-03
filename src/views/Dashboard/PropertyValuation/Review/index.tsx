@@ -32,7 +32,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';
 import { generateJsonOrderUpdate } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { getFormattedDateTimeWithIntl } from '@/utils';

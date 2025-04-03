@@ -1,5 +1,4 @@
-// src/v2/common/hooks/useHandShake.d.ts
-declare module './v2/common/hooks/useHandShake.js' {
+declare module './konyLib/common/hooks/useHandShake.js' {
   export interface InitSDKParams {
     mfconnect: {
       serviceURL: string;

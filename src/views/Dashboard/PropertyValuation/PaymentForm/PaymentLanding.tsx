@@ -29,7 +29,7 @@ import { AppLoading, CommonDialog } from '@/components';
 import { usePaymentCheckout } from '@/hooks/usePaymentCheckout';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { useAppSelector } from '@/hooks/redux';
 import { selectApplicationDetails } from '@/store/slices/CustomerAuthSlice';

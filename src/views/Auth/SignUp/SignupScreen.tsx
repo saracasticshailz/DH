@@ -25,12 +25,12 @@ import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
 
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
+
 const SignupScreen = () => {
   const { t } = useTranslation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -64,16 +64,7 @@ const SignupScreen = () => {
     }
   }, []);
 
-  const initialValues =
-    //{ name: '', phoneNumber: '', email: '', emiratesId: '' };
-    {
-      name: 'Shailesh',
-      emiratesId: '784199425634369',
-      phoneNumber: '545953954',
-      email: 'shailesh14@test.com',
-      // journeyType: 'CUSTOMER',
-      // clientTime: '1742281922764',
-    };
+  const initialValues = { name: '', phoneNumber: '', email: '', emiratesId: '' };
 
   const handleSubmit = async (values: any) => {
     setCurrentPhoneNumber(values.phoneNumber);

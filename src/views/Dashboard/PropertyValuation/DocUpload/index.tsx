@@ -12,18 +12,15 @@ import { updateDocuments, setValuationActiveStep } from '@/store/slices/Valuatio
 import type { RootState } from '@/store';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';
-import {getFileName} from '@/utils/commonFunctions';
+import { getFileName } from '@/utils/commonFunctions';
 import {
   generateJsonDocumentList,
   generateJsonDocumentRemove,
 } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
-
-
-
 
 interface DocumentValues {
   propertyAddress: File | null;
@@ -43,12 +40,11 @@ const validationSchema = Yup.object({
 
 // Generate dynamic validation schema based on input array
 const generateValidationSchema = (fields: any[]) => {
-  const validationSchema =  Yup.object().shape(
-    fields.reduce((acc, { code, requirementType , name }) => {
+  const validationSchema = Yup.object().shape(
+    fields.reduce((acc, { code, requirementType, name }) => {
       // If the field is mandatory, make it required
       console.log('code is manadte ', name, requirementType);
       if (requirementType === 'Mandatory') {
-       
         acc[code] = Yup.string().required(`${name} is required`);
       } else {
         acc[code] = Yup.string().notRequired();
@@ -67,13 +63,11 @@ const DocumentUploadForm: React.FC = () => {
   const fetchdata: any[] = [];
 
   const documents = useSelector((state: RootState) => state.valuation.documents);
- const  validationSchema =  generateValidationSchema(documentListData);
+  const validationSchema = generateValidationSchema(documentListData);
 
- const client_id = 'your-client-id'; // Replace with your client ID
-const client_secret = 'your-client-secret'; // Replace with your client secret
-const grant_type = 'client_credentials'; // Replace with the grant type
-
-
+  const client_id = 'your-client-id'; // Replace with your client ID
+  const client_secret = 'your-client-secret'; // Replace with your client secret
+  const grant_type = 'client_credentials'; // Replace with the grant type
 
   const formik = useFormik<DocumentValues>({
     initialValues: documents,
@@ -132,17 +126,6 @@ const grant_type = 'client_credentials'; // Replace with the grant type
     orderApiCall(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, 'remove');
   };
 
-// Prepare the data for the POST request
-const data = new URLSearchParams();
-data.append('client_id', client_id);
-data.append('client_secret', client_secret);
-data.append('grant_type', grant_type);
-
-// Make the fetch call to get the token
-// Function to fetch the token
-function fetchToken(client_id, client_secret, grant_type) {
-  const tokenUrl = 'https://your-api-url.com/token'; // Replace with your token URL
-
   // Prepare the data for the POST request
   const data = new URLSearchParams();
   data.append('client_id', client_id);
@@ -150,75 +133,83 @@ function fetchToken(client_id, client_secret, grant_type) {
   data.append('grant_type', grant_type);
 
   // Make the fetch call to get the token
-  return fetch(tokenUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: data,
-  })
-    .then(response => response.json())
-    .then(data => {
-      // Return the token
-      return data.access_token; // Assuming the token is in the access_token field
+  // Function to fetch the token
+  function fetchToken(client_id, client_secret, grant_type) {
+    const tokenUrl = 'https://your-api-url.com/token'; // Replace with your token URL
+
+    // Prepare the data for the POST request
+    const data = new URLSearchParams();
+    data.append('client_id', client_id);
+    data.append('client_secret', client_secret);
+    data.append('grant_type', grant_type);
+
+    // Make the fetch call to get the token
+    return fetch(tokenUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: data,
     })
-    .catch(error => {
-      console.error('Error fetching token:', error);
-      throw error;
-    });
-}
+      .then((response) => response.json())
+      .then((data) => {
+        // Return the token
+        return data.access_token; // Assuming the token is in the access_token field
+      })
+      .catch((error) => {
+        console.error('Error fetching token:', error);
+        throw error;
+      });
+  }
 
-// Function to upload file with Bearer token and additional parameter
-function uploadFileWithToken(token: any, file: string | Blob, extraParam: string | Blob) {
-  const uploadUrl = 'https://your-api-url.com/upload'; // Replace with your file upload URL
+  // Function to upload file with Bearer token and additional parameter
+  function uploadFileWithToken(token: any, file: string | Blob, extraParam: string | Blob) {
+    const uploadUrl = 'https://your-api-url.com/upload'; // Replace with your file upload URL
 
-  // Prepare the form data for the file upload and additional parameter
-  const formData = new FormData();
-  formData.append('file', file); // Append the file
-  formData.append('extra_param', extraParam); // Append any additional parameter
+    // Prepare the form data for the file upload and additional parameter
+    const formData = new FormData();
+    formData.append('file', file); // Append the file
+    formData.append('extra_param', extraParam); // Append any additional parameter
 
-  // Make the fetch call to upload the file
-  return fetch(uploadUrl, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`, // Pass the token as a Bearer token
-    },
-    body: formData, // Form data automatically sets the content type to multipart/form-data
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('File uploaded successfully:', data);
-      return data; // Return the upload response data
+    // Make the fetch call to upload the file
+    return fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token as a Bearer token
+      },
+      body: formData, // Form data automatically sets the content type to multipart/form-data
     })
-    .catch(error => {
-      console.error('Error uploading file:', error);
-      throw error;
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('File uploaded successfully:', data);
+        return data; // Return the upload response data
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error);
+        throw error;
+      });
+  }
+
+  // Fetch the token
+  fetchToken(client_id, client_secret, grant_type)
+    .then((token) => {
+      // Use the token to upload the file once it's received
+      const file = ''; // Get the selected file from the input
+      const extraParam = ''; // Get the selected file from the input
+      if (file) {
+        return uploadFileWithToken(token, file, extraParam);
+      } else {
+        throw new Error('No file selected');
+      }
+    })
+    .then((uploadResponse) => {
+      // Handle the response from the upload
+      console.log('Upload Response:', uploadResponse);
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.error('Error:', error);
     });
-}
-
-// Fetch the token
-fetchToken(client_id, client_secret, grant_type)
-  .then(token => {
-    // Use the token to upload the file once it's received
-    const file = "" // Get the selected file from the input
-    const extraParam = "" // Get the selected file from the input
-    if (file) {
-      return uploadFileWithToken(token, file, extraParam);
-    } else {
-      throw new Error('No file selected');
-    }
-  })
-  .then(uploadResponse => {
-    // Handle the response from the upload
-    console.log('Upload Response:', uploadResponse);
-  })
-  .catch(error => {
-    // Handle any errors
-    console.error('Error:', error);
-  });
-
-
-
 
   const orderApiCall = async (finalJson: any, apiName: string, type: string) => {
     /* type may be fetch, list, upload or remove */
@@ -307,7 +298,6 @@ fetchToken(client_id, client_secret, grant_type)
                 ? file.name
                 : t('valuation.documentUpload.choosefile')}
             <input type="file" hidden accept=".pdf,.jpg,.png" onChange={handleFileChange(field)} />
-           
           </Button>
           {file && (
             <IconButton onClick={handleFileDelete(field)} color="error" size="small">
@@ -327,11 +317,10 @@ fetchToken(client_id, client_secret, grant_type)
   return (
     <form onSubmit={formik.handleSubmit}>
       <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-        {t('valuation.documentUpload.title')}
+        <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+          {t('valuation.documentUpload.title')}
         </Typography>
 
-      
         <Alert severity="info" sx={{ mb: 3 }}>
           {t('valuation.documentUpload.noteDocumentMaxandFileType')}
         </Alert>

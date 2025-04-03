@@ -19,13 +19,12 @@ import CustomDatePicker from '@/components/common/CustomDatePicker';
 import DateTimePicker from '@/components/common/CustomDatePicker';
 import { useTranslation } from 'react-i18next';
 import { getFormData } from '@/utils/offlineStorage';
-import {generateJsonOrder} from  '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
+import { generateJsonOrder } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationOrder';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { Typography } from '@mui/material';
-
 
 interface AccessDetailsFormValues {
   contactName: string;
@@ -65,30 +64,36 @@ const AccessDetailsForm: React.FC = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-       const savedData = getFormData('propertyDetails');
-       const personalAccessDetails = { ...savedData, ...values, bankReference : userDetails.lapsRefNumber, applicationReference : userDetails.applicationRefNumber};
-       const finalJson = generateJsonOrder(personalAccessDetails);
-       console.log('check final json  in Access detail form ', finalJson);
-       dispatch(
+      const savedData = getFormData('propertyDetails');
+      const personalAccessDetails = {
+        ...savedData,
+        ...values,
+        bankReference: userDetails.lapsRefNumber,
+        applicationReference: userDetails.applicationRefNumber,
+      };
+      const finalJson = generateJsonOrder(personalAccessDetails);
+      console.log('check final json  in Access detail form ', finalJson);
+      dispatch(
         updateAccessDetails({
           ...finalJson,
         })
       );
       dispatch(setValuationActiveStep(2)); // Move to Document Upload
-     // apiCallOnContinue(finalJson);
-      
+      // apiCallOnContinue(finalJson);
     },
   });
 
   const apiCallOnContinue = async (finalJson: any) => {
     console.log('Access Detail Forms apiCallOnContinue finalJson 85', finalJson);
     modNetwork(
-      API.PROPERTY_VALUATION_ORDER_CREATE,{
-      ...finalJson},
+      API.PROPERTY_VALUATION_ORDER_CREATE,
+      {
+        ...finalJson,
+      },
       (res: any) => {
         console.log('PROPERTY_VALUATION', res);
 
-        if (res.oprstatus == 0 && res.returnCode == 0) { 
+        if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('Access Detail PROPERTY_VALUATIONs response ', res);
           dispatch(
             updateAccessDetails({
@@ -96,17 +101,17 @@ const AccessDetailsForm: React.FC = () => {
             })
           );
           dispatch(setValuationActiveStep(2)); // Move to Document Upload
-          /* empty */ } else {
+          /* empty */
+        } else {
           // navigate('/Dashboard');
-         
+
           // Create new state
           //setDialogText(res.errMsg_EN);
-          console.log('Error Message ',res.errmsg);
+          console.log('Error Message ', res.errmsg);
 
           //setDialogTitle('ERROR')
           //setDialogPrimaryAction('OK');
           //setShowAlert(true);
-
         }
       },
       '',
@@ -116,9 +121,6 @@ const AccessDetailsForm: React.FC = () => {
     );
   };
 
-
-
-
   const handleBack = () => {
     dispatch(setValuationActiveStep(0)); // Go back to Property Details
   };
@@ -126,8 +128,8 @@ const AccessDetailsForm: React.FC = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <StyledCard>
-      <Box sx={{ p: 3 }}>
-      <Typography
+        <Box sx={{ p: 3 }}>
+          <Typography
             variant="h4"
             component="h1"
             sx={{
@@ -137,63 +139,63 @@ const AccessDetailsForm: React.FC = () => {
               mb: 4,
             }}
           >
-           {t('valuation.accessDetailForm.title')}
+            {t('valuation.accessDetailForm.title')}
           </Typography>
-        <Grid container spacing={3}>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <TextInput
-              name="contactName"
-              label={t("valuation.accessDetailForm.contactName")}
-              value={formik.values.contactName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.contactName && Boolean(formik.errors.contactName)}
-              helperText={formik.touched.contactName && formik.errors.contactName}
-              placeholder={t("valuation.accessDetailForm.placeHolderCN")}
-            />
-          </Grid>
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextInput
+                name="contactName"
+                label={t('valuation.accessDetailForm.contactName')}
+                value={formik.values.contactName}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.contactName && Boolean(formik.errors.contactName)}
+                helperText={formik.touched.contactName && formik.errors.contactName}
+                placeholder={t('valuation.accessDetailForm.placeHolderCN')}
+              />
+            </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
-            <TextInput
-              name="email"
-              label={t("valuation.accessDetailForm.emailAddress")}
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-              placeholder={t("valuation.accessDetailForm.placeHolderEmail")}
-            />
-          </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextInput
+                name="email"
+                label={t('valuation.accessDetailForm.emailAddress')}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+                placeholder={t('valuation.accessDetailForm.placeHolderEmail')}
+              />
+            </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
-            <TextInput
-              name="mobileNumber"
-              label={t("valuation.accessDetailForm.mobileNumber")}
-              value={formik.values.mobileNumber}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
-              helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
-              placeholder={t("valuation.accessDetailForm.placeHolderMobile")}
-              countryCode="+971"
-            />
-          </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextInput
+                name="mobileNumber"
+                label={t('valuation.accessDetailForm.mobileNumber')}
+                value={formik.values.mobileNumber}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.mobileNumber && Boolean(formik.errors.mobileNumber)}
+                helperText={formik.touched.mobileNumber && formik.errors.mobileNumber}
+                placeholder={t('valuation.accessDetailForm.placeHolderMobile')}
+                countryCode="+971"
+              />
+            </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
-            <TextInput
-              name="alternateMobileNumber"
-              label={t("valuation.accessDetailForm.alternateMobileNumber")}
-              value={formik.values.alternateMobileNumber || ''}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder={t("valuation.accessDetailForm.placeholderAlternateMN")}
-              countryCode="+971"
-            />
-          </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <TextInput
+                name="alternateMobileNumber"
+                label={t('valuation.accessDetailForm.alternateMobileNumber')}
+                value={formik.values.alternateMobileNumber || ''}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder={t('valuation.accessDetailForm.placeholderAlternateMN')}
+                countryCode="+971"
+              />
+            </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }} >
-            {/* <DatePicker
+            <Grid size={{ xs: 12, md: 6 }}>
+              {/* <DatePicker
               label={t("valuation.accessDetailForm.selectDate")}
               value={formik.values.date ? formik.values.date.toDate() : null}
               onChange={(newValue) => {
@@ -207,18 +209,18 @@ const AccessDetailsForm: React.FC = () => {
                 },
               }}
             /> */}
-            <CustomDatePicker
-              value={formik.values.date}
-              onChange={(newValue) => {
-                formik.setFieldValue('date', newValue);
-              }}
-              label={t("valuation.accessDetailForm.selectDate")}
-              type={'date'}
-            />
-          </Grid>
+              <CustomDatePicker
+                value={formik.values.date}
+                onChange={(newValue) => {
+                  formik.setFieldValue('date', newValue);
+                }}
+                label={t('valuation.accessDetailForm.selectDate')}
+                type={'date'}
+              />
+            </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }} >
-            {/* <TimePicker
+            <Grid size={{ xs: 12, md: 6 }}>
+              {/* <TimePicker
               label={t("valuation.accessDetailForm.time")}
               value={formik.values.time}
               onChange={(newValue) => {
@@ -233,7 +235,7 @@ const AccessDetailsForm: React.FC = () => {
               }}
             /> */}
 
-            {/* <DateTimePicker
+              {/* <DateTimePicker
               type="time"
               label={t("valuation.accessDetailForm.time")}
               value={formik.values.time}
@@ -243,58 +245,65 @@ const AccessDetailsForm: React.FC = () => {
               error={formik.touched.time && Boolean(formik.errors.time)}
             /> */}
 
-            <DateTimePicker
-              type="time"
-              label={t("valuation.accessDetailForm.time")}
-              value={formik.values.time}
-              onChange={(newValue) => {
-                formik.setFieldValue('time', newValue);
-              }}
-              error={formik.touched.time && Boolean(formik.errors.time)}
-            />
+              <DateTimePicker
+                type="time"
+                label={t('valuation.accessDetailForm.time')}
+                value={formik.values.time}
+                onChange={(newValue) => {
+                  formik.setFieldValue('time', newValue);
+                }}
+                error={formik.touched.time && Boolean(formik.errors.time)}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12 }}>
+              <TextInput
+                name="specialInstructions"
+                label={t('valuation.accessDetailForm.specialInstructions')}
+                value={formik.values.specialInstructions || ''}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                multiline
+                rows={4}
+                placeholder={t('valuation.accessDetailForm.placeholderSpecialInst')}
+              />
+            </Grid>
           </Grid>
 
-          <Grid size={{ xs: 12 }}>
-            <TextInput
-              name="specialInstructions"
-              label={t("valuation.accessDetailForm.specialInstructions")}
-              value={formik.values.specialInstructions || ''}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              multiline
-              rows={4}
-              placeholder={t("valuation.accessDetailForm.placeholderSpecialInst")}
-            />
-          </Grid>
-        </Grid>
-
-        {/* <Box sx={{ mt: 3, display: 'flex',justifyContent: 'space-between',gap:2}}>
+          {/* <Box sx={{ mt: 3, display: 'flex',justifyContent: 'space-between',gap:2}}>
           <AppButton onClick={handleBack} withBorder>
           {t('preApproval.incomeDetails.buttons.back')}
           </AppButton>
             <PrimaryButton withBorder>{t('preApproval.incomeDetails.buttons.cancel')}</PrimaryButton>
             <PrimaryButton type="submit">{t('preApproval.incomeDetails.buttons.continue')}</PrimaryButton>
         </Box> */}
-        <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-  <Box sx={{ display: 'flex', gap: 2 }}>
-    <AppButton  fullWidth={false} onClick={handleBack} withBorder>
-      {t('preApproval.incomeDetails.buttons.back')}
-    </AppButton>
-    <AppButton  borderless withBorder fullWidth={false} sx={{color: '#273239', // Changed to black color
-        height: '48px',
-        width:  '120px',
-        '&:hover': {
-          borderColor: '#273239', // Changed hover border color to match text
-          backgroundColor: 'transparent',
-        }}}>
-      {t('preApproval.incomeDetails.buttons.cancel')}
-    </AppButton>
-  </Box>
-  <PrimaryButton type="submit" fullWidth={false}>
-    {t('preApproval.incomeDetails.buttons.continue')}
-  </PrimaryButton>
-</Box>
-      </Box>
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <AppButton fullWidth={false} onClick={handleBack} withBorder>
+                {t('preApproval.incomeDetails.buttons.back')}
+              </AppButton>
+              <AppButton
+                borderless
+                withBorder
+                fullWidth={false}
+                sx={{
+                  color: '#273239', // Changed to black color
+                  height: '48px',
+                  width: '120px',
+                  '&:hover': {
+                    borderColor: '#273239', // Changed hover border color to match text
+                    backgroundColor: 'transparent',
+                  },
+                }}
+              >
+                {t('preApproval.incomeDetails.buttons.cancel')}
+              </AppButton>
+            </Box>
+            <PrimaryButton type="submit" fullWidth={false}>
+              {t('preApproval.incomeDetails.buttons.continue')}
+            </PrimaryButton>
+          </Box>
+        </Box>
       </StyledCard>
     </form>
   );
