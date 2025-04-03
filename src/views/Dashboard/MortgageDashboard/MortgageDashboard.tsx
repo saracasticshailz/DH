@@ -51,7 +51,7 @@ export default function MortgageDashboard() {
     modNetwork(
       API.PROPERTY_VALUATION_ORDER_FETCH,
       {
-        bankReferenceId : "1234",
+        bankReferenceId: '1234',
       },
       (res: any) => {
         // {
@@ -83,15 +83,14 @@ export default function MortgageDashboard() {
         //     "preferredStartDateTimeTo": "8/8/2024 11:00:00 AM"
         //   }
         // }
-       
 
         if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('valuationOrderFetch api response ', res);
-          if(fetchOrderData===null){
+          if (fetchOrderData === null) {
             setFetchOrderData(res);
           }
-         
-          console.log("dashboard",API.PROPERTY_VALUATION_ORDER_FETCH, res);
+
+          console.log('dashboard', API.PROPERTY_VALUATION_ORDER_FETCH, res);
         } else {
           alert(res.errmsg);
         }
@@ -196,8 +195,8 @@ export default function MortgageDashboard() {
                   buttonText={t('preapprovalButton.' + journeyStatus, { defaultValue: 'APPLY' })}
                   active={true}
                   onButtonClick={handlePreapprovalAction}
-                  fetchOrderData = {fetchOrderData}
-                  journeyStatus = {journeyStatus}
+                  fetchOrderData={fetchOrderData}
+                  journeyStatus={journeyStatus}
                   applnstatus={
                     t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
@@ -213,8 +212,8 @@ export default function MortgageDashboard() {
                   description={t('dashboardScreen.steps.propertyValuation.description')}
                   buttonText={t('valuationButton.' + journeyStatus, { defaultValue: 'NA' })}
                   onButtonClick={handleValuationAction}
-                  fetchOrderData = {fetchOrderData}
-                  journeyStatus = {journeyStatus}
+                  fetchOrderData={fetchOrderData}
+                  journeyStatus={journeyStatus}
                   applnstatus={
                     t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
@@ -228,8 +227,8 @@ export default function MortgageDashboard() {
                 <MortgageStep
                   title={t('dashboardScreen.steps.finalOffer.title')}
                   description={t('dashboardScreen.steps.finalOffer.description')}
-                  fetchOrderData = {fetchOrderData}
-                  journeyStatus = {journeyStatus}
+                  fetchOrderData={fetchOrderData}
+                  journeyStatus={journeyStatus}
                 />
               </Box>
             </StyledCard>

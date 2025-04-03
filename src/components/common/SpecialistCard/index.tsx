@@ -57,8 +57,8 @@ const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, title = '
         <ContactItem>
           <IconWrapper>
             {/* <User size={20} /> */}
-            {/* <img src={IMG.UserIconcard} /> */}
-            <Person />
+            <img src={IMG.UserIconcard} loading="lazy" height={20} width={20}/>
+            {/* <Person /> */}
           </IconWrapper>
 
           <Typography
@@ -72,7 +72,9 @@ const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, title = '
         </ContactItem>
 
         <ContactItem>
-          <IconWrapper>{/* <Mail size={20} /> */}</IconWrapper>
+          <IconWrapper>{/* <Mail size={20} /> */}
+          <img src={IMG.EmailIcon} loading="lazy" height={20} width={20}/>
+          </IconWrapper>
           <Typography
             sx={{
               color: '#4B5563',
@@ -84,7 +86,9 @@ const ContactCard: React.FC<ContactCardProps> = ({ name, email, phone, title = '
         </ContactItem>
 
         <ContactItem>
-          <IconWrapper>{/* <Phone size={20} /> */}</IconWrapper>
+          <IconWrapper>{/* <Phone size={20} /> */}
+          <img src={IMG.PhoneIcon} loading="lazy" height={20} width={20}/>
+          </IconWrapper>
           <Typography
             sx={{
               color: '#4B5563',
