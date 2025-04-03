@@ -17,15 +17,16 @@ const NotImplementedView: FunctionComponent<Props> = ({ name }) => {
 
   return (
     <div>
-      <h1>{componentName} {t('notFoundView.isUnderConstruction')}</h1>
+      <h1>
+        {componentName} {t('notFoundView.isUnderConstruction')}
+      </h1>
       <p>
-      {t('notFoundView.thisViewisnotImplemented')} <Link to="/">{t('notFoundView.gotoHomePage')}</Link>
+        {t('notFoundView.thisViewisnotImplemented')} <Link to="/">{t('notFoundView.gotoHomePage')}</Link>
       </p>
       <p>
-      {t('notFoundView.youcalledthe')} <b>{location?.pathname}</b> {t('notFoundView.url')}
+        {t('notFoundView.youcalledthe')} <b>{location?.pathname}</b> {t('notFoundView.url')}
         {paramId && (
           <span>
-            {' '}
             {t('notFoundView.where')} <b>{paramId}</b> {t('notFoundView.isaparameter')}
           </span>
         )}
