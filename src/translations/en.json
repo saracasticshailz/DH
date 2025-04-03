@@ -85,11 +85,12 @@
     "phoneNumber": "Phone Number",
     "eId": "Emirates ID",
     "enterYourEid": "Enter your Emirates ID number",
-    "createYourProfile": "CREATE YOUR PROFILE",
+    "createYourProfile": "Create Your Profile",
     "cancelPre-ApprovalApplication": "Cancel Pre-Approval Application",
     "AreYouSureYouWantToCancelYourprogress": "Are you sure you want to cancel? Your progress will not be saved and you will be returned to your mortgage dashboard.",
     "yesCancel": "yes, cancel",
-    "continuePre-approval": "continue pre-approval"
+    "continuePre-approval": "continue pre-approval",
+    "createYourProfileDescription" : "This one time registration will create your profile on the ADCB Dream Home platform, enhancing your home purchase experience."
   },
   "otpModal": {
     "oneTimePassword": "One Time Password",
