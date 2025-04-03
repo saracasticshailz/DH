@@ -156,7 +156,7 @@ export default function MortgageStep({
             <Box sx={{ mb: 2, ml: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Typography variant="h6">{title}</Typography>
-                {applnstatus !== undefined && title != '2. Property Valuation'
+                {applnstatus !== undefined && title != t('valuation.propertyDetails.title')
                   ? renderStatusChip()
                   : null}
               </Box>
@@ -164,7 +164,7 @@ export default function MortgageStep({
               {subDescription && <Typography color="text.secondary">{subDescription}</Typography>}
               {fetchOrderData &&
               ((applnstatus !== undefined && applnstatus === 'Pending') || applnstatus === 'InProgress') &&
-              title === '2. Property Valuation' ? (
+              title === t('valuation.propertyDetails.title') ? (
                 <>
                   <Box
                     sx={{

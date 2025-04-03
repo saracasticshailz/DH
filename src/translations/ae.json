@@ -1,6 +1,74 @@
 {
+  "imageProgressBar": {
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "step": "الخطوة",
+    "of": "من",
+    "preApproval": "الموافقة المبدئية",
+    "propertyValuation": "تقييم العقار"
+  },
+ "preapprovalSubStatus": {
+    "PR": "Rejected",
+    "PP": "InProgress",
+    "PC": "Complete",
+    "UP": "Complete",
+    "NO": "Complete",
+    "DU": "Complete",
+    "CP": "Complete",
+    "VC": "Complete",
+    "OI": "Complete",
+    "": "undefined"
+  },
+  "valuationSubStatus": {
+    "PR": "",
+    "NP": "",
+    "PP": "",
+    "PC": "",
+    "UP": "",
+    "NO": "Pending",
+    "DU": "Pending",
+    "CP": "Pending",
+    "VC": "Complete",
+    "OI": "InProgress",
+    "": "undefined"
+  },
+
+
+  "preapprovalButton": {
+    "PR": "",
+    "PP": "",
+    "PC": "إعادة إرسال",
+    "NP": "تقديم الطلب",
+    "UP": "إعادة إرسال",
+    "NO": "إعادة إرسال",
+    "CP": "إعادة إرسال",
+    "DU": "إعادة إرسال",
+    "VC": "إعادة إرسال",
+    "":   "تقديم الطلب"
+  },
+  "valuationButton": {
+    "PR": "NA",
+    "PP": "NA",
+    "PC": "طلب تقييم",
+    "UP": "RESTART VALUATION",
+    "NO": "استكمال التقييم",
+    "CP": "CONTINUE PAYMENT",
+    "DU": "CONTINUE PAYMENT",
+    "VC": "إعادة إرسال",
+    "": "NA"
+  },
+  "common": {
+    "noOptions": "No Options Found",
+    "loading": "Loading",
+    "typeMoreChars": "Type 3 or more characters!",
+    "somethingWentWrong": "Something went wrong",
+    "openanADCBAccount": "إنشاء حساب في بنك أبوظبي التجاري",
+    "downloadHayyakAppMessage": "بإمكانك تحميل تطبيق حياك التابع لبنك أبوظبي التجاري وفتح حساب في الحال. سيكون امتلاك حساب ضرورياً لاستلام كتاب العرض النهائي الخاص بك."
+  },
   "header": {
-    "language": "English"
+    "language": "English",
+     "sureWantToLogout": "Sure Want to logout?"
   },
   "footer": {
     "copyRight": "حقوق النشر © 2025 بنك أبوظبي التجاري. جميع الحقوق محفوظة.",
@@ -18,6 +86,384 @@
     "phoneNumber": "رقم الهاتف",
     "eId": "الهوية الإماراتية",
     "enterYourEid": "أدخل رقم هويتك الإماراتية",
-    "createYourProfile": "أنشئ ملفك الشخصي"
+    "createYourProfile": "أنشئ ملفك الشخصي",
+    "cancelPre-ApprovalApplication": "إلغاء طلب الموافقة المبدئية",
+    "AreYouSureYouWantToCancelYourprogress": "متأكد من رغبتك في إلغاء الطلب؟ لن يتم حفظ تقدمك وسيتم إعادتك إلى صفحة معلومات الرهن العقاري الخاصة بك.",
+    "yesCancel": "نعم، يرجى الإلغاء",
+    "continuePre-approval": "استكمال الموافقة المبدئية",
+    "createYourProfileDescription" : "هذا التسجيل لمرة واحدة سينشئ حسابك الشخصي على منصة منزل الأحلام من بنك أبوظبي التجاري، ليسهّل عليك تجربة شراء منزلك"
+  },
+  "otpModal": {
+    "oneTimePassword": "كلمة مرور لمرة واحدة",
+    "aSecureOne": "سيتم إرسال كلمة مرور آمنة لمرة واحدة (OTP) إلى رقم هاتفك المسجل.",
+    "pleaseEnter": "يرجى إدخال كلمة المرور (OTP) للمتابعةa",
+    "otpFor": "OTP for number {{phone}}",
+    "validFor": "Valid for {{min}} min {{sec}} seconds",
+    "resend": "إعادة إرسال كلمة المرور لمرة واحدة (OTP)",
+    "back": "رجوع",
+    "phoneVerification": "Phone Verification",
+    "emailVerification": "Email verification",
+    "otpExpired": "OTP has expired. Please request a new OTP.",
+    "resendOtp": "إعادة إرسال كلمة المرور لمرة واحدة (OTP)"
+  },
+  "loginScreen": {
+    "title": "Login",
+    "email": "البريد الإلكتروني",
+    "phoneNumber": "رقم الهاتف",
+    "dontHaveProfile": "Don't have a profile?",
+    "letsGetYouStarted": "LET'S GET YOU STARTED",
+    "proceed": "تأكيد"
+  },
+  "dashboardScreen": {
+    "hero": {
+      "welcome": "مرحباً",
+      "title": "صفحة الرهن العقاري الخاصة بك"
+    },
+    "steps": {
+      "preApproval": {
+        "title": "1. الموافقة المبدئية",
+        "description": "Find out your loan eligibility in under 10 minutes.",
+        "subDescription": "Please keep your Emirates ID and Passport details handy to complete your application process.",
+        "inProgressDescription": "شكراً لك! لقد تم استلام طلبك وهو الآن قيد المراجعة. يمكنك متابعة حالة طلبك لمعرفة آخر المستجدات. بمجرد أن يصبح جاهزاً، سنرسله بالبريد الإلكتروني إلى عنوانك المسجل.",
+        "congratulations": "تهانينا! لقد اقتربت خطوة من امتلاك منزل أحلامك. استخدم هذه الوثيقة للتخطيط، البحث، واختيار العقارات المناسبة ضمن نطاق أهليتك.",
+        "apply": "تقديم الطلب",
+        "resend": "إعادة إرسال"
+      },
+      "propertyValuation": {
+        "title": "2. تقييم العقار",
+        "description": "سيساعد تقييمنا المستقل من طرف ثالث في تحديد القيمة الحقيقية لعقارك، مما يضمن سعراً عادلاً ويوفر لك راحة البال."
+      },
+      "finalOffer": {
+        "title": "3. كتاب العرض النهائي",
+        "description": "ابق على اطلاع، وترقب رحلة رقمية مذهلة ستُكشف لك قريباً."
+      }
+    },
+    "guide": {
+      "title": "دليل شراء منزل الأحلام",
+      "description": "تم تصميم هذا الدليل لإرشادك في كل خطوة من مراحل شراء منزلك.",
+      "button": "تحميل"
+    },
+    "deals": {
+      "title": "العروض والتخفيضات",
+      "viewAll": "مشاهدة جميع العروض",
+      "lastUpdatedMessage": "آخر تحديث في  10:45 19/10/2024",
+      "description": "اكتشف العروض والتخفيضات المُصممة خصيصاً حتى ندعمك في رحلة شراء منزل أحلامك.",
+      "items": {
+        "truck": {
+          "title": "800Truck",
+          "description": "خصم 30% على خدمات النقل من 800Truck"
+        },
+        "legal": {
+          "title": "Just Wills",
+          "description": "خصم 50% على خدمات صياغة الوصايا من جي دبليو للاستشارات القانونية"
+        }
+      }
+    }
+  },
+  "preApproval": {
+    "hero": {
+      "step": "Step 1 of 3",
+      "title": "الموافقة المبدئية"
+    },
+    "loanDetails": {
+      "title": "تفاصيل القرض",
+      "description": "يمكنك الآن أن تختار ما يناسب متطلباتك الشخصية من بين خيارات التسعير المرنة التي نقدمها. سيتم احتساب قسطك الشهري ومبلغ التمويل المستحق بناءً على خيار التسعير الذي تم حددته. في حال لم تحدد خيارك في هذه المرحلة، سيتم اعتماد معدل افتراضي لحساب استحقاق الموافقة المبدئية.",
+      "specialPricing": "استناداً إلى بيانات حسابك الشخصي، قد تكون مؤهلاً للحصول على تسعيرة مميزة لكتاب الموافقة المبدئية.",
+      "loanPreference": {
+        "label": "نوع القرض المفضل",
+        "options": {
+          "conventional": "بنك أبوظبي التجاري",
+          "islamic": "بنك أبوظبي التجاري الإسلامي"
+        }
+      },
+      "financePricing": {
+        "label": "خيارات تسعير التمويل",
+        "learnMore": "اعرف المزيد",
+        "options": {
+          "threeYear": {
+            "title": "سعر فائدة أو إجارة ثابت لمدة ثلاث سنوات، يتبعه سعر متغير يعتمد على مؤشر إيبور لثلاثة أشهر بالإضافة إلى الهوامش المطبقة (هيكل التسعير الهجين - الهيكل الافتراضي)",
+            "description": "سعر فائدة/ معدل إجارة سنوي ثابت مطبق على مدى أول 3 سنوات، يليه ثلاثة أشهر إيبور مع هوامش. هيكل تسعير هجين."
+          },
+          "fiveYear": {
+            "title": "5 Year applicable fixed interest / Ijarah rate p.a. for first 5 years",
+            "description": "followed by 5 month Eibor plus applicable margins thereafter. Hybrid pricing structure."
+          },
+          "variable": {
+            "title": "Variable 1 month EIBOR",
+            "description": "سعر فائدة/إجارة متغير يعتمد على مؤشر إيبور لمدة شهر واحد بالإضافة إلى الهوامش المطبقة (هيكل التسعير المتغير)"
+          }
+        }
+      },
+      "purchaseType": {
+        "label": "أسلوب الشراء",
+        "placeholder": "أسلوب الشراء"
+      },
+      "loanAmount": {
+        "label": "القرض المطلوب بالدرهم",
+        "placeholder": "من 250،000 إلى 24،000،000 درهم",
+        "currency": "AED"
+      },
+      "loanTenure": {
+        "label": "مدة سداد القرض",
+        "placeholder": "مدة سداد القرض"
+      },
+      "specialistCode": {
+        "label": "رمز أخصائي الرهن العقاري الخاص بك (اختياري)",
+        "placeholder": "يرجى إدخال الرمز"
+      },
+      "note": "ملاحظة: قد تتغير الأسعار وقت تقديم الطلب",
+
+      "buttons": {
+        "cancel": "إلغاء",
+        "continue": "متابعة"
+      }
+    },
+
+    "employmentDetails": {
+      "title": "تفاصيل الوظيفة",
+      "employmentType": {
+        "label": "نوع الوظيفة",
+        "options": {
+          "salaried": "موظف براتب",
+          "selfEmployed": "Self Employed Others",
+          "pensioner": "Pensioner (UAE Nationals only)"
+        }
+      },
+      "employerName": {
+        "label": "اسم جهة العمل",
+        "placeholder": "اسم جهة العمل"
+      },
+      "joiningDate": {
+        "label": "تاريخ الالتحاق بالعمل الحالي",
+        "placeholder": "DD/MM/YYYY"
+      },
+      "buttons": {
+        "back": "رجوع",
+        "cancel": "إلغاء",
+        "continue": "متابعة"
+      },
+      "validation": {
+        "employmentType": {
+          "required": "Employment type is required",
+          "invalid": "Please select a valid employment type"
+        },
+        "employerName": {
+          "required": "Employer name is required"
+        },
+        "joiningDate": {
+          "required": "Joining date is required",
+          "format": "Date must be in DD/MM/YYYY format"
+        }
+      }
+    },
+    "incomeDetails": {
+      "title": "تفاصيل الدخل",
+      "fixedMonthlyIncome": {
+        "fixedMonthlyIncome": "دخل شهري ثابت",
+        "placeholder": "من 0 إلى 99،000،000 درهم",
+        "helperText": "الراتب الأساسي و/أو بدل إيجار السكن",
+        "currency": "AED",
+        "errors": {
+          "required": "Required",
+          "min": "Must be 0 or greater",
+          "max": "Cannot exceed 99,000,000"
+        }
+      },
+      "personalDetails": {
+        "title": "Personal Details",
+        "customerName": "Customer name (as per passport)",
+        "enterNameAsPerPassport": "Enter name as per passport",
+        "gender": "Gender",
+        "pleaseSelect": "يرجى التحديد",
+        "male": "Male",
+        "female": "Female",
+        "other": "غير ذلك",
+        "dateOfBirth": "Date of birth",
+        "nationality": "Nationality",
+        "uae": "UAE",
+        "india": "INDIA",
+        "usa": "USA",
+        "uk": "UK",
+        "passportNumber": "Passport number",
+        "passportExpiry": "Passport expiry",
+        "poBoxNumber": "PO box number",
+        "state": {
+          "title": "State",
+          "dubai": "Dubai",
+          "abuDhabi": "Abu Dhabi",
+          "sharjah": "Sharjah",
+          "ajman": "Ajman",
+          "fujairah": "Fujairah",
+          "rasAlkhaimah": "Ras Al khaimah",
+          "ummAlQuwain": "Umm Al Quwain"
+        },
+        "countryofResidence": "Country of residence"
+      },
+      "accommodation": {
+        "label": "الإقامة في سكن مُقدم من الشركة",
+        "options": {
+          "yes": "نعم ",
+          "no": "لا"
+        },
+        "errors": {
+          "required": "Required"
+        }
+      },
+      "annualRentalIncome": {
+        "annualRentalIncome": "عائد الإيجار السنوي",
+        "placeholder": "من 0 إلى 99،000،000 درهم",
+        "currency": "AED",
+        "errors": {
+          "required": "Required",
+          "min": "Must be 0 or greater",
+          "max": "Cannot exceed 99,000,000"
+        }
+      },
+      "otherMonthlyIncome": {
+        "placeholder": "من 0 إلى 9،000،000 درهم",
+        "helperText": "بدل سفر و/أو بدل تعليم",
+        "currency": "AED",
+        "errors": {
+          "required": "Required",
+          "min": "Must be 0 or greater",
+          "max": "Cannot exceed 9,000,000"
+        },
+        "otherMonthlyIncome": "عائد شهري آخر إضافي"
+      },
+      "termsAndConditions": {
+        "text": "أوافق علىو",
+        "link": " الشروط والأحكام",
+        "errors": {
+          "required": "Required",
+          "accept": "You must accept the terms and conditions"
+        }
+      },
+      "buttons": {
+        "back": "رجوع",
+        "cancel": "إلغاء",
+        "submit": "إرسال",
+        "continue": "متابعة"
+      }
+    }
+  },
+  "valuation": {
+    "payment": {
+      "title": "تفاصيل الدفع ",
+      "description": "Congratulations! You've reached the final step of your valuation process. Please proceed to pay your valuation fee to complete your application.",
+      "discountCode": "يرجى إدخال رمز الخصم",
+      "applyDiscount": "تقديم الطلب",
+      "standardFees": "الرسوم النظامية",
+      "vat": "ضريبة القيمة المضافة (5%)",
+      "totalPayable": "إجمالي المبلغ المستحق ",
+      "discountApplied": "Discount has been successfully applied to your order",
+      "errors": {
+        "noDiscountCode": "Please enter a discount code",
+        "invalidDiscount": "Invalid discount code"
+      }
+    },
+    "accessDetailForm": {
+      "title": "تفاصيل الوصول إلى العقار",
+      "contactName": "اسم جهة الاتصال ",
+      "placeHolderCN": "Enter contact name",
+      "emailAddress": "عنوان البريد الإلكتروني",
+      "placeHolderEmail": "Enter email address",
+      "mobileNumber": "رقم الهاتف",
+      "placeHolderMobile": "Enter mobile number",
+      "alternateMobileNumber": "رقم الهاتف البديل (اختياري)",
+      "placeholderAlternateMN": "Enter alternate mobile number",
+      "selectDate": "تحديد التاريخ",
+      "time": "الوقت",
+      "specialInstructions": "إرشادات خاصة (اختياري)s",
+      "placeholderSpecialInst": "Enter any special instructions"
+    },
+    "documentUpload": {
+      "title": "Document Upload",
+      "noteDocumentMaxandFileType": " Documents should be max 2MB. Accepted file types are PDF, JPG, PNG.",
+      "choosefile": "عقود (اختياري)"
+    },
+    "propertyDetails": {
+      "title": "تفاصيل العقار",
+      "pleaseReviewPropertyMessage": "يرجى مراجعة تفاصيل العقار بعناية قبل الانتقال إلى القسم التالي. بمجرد الإرسال، لن تتمكن من تعديل هذا القسم.",
+      "propertyAddress": "Property Address",
+      "valuationApplication": "طلب التقييم",
+      "paymentPending": "الدفع في انتظار التنفيذ",
+      "propertyType": {
+        "title": "نوع العقار",
+        "apartment": "شقة",
+        "townhouse": "تاون هاوس",
+        "villa": "فيلا"
+      },
+      "completionStatus": {
+        "title": "Completion status",
+        "completed": "Completed",
+        "underConstruction": "Under Construction",
+        "offPlan": "Off Plan"
+      },
+      "developmentProjectName": "اسم المطور",
+      "nameofbuilding": "اسم المبنى/المرحلة/التجمع",
+      "locality": "المنطقة/الموقع",
+      "emirate": "الإمارة",
+      "flatNumber": "رقم الشقة/المنزل",
+      "floorNumber": "رقم الطابق",
+      "landmarks": "معالم بارزة (في حال وجودها)"
+    }
+  },
+  "review": {
+    "title": "مراجعة",
+    "offlineMessage": "You're currently offline. Changes will be saved locally.",
+    "edit": "تعديل",
+    "generateConsentRequest": "GENERATE CONSENT REQUEST",
+    "iAgreeToThe": "أوافق علىا",
+    "termsAndConditions": " الشروط والأحكام",
+    "adcbPrivacyPolicy": "ADCB سياسة الخصوصيةy"
+  },
+  "rmDashboard": {
+    "searchMobileNumber": "Search by Mobile or Ref. Number",
+    "duration": {
+      "3months": "3 months",
+      "6months": "6 months",
+      "1year": "1 year"
+    },
+   "status": {
+      "title": "Status",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "newApplication": "NEW APPLICATION",
+    "customerName": "Customer Name",
+    "mobileNo": "Mobile No.",
+    "applicationNo": "Application No.",
+    "lastUpdated": "آخر تحديث في",
+    "nextAction": "Next Action"
+  },
+  "welcome": {
+    "createYourProfile": "إنشاء حسابك الشخصي",
+    "onetimeRegisterMessage": "This one-time registration will create your profile on the ADCB Dream Home platform, enhancing your home purchase experience.",
+    "signIN": "تسجيل الدخول",
+    "copyrightMessage": "حقوق الطبع والنشر © 2025 بنك أبوظبي التجاري. جميع الحقوق محفوظة.",
+    "termaandConditions": "الشروط والأحكام",
+    "privacyPolicy": "سياسة الخصوصية"
+  },
+  "notFoundView": {
+    "pageNotFound": "Page not found!",
+    "requestedAddressMessage": "Requested address is unknown, please check your URL or go to the",
+    "homePage": "home page",
+    "error404Message": "Error 404 - Page not found",
+    "gotoHomePage": "Go to Home Page",
+    "homepage": "home page",
+    "isUnderConstruction": "is under construction",
+    "thisViewisnotImplemented": "This view is not implemented yet. Go to",
+    "youcalledthe": "You've called the",
+    "url": "url",
+    "where": "where",
+    "isaparameter": "is a parameter"
+  },
+  "createCustomerProfile": {
+    "title": "Create Customer Profile",
+    "formValues": "Form Values:",
+    "formErrors": "Form Errors:",
+    "touchedFields": "Touched Fields:"
   }
 }
+
