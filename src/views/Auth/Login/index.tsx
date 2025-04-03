@@ -209,8 +209,8 @@ const LoginScreen = () => {
           }}
           phoneNumber={isEmailVerification ? maskedEmail : maskedPhoneNumber}
           onSubmit={(OTP: string) => handleOTPSubmit(OTP)}
-          title={isEmailVerification ? t('common.emailVerification') : t('common.phoneVerification')}
-          description={isEmailVerification ? t('common.enterEmailOtp') : t('common.enterPhoneOtp')}
+          title={isEmailVerification ? t('common.emailVerification') : t('otpModal.phoneVerification')}
+          description={isEmailVerification ? t('common.enterEmailOtp') : t('otpModal.enterPhoneOtp')}
         />
       )}
     </Box>

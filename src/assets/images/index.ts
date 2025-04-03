@@ -13,6 +13,8 @@ import UserIconcard from './png/userIconcard.png';
 import EditIcon from './png/EditIcon.png';
 import LocationIcon from './png/location.png';
 import ImageProgressBarBg from './png/imageProgressBg.png';
+import EmailIcon from './png/email.png';
+import PhoneIcon from './png/phone.png';
 
 export const IMG = {
   signupImage,
@@ -30,4 +32,6 @@ export const IMG = {
   EditIcon,
   LocationIcon,
   ImageProgressBarBg,
+  EmailIcon,
+  PhoneIcon
 };
