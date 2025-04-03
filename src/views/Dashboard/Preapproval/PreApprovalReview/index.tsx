@@ -417,8 +417,8 @@ const PreApprovalReview = () => {
             px: { xs: 2, md: 0 },
           }}
         >
-          <Grid container height={48} spacing={2} sx={{justifyContent: 'flex-start' }}> 
-          {/* maxWidth: { xs: '100%', md: '30%' },  */}
+          <Grid container height={48} spacing={2} sx={{ justifyContent: 'flex-start' }}>
+            {/* maxWidth: { xs: '100%', md: '30%' },  */}
             <Grid size={{ xs: 6 }} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
               <AppButton
                 variant="outlined"
@@ -427,7 +427,7 @@ const PreApprovalReview = () => {
                 sx={{
                   borderColor: '#D1D5DB',
                   //width: '180px', // Set the width to 180px
-                  minWidth: { md:180 },
+                  minWidth: { md: 180 },
                   color: '#374151',
                   '&:hover': {
                     borderColor: '#9CA3AF',
@@ -445,8 +445,8 @@ const PreApprovalReview = () => {
                 onClick={handleCancel}
                 sx={{
                   borderColor: '#D1D5DB',
-                 // width: '180px', // Set the width to 180px
-                 minWidth: { md:120 },
+                  // width: '180px', // Set the width to 180px
+                  minWidth: { md: 120 },
                   color: '#374151',
                   '&:hover': {
                     borderColor: '#9CA3AF',
@@ -467,7 +467,7 @@ const PreApprovalReview = () => {
               '&:hover': {
                 bgcolor: '#C81E24',
               },
-              minWidth: { md:180 },
+              minWidth: { md: 180 },
             }}
             onClick={handleSubmit}
           >
