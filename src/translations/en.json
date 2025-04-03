@@ -1,4 +1,13 @@
 {
+  "imageProgressBar": {
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "step": "Step",
+    "of": "of",
+    "preApproval": "Pre-Approval",
+    "propertyValuation": "Property Valuation"
+  },
   "preapprovalSubStatus": {
     "PR": "Rejected",
     "PP": "InProgress",

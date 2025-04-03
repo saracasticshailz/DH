@@ -1,24 +1,24 @@
 import { Box, Container, Grid2 as Grid } from '@mui/material';
 import ImageProgressBar from '@/components/common/ImageProgressBar/ImageProgressBar';
 import LoanDetails from './LoanDetails';
-import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
+import { AuthFooter } from '@/components/common/AppLayout';
 import EmploymentDetails from './EmploymentDetails';
 import IncomeDetailsForm from './IncomeDetails/Index';
 import { useSelector } from 'react-redux';
 import PreApprovalReview from './PreApprovalReview';
-import PaymentForm from '../PropertyValuation/PaymentForm';
 import PersonalDetailsForm from './PersonalDetails/PersonalDetailsForm';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';
 import { IMG } from '@/assets/images';
 import CreateCustomerProfile from '@/views/RM/CreateCutsomerProfile/CreateCustomerProfile';
+import { useTranslation } from 'react-i18next';
 
 export default function PreApprovalPage() {
   const { activeStep } = useSelector((state: any) => state.mortgage.preApproval);
   const userDetails = useAppSelector(selectAuth);
   const isRmUser = userDetails?.customerType === 'RM';
 
-  // console.log('userDetails', userDetails);
+  const { t } = useTranslation();
 
   const renderActiveForm = () => {
     switch (activeStep) {
@@ -99,15 +99,14 @@ export default function PreApprovalPage() {
             <ImageProgressBar
               currentStep={activeStep + 1}
               totalSteps={isRmUser ? 4 : userDetails?.customerType === 'NTB' ? 5 : 4}
-              title={'PreApproval'}
+              title={t('imageProgressBar.preApproval')}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 8 }}>
-            {/* {renderRMNewAppForm()} */}
             {userDetails?.customerType === 'NTB'
               ? renderNTBActiveForm()
-              : isRmUser //or replace if user is RM logic
+              : isRmUser
                 ? renderRMNewAppForm()
                 : renderActiveForm()}
           </Grid>

@@ -27,8 +27,6 @@ import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '@/v2/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
-import CryptoJS from 'crypto-js';
-import { getQueryParams } from '@/utils/queryParams';
 const SignupScreen = () => {
   const { t } = useTranslation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -198,19 +196,21 @@ const SignupScreen = () => {
       <AuthHeader />
       {isLoading && <AppLoading />}
 
-      <CommonDialog
-        open={showAlert}
-        onClose={(): void => {
-          setShowAlert(false);
-        }}
-        onPrimaryAction={(): void => {
-          setShowAlert(false);
-        }}
-        title={dialogTitle}
-        description={dialogText}
-        primaryButtonText={dialogPrimaryAction}
-        secondaryButtonText={''}
-      />
+      {showAlert && (
+        <CommonDialog
+          open={showAlert}
+          onClose={(): void => {
+            setShowAlert(false);
+          }}
+          onPrimaryAction={(): void => {
+            setShowAlert(false);
+          }}
+          title={dialogTitle}
+          description={dialogText}
+          primaryButtonText={dialogPrimaryAction}
+          secondaryButtonText={''}
+        />
+      )}
       <Grid
         container
         spacing={4}
@@ -219,12 +219,47 @@ const SignupScreen = () => {
         }}
       >
         <Grid size={{ xs: 12, md: 8 }}>
-          <img
-            src={IMG.signupImage || '/placeholder.svg'}
-            alt="ADCB"
-            loading="lazy"
-            className="rounded-3xl max-w-full"
-          />
+          <Box sx={{ position: 'relative', borderRadius: '24px', overflow: 'hidden' }}>
+            <img
+              src={IMG.signupImage || '/placeholder.svg'}
+              alt="ADCB"
+              loading="lazy"
+              style={{ width: '100%', display: 'block' }}
+            />
+            <Box
+              sx={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: { xs: '20px', sm: '25px 30px', md: '30px 40px' },
+                backdropFilter: 'blur(10px)',
+                backgroundColor: 'rgba(0,0,0,0.3)',
+              }}
+            >
+              <Typography
+                variant="h2"
+                sx={{
+                  color: 'white',
+                  fontWeight: 700,
+                  fontSize: { xs: '2rem', md: '2.5rem' },
+                  lineHeight: 1.2,
+                  mb: 1,
+                }}
+              >
+                {t('signUpScreen.createYourProfile')}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'white',
+                  fontSize: { xs: '0.875rem', sm: '1rem' },
+                }}
+              >
+                {t('signUpScreen.createYourProfileDescription')}
+              </Typography>
+            </Box>
+          </Box>
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
           <Card
@@ -242,7 +277,7 @@ const SignupScreen = () => {
                 {({ values, handleChange }) => (
                   <Form className="mb-10">
                     <TextInput
-                      name="name" // This should match the field name in initialValues
+                      name="name"
                       value={values.name}
                       onChange={handleChange}
                       placeholder={t('signUpScreen.enterYourName')}
@@ -250,7 +285,7 @@ const SignupScreen = () => {
                       onBlur={() => {}}
                     />
                     <TextInput
-                      name="phoneNumber" // This should match the field name in initialValues
+                      name="phoneNumber"
                       countryCode="+971"
                       value={values.phoneNumber}
                       onChange={handleChange}
