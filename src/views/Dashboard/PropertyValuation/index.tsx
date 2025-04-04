@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Container, Grid2 } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import ImageProgressBar from '@/components/common/ImageProgressBar/ImageProgressBar';
 import PropertyDetailsForm from './PropertyDetailsForm';
@@ -39,17 +39,17 @@ const PropertyValuation: React.FC = () => {
       <Container maxWidth="lg" sx={{ py: 2 }}>
         <AuthHeader />
 
-        <Grid2 container spacing={3} marginTop={2}>
-          <Grid2 size={{ xs: 12, md: 4 }}>
+        <Grid container spacing={3} marginTop={2}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <ImageProgressBar
               currentStep={activeStep + 1}
               totalSteps={5}
               title={t('imageProgressBar.propertyValuation')}
             />
-          </Grid2>
+          </Grid>
 
-          <Grid2 size={{ xs: 12, md: 8 }}>{renderStepContent()}</Grid2>
-        </Grid2>
+          <Grid size={{ xs: 12, md: 8 }}>{renderStepContent()}</Grid>
+        </Grid>
         <AuthFooter />
       </Container>
     </Container>

@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormHelperText,
   CardContent,
-  Grid2 as Grid,
+  Grid,
   Container,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';

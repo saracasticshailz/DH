@@ -2,12 +2,12 @@ import React from 'react';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TextField, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 interface CustomDatePickerProps {
   label?: string;
-  value: string | null;
+  value: string | any;
   onChange: (value: any) => void;
   type: 'date' | 'datetime' | 'time';
   error?: boolean;

@@ -4,7 +4,7 @@ import type React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';

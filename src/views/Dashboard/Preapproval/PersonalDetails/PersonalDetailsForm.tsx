@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { useState } from 'react';
-import { Box, Typography, useMediaQuery, useTheme, Grid2 as Grid, MenuItem } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme, Grid, MenuItem } from '@mui/material';
 import { Calendar } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/store';
@@ -55,7 +55,7 @@ const PersonalDetailsForm: React.FC = () => {
   });
 
   const handleSubmit = (values: any) => {
-    console.log("handleSubmit values ",values);
+    console.log('handleSubmit values ', values);
 
     setSubmitted(true);
     dispatch(updatePersonalDetails(values));
@@ -101,7 +101,7 @@ const PersonalDetailsForm: React.FC = () => {
           },
         }}
       >
-         {t('preApproval.incomeDetails.personalDetails.title')}
+        {t('preApproval.incomeDetails.personalDetails.title')}
       </Typography>
 
       <Formik
@@ -126,7 +126,7 @@ const PersonalDetailsForm: React.FC = () => {
                   {({ field }: any) => (
                     <TextInput
                       {...field}
-                      label= {t('preApproval.incomeDetails.personalDetails.customerName')}
+                      label={t('preApproval.incomeDetails.personalDetails.customerName')}
                       placeholder={t('preApproval.incomeDetails.personalDetails.enterNameAsPerPassport')}
                       fullWidth
                       error={touched.customerName && Boolean(errors.customerName)}
@@ -161,24 +161,23 @@ const PersonalDetailsForm: React.FC = () => {
                 <Field name="dateOfBirth">
                   {({ field }: any) => (
                     <CustomDatePicker
-                    value={values.dateOfBirth}
-                    placeholder="DD/MM/YYYY"
-                    onChange={(newValue) => {
-                      const formattedDate = newValue ? dayjs(newValue, 'DD/MM/YYYY').format('DD/MM/YYYY') : '';
-                      //const formattedDate = newValue ? dayjs(newValue).format('MM/DD/YYYY') : '';
-                      setFieldValue('dateOfBirth', formattedDate);
-                    }}
-                    label={t('preApproval.incomeDetails.personalDetails.dateOfBirth')}
-                    type={'date'}
-                    maxDate={new Date()}
-                    error={touched.dateOfBirth && Boolean(errors.dateOfBirth)}
-                    onBlur={() => setFieldTouched('dateOfBirth', true)}
-                  />
+                      value={values.dateOfBirth}
+                      placeholder="DD/MM/YYYY"
+                      onChange={(newValue) => {
+                        const formattedDate = newValue ? dayjs(newValue, 'DD/MM/YYYY').format('DD/MM/YYYY') : '';
+                        //const formattedDate = newValue ? dayjs(newValue).format('MM/DD/YYYY') : '';
+                        setFieldValue('dateOfBirth', formattedDate);
+                      }}
+                      label={t('preApproval.incomeDetails.personalDetails.dateOfBirth')}
+                      type={'date'}
+                      maxDate={new Date()}
+                      error={touched.dateOfBirth && Boolean(errors.dateOfBirth)}
+                      onBlur={() => setFieldTouched('dateOfBirth', true)}
+                    />
                   )}
                 </Field>
 
-                <Box>
-            </Box>
+                <Box></Box>
               </Grid>
 
               {/* Nationality */}
@@ -221,21 +220,20 @@ const PersonalDetailsForm: React.FC = () => {
               <Grid size={{ xs: 12, sm: 6, md: 6 }}>
                 <Field name="passportExpiry">
                   {({ field }: any) => (
-
-                      <CustomDatePicker
-                        value={values.passportExpiry}
-                         placeholder="DD/MM/YYYY"
-                        onChange={(newValue) => {
-                          console.log('passportExpiry newValue ', newValue);
-                        const formattedDate = newValue ? dayjs(newValue, 'DD/MM/YYYY').format('DD/MM/YYYY') : '';//newValue ? dayjs(newValue).format('MM/DD/YYYY') : '';
+                    <CustomDatePicker
+                      value={values.passportExpiry}
+                      placeholder="DD/MM/YYYY"
+                      onChange={(newValue) => {
+                        console.log('passportExpiry newValue ', newValue);
+                        const formattedDate = newValue ? dayjs(newValue, 'DD/MM/YYYY').format('DD/MM/YYYY') : ''; //newValue ? dayjs(newValue).format('MM/DD/YYYY') : '';
                         console.log('passportExpiry formattedDate ', formattedDate);
                         setFieldValue('passportExpiry', formattedDate);
-                        }}
-                        label={t('preApproval.incomeDetails.personalDetails.passportExpiry')}
-                        type={'date'}
-                        error={touched.passportExpiry && Boolean(errors.passportExpiry)}
-                        onBlur={() => setFieldTouched('passportExpiry', true)}
-                      />
+                      }}
+                      label={t('preApproval.incomeDetails.personalDetails.passportExpiry')}
+                      type={'date'}
+                      error={touched.passportExpiry && Boolean(errors.passportExpiry)}
+                      onBlur={() => setFieldTouched('passportExpiry', true)}
+                    />
                   )}
                 </Field>
               </Grid>

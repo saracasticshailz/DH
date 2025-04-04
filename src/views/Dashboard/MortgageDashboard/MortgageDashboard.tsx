@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid2 as Grid } from '@mui/material';
+import { Box, Container, Typography, Grid as Grid } from '@mui/material';
 import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -158,14 +158,13 @@ export default function MortgageDashboard() {
     }
     navigate('/PropertyValuation');
   };
- 
 
-  const isActive =  t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
-  | 'InProgress'
-  | 'Rejected'
-  | 'Complete'
-  | 'Pending'
-  | undefined
+  const isActive = t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
+    | 'InProgress'
+    | 'Rejected'
+    | 'Complete'
+    | 'Pending'
+    | undefined;
 
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>
@@ -221,7 +220,7 @@ export default function MortgageDashboard() {
                   onButtonClick={handleValuationAction}
                   fetchOrderData={fetchOrderData}
                   journeyStatus={journeyStatus}
-                  active={ isActive === 'Complete' ? true : false}
+                  active={isActive === 'Complete' ? true : false}
                   applnstatus={
                     t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'

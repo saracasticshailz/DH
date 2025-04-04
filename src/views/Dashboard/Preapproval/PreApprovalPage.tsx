@@ -1,4 +1,4 @@
-import { Box, Container, Grid2 as Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import ImageProgressBar from '@/components/common/ImageProgressBar/ImageProgressBar';
 import LoanDetails from './LoanDetails';
 import { AuthFooter } from '@/components/common/AppLayout';

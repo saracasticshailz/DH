@@ -19,6 +19,7 @@ export default defineConfig({
     alias: {
       '@/': new URL('./src/', import.meta.url).pathname,
       '@lib': path.resolve(__dirname, 'lib'),
+      '@mui/material': 'node_modules/@mui/material', // Ensure this is correct
     },
     environment: 'jsdom',
     include: ['**/*.test.*', '**/*.spec.*'],
