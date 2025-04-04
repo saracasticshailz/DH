@@ -66,59 +66,57 @@ const SignupScreen = () => {
   }, []);
 
   const initialValues = { name: '', phoneNumber: '', email: '', emiratesId: '' };
-  const { initiateCheckout } = usePaymentCheckout();
   const handleSubmit = async (values: any) => {
     setCurrentPhoneNumber(values.phoneNumber);
     setCurrentName(values.name);
     setEmiratedId(values.emiratesId);
     setAuthModalOpen(false);
-    initiateCheckout('BYUT34343', '2000.0', 'AED', 'MORTAGE VALUATION FEE');
-    // modNetwork(
-    //   API.SIGNUP_API,
-    //   {
-    //     name: values.name,
-    //     emiratesId: values.emiratesId,
-    //     mobileNumber: `971${values.phoneNumber}`,
-    //     emailId: values.email,
-    //     journeyType: 'CUSTOMER',
-    //   },
-    //   (res: any) => {
-    //     console.log('SIGN_UP_RES', res);
+    modNetwork(
+      API.SIGNUP_API,
+      {
+        name: values.name,
+        emiratesId: values.emiratesId,
+        mobileNumber: `971${values.phoneNumber}`,
+        emailId: values.email,
+        journeyType: 'CUSTOMER',
+      },
+      (res: any) => {
+        console.log('SIGN_UP_RES', res);
 
-    //     if (res.oprstatus == 0 && res.returnCode == 0) {
-    //       setAuthModalOpen(true);
-    //       setMaskedPhoneNumber(res.mobileMasked);
-    //       setMaskedEmail(res.emailMasked || '');
-    //       setOtpSentStatus(res.otpSentStatus || 'M');
-    //       setlapsRefNumber(res.lapsRefNumber || '');
-    //     } else {
-    //       console.log('ERROR', res);
-    //       try {
-    //         if (typeof res.errmsg === 'string') {
-    //           const errorObj = JSON.parse(res.errmsg);
-    //           setDialogText(errorObj.errMsg_EN || 'An error occurred');
-    //         } else if (Array.isArray(res.errmsg) && res.errmsg.length > 0) {
-    //           setDialogText(res.errmsg[0] || 'An error occurred');
-    //         } else {
-    //           setDialogText('Unknow error occurred. Please try again.');
-    //         }
-    //       } catch (error) {
-    //         setDialogText(res.errmsg);
-    //       }
+        if (res.oprstatus == 0 && res.returnCode == 0) {
+          setAuthModalOpen(true);
+          setMaskedPhoneNumber(res.mobileMasked);
+          setMaskedEmail(res.emailMasked || '');
+          setOtpSentStatus(res.otpSentStatus || 'M');
+          setlapsRefNumber(res.lapsRefNumber || '');
+        } else {
+          console.log('ERROR', res);
+          try {
+            if (typeof res.errmsg === 'string') {
+              const errorObj = JSON.parse(res.errmsg);
+              setDialogText(errorObj.errMsg_EN || 'An error occurred');
+            } else if (Array.isArray(res.errmsg) && res.errmsg.length > 0) {
+              setDialogText(res.errmsg[0] || 'An error occurred');
+            } else {
+              setDialogText('Unknow error occurred. Please try again.');
+            }
+          } catch (error) {
+            setDialogText(res.errmsg);
+          }
 
-    //       setDialogTitle('ERROR');
-    //       setDialogPrimaryAction('OK');
-    //       setShowAlert(true);
-    //     }
+          setDialogTitle('ERROR');
+          setDialogPrimaryAction('OK');
+          setShowAlert(true);
+        }
 
-    //     //alert(JSON.stringify(res));
-    //     // setAuthModalOpen(true);
-    //   },
-    //   '',
-    //   '',
-    //   '',
-    //   MOD_CONSTANTS.REGISTER
-    // );
+        //alert(JSON.stringify(res));
+        // setAuthModalOpen(true);
+      },
+      '',
+      '',
+      '',
+      MOD_CONSTANTS.REGISTER
+    );
   };
 
   // Finally, update the handleOTPSubmit function to use the stored phone number
