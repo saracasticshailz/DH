@@ -158,7 +158,14 @@ export default function MortgageDashboard() {
     }
     navigate('/PropertyValuation');
   };
-  console.log('journeyStatus', journeyStatus);
+ 
+
+  const isActive =  t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
+  | 'InProgress'
+  | 'Rejected'
+  | 'Complete'
+  | 'Pending'
+  | undefined
 
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>
@@ -214,6 +221,7 @@ export default function MortgageDashboard() {
                   onButtonClick={handleValuationAction}
                   fetchOrderData={fetchOrderData}
                   journeyStatus={journeyStatus}
+                  active={ isActive === 'Complete' ? true : false}
                   applnstatus={
                     t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
                       | 'InProgress'
