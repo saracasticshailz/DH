@@ -18,7 +18,7 @@ import { useAppDispatch } from '@/hooks/redux.js';
 import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
 
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
@@ -87,8 +87,7 @@ const LoginScreen = () => {
       {
         lapsRefNumber: lapsRefNumber,
         otpType: isEmailVerification ? 'E' : 'M',
-        // custOtp: enteredOtp,
-        custOtp: '111111',
+        custOtp: enteredOtp,
       },
       (res: any) => {
         console.log('OTP_VERIFY_API', res);

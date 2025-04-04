@@ -19,7 +19,7 @@ import { useEffect } from 'react';
 // import '../lib/temenos-sdk/release/kony-sdk.js';
 
 // @ts-ignore
-import useHandShake from './v2/common/hooks/useHandShake.js';
+import useHandShake from '../lib/konyLib/common/hooks/useHandShake.js';
 
 const MainApp = () => {
   useHandShake();

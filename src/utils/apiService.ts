@@ -1,6 +1,6 @@
 // Try different import approaches to handle various module export patterns
 //@ts-ignore
-import modNetworkModule from '@/v2/common/modules/modNetwork';
+import modNetworkModule from '../../lib/konyLib/common/modules/modNetwork';
 
 // Handle different export patterns
 //@ts-ignore

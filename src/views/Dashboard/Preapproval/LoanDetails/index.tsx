@@ -15,7 +15,7 @@ import { styled } from '@mui/system';
 import { useEffect } from 'react';
 import API from '@/utils/apiEnpoints';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import { updateRMDetails } from '@/store/slices/CustomerAuthSlice';
 import RmDropdown from '@/components/PreApproval/RmDetailsDropdown/RmDetailsDropdown';
 
@@ -218,7 +218,7 @@ export default function LoanDetails() {
 
               <ActionButtons>
                 <AppButton fullWidth={false} onClick={handleBack} withBorder>
-                {t('preApproval.incomeDetails.buttons.back')}
+                  {t('preApproval.incomeDetails.buttons.back')}
                 </AppButton>
 
                 <AppButton

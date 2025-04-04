@@ -8,7 +8,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@store/*": ["./store/*", "store/*"]
+      "@store/*": ["./store/*", "store/*"],
+      "@modules/*": ["./lib/konyLib/common/modules/*", "lib/konyLib/common/modules/*"],
+      "@lib/*": ["lib/*"],
+      "@konyLib/*": ["lib/konyLib/*"]
     },
     "target": "ES2022",
     "types": ["vite/client" /* required to get import.meta working */, "@testing-library/jest-dom"]

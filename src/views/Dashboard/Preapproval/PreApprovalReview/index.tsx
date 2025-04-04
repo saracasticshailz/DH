@@ -12,13 +12,13 @@ import { selectedPreApprovalData } from '@/store/selectors/mortgageSelectors';
 import { useNavigate } from 'react-router-dom';
 import { selectAuth, updateApplicationStatus, updateLapsApplicationNo } from '@/store/slices/CustomerAuthSlice';
 // @ts-ignore
-import { Invoker } from '../../../../v2/common/modules/modServiceInvoker';
+import { Invoker } from '../../../../../lib/konyLib/common/modules/modServiceInvoker';
 import { RootState } from '@/store';
 import { useTranslation } from 'react-i18next';
 import { AppButton } from '@/components';
 import API from '@/utils/apiEnpoints';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 
 interface ReviewSection {

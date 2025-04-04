@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 import TextInput from '@/components/common/TextInput';
 //@ts-ignore
-import modNetwork from '@/v2/common/modules/modNetwork';
+import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 

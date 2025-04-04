@@ -31,6 +31,6 @@
     /* Type checking */
     "types": ["vite/client", "node", "jest", "@testing-library/jest-dom"]
   },
-  "include": ["src"],
+  "include": ["src", "lib/konyLib"],
   "exclude": ["node_modules", "dist"]
 }
