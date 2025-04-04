@@ -58,7 +58,8 @@ export const usePaymentCheckout = (): UsePaymentCheckoutReturn => {
   const SUCCESS_URL = 'http://localhost:3000/PaymentLanding';
   const FAILURE_URL = 'http://localhost:3000/PaymentLanding';
   const HASH_SECRET = 'aa81310cb6a27b222d13658927d1a31e';
-  const apiUrl = 'http://localhost:3003/initiate-checkout';
+  const apiUrl = 'http://localhost:3001/paymentService/initiate-checkout';
+  //'http://localhost:3001/initiate-checkout';
   const merchantKey = 'c61ff088-fd93-11ef-9640-3210e0c8f150';
 
   const validatePaymentOutputHash = (params: any): boolean => {
