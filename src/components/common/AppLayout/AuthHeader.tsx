@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { IMG } from '@/assets/images';
 import { IconButton } from '@mui/material';

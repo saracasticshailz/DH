@@ -55,10 +55,12 @@ export const usePaymentCheckout = (): UsePaymentCheckoutReturn => {
   const [paymentData, setPaymentData] = useState<PaymentCallbackParams | null>(null);
   const [isCallbackProcessing, setIsCallbackProcessing] = useState<boolean>(false);
   const [isValidCallback, setIsValidCallback] = useState<boolean | null>(null);
+
+  //TODO : Add to ENV later
   const SUCCESS_URL = 'http://localhost:3000/PaymentLanding';
   const FAILURE_URL = 'http://localhost:3000/PaymentLanding';
   const HASH_SECRET = 'aa81310cb6a27b222d13658927d1a31e';
-  const apiUrl = 'http://localhost:3001/paymentService/initiate-checkout';
+  const apiUrl = 'http://localhost:3005/paymentService/initiate-checkout';
   //'http://localhost:3001/initiate-checkout';
   const merchantKey = 'c61ff088-fd93-11ef-9640-3210e0c8f150';
 
@@ -90,10 +92,10 @@ export const usePaymentCheckout = (): UsePaymentCheckoutReturn => {
     currency: string,
     description: string
   ): Promise<void> => {
-    console.log('orderReferenceNumber', orderReferenceNumber);
-    console.log('feeAmount', feeAmount);
-    console.log('currency', currency);
-    console.log('description', description);
+    // console.log('orderReferenceNumber', orderReferenceNumber);
+    // console.log('feeAmount', feeAmount);
+    // console.log('currency', currency);
+    // console.log('description', description);
 
     const PAYMENT_GATEWAY_URL = apiUrl;
     setIsProcessing(true);

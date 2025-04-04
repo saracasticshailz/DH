@@ -14,7 +14,7 @@ import {
   Alert,
   Typography,
 } from '@mui/material';
-import Grid from '@mui/material/Grid2'; // Import Grid2 instead of Grid
+import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppButton } from '@/components';
 import { useTranslation } from 'react-i18next';
@@ -75,7 +75,7 @@ const PropertyDetailsForm: React.FC = () => {
         }}
       >
         <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-        {t('valuation.propertyDetails.title')}
+          {t('valuation.propertyDetails.title')}
         </Typography>
 
         <Alert
@@ -95,7 +95,7 @@ const PropertyDetailsForm: React.FC = () => {
           <Grid size={{ xs: 12 }}>
             <FormControl component="fieldset" sx={{ width: '100%' }}>
               <FormLabel component="legend" sx={{ mb: 1, color: '#5d656b', fontWeight: 500 }}>
-              {t('valuation.propertyDetails.propertyType.title')}
+                {t('valuation.propertyDetails.propertyType.title')}
               </FormLabel>
               <RadioGroup
                 row
@@ -224,12 +224,12 @@ const PropertyDetailsForm: React.FC = () => {
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid size={{ xs: 6, md: 3 }}>
             <AppButton borderless fullWidth onClick={() => console.log('Cancel clicked')}>
-            {t('preApproval.incomeDetails.buttons.cancel')}
+              {t('preApproval.incomeDetails.buttons.cancel')}
             </AppButton>
           </Grid>
           <Grid size={{ xs: 6, md: 3 }} sx={{ marginLeft: { md: 'auto' } }}>
             <AppButton fullWidth type="submit" variant="contained" color="primary">
-            {t('preApproval.incomeDetails.buttons.continue')}
+              {t('preApproval.incomeDetails.buttons.continue')}
             </AppButton>
           </Grid>
         </Grid>

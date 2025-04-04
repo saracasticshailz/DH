@@ -1,7 +1,7 @@
 'use client';
 import Box from '@mui/material/Box';
 
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -27,6 +27,7 @@ import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
+import { usePaymentCheckout } from '@/hooks/usePaymentCheckout';
 
 const SignupScreen = () => {
   const { t } = useTranslation();
@@ -65,13 +66,11 @@ const SignupScreen = () => {
   }, []);
 
   const initialValues = { name: '', phoneNumber: '', email: '', emiratesId: '' };
-
   const handleSubmit = async (values: any) => {
     setCurrentPhoneNumber(values.phoneNumber);
     setCurrentName(values.name);
     setEmiratedId(values.emiratesId);
     setAuthModalOpen(false);
-
     modNetwork(
       API.SIGNUP_API,
       {
