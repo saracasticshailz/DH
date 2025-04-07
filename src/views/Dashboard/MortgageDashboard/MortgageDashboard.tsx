@@ -13,7 +13,7 @@ import { COLORS } from '@/theme/colors';
 import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { setValuationActiveStep } from '@/store/slices/ValuationSlice';
-
+import  {BackgroundDesktop} from '@/assets/icon/index';
 import {
   // getCustomerJourneyStatus,
   selectApplicationDetails,
@@ -185,7 +185,13 @@ export default function MortgageDashboard() {
                 </Typography>
               </HeroSection>
 
-              <Box sx={{ bgcolor: 'white', borderRadius: '24px 24px 0 0', mt: -3 }}>
+              <Box sx={{ bgcolor: 'white', borderRadius: '24px 24px 0 0', mt: -3,
+                backgroundImage: `url(${BackgroundDesktop})`, // Using the external SVG as the background image
+                backgroundSize: 'cover',
+                backgroundPosition: 'center', 
+                height: '100%',
+               }}>
+                
                 <MortgageStep
                   title={t('dashboardScreen.steps.preApproval.title')}
                   description={
