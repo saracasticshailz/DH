@@ -336,7 +336,7 @@ const SignupScreen = () => {
 
               <AppButton
                 onClick={() => {
-                  console.log('Sign In');
+                  console.log('Login');
                   navigate('/Login');
                 }}
                 withBorder
@@ -363,24 +363,6 @@ const SignupScreen = () => {
           description={isEmailVerification ? t('otpModal.enterEmailOtp') : t('otpModal.enterPhoneOtp')}
         />
       )}
-      {/* {showDialog && (
-        <CommonDialog
-          open={showDialog}
-          onClose={(): void => {
-            setShowAlert(false);
-          }}
-          onPrimaryAction={(): void => {
-            throw new Error('Function not implemented.');
-          }}
-          onSecondaryAction={(): void => {
-            setShowDialog(false);
-          }}
-          title={t("signUpScreen.cancelPre-ApprovalApplication")}
-          description={t("signUpScreen.AreYouSureYouWantToCancelYourprogress")}
-          primaryButtonText={t("signUpScreen.yesCancel")}
-          secondaryButtonText={t("signUpScreen.continuePre-approval")}
-        />
-      )} */}
     </Box>
   );
 };
