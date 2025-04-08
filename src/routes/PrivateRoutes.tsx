@@ -28,17 +28,15 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 const PRIVATE_ROUTES = [
   {
     children: [
-      // Public routes
       {
         path: '/',
         element: <SignupScreen />,
       },
+    
       {
         path: '/Login',
         element: <LoginScreen />,
       },
-
-      // Protected routes
       {
         path: '/PropertyValuation',
         element: (
@@ -77,7 +75,7 @@ const PRIVATE_ROUTES = [
         element: <NotFoundView />,
       },
       {
-        path: './RmLogin',
+        path: '/RmLogin',
         element: <RmLoginScreen />,
       },
       {

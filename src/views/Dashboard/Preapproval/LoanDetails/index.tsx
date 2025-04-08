@@ -16,8 +16,9 @@ import { useEffect } from 'react';
 import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
-import { updateRMDetails } from '@/store/slices/CustomerAuthSlice';
+import { selectAuth, updateRMDetails } from '@/store/slices/CustomerAuthSlice';
 import RmDropdown from '@/components/PreApproval/RmDetailsDropdown/RmDetailsDropdown';
+import { selectRmCode } from '@/store/slices/RmAuthSlice';
 
 interface FormValues {
   loanPreference: 'C' | 'I';
@@ -69,9 +70,14 @@ const ActionButtons = styled(Box)({
 export default function LoanDetails() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const loanDetails = useAppSelector((state) => state.mortgage.preApproval.loanDetails);
+  const loanDetails = useAppSelector((state:any) => state.mortgage.preApproval.loanDetails);
   const navigate = useNavigate();
-  const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
+  const { preApproval } = useAppSelector((state: any) => state.mortgage);
+    const userDetails = useAppSelector(selectAuth);
+  const  rmcode =useAppSelector(selectRmCode);
+
+  const isRmUser = userDetails?.customerType === 'RM';
+
   const formik = useFormik<FormValues>({
     initialValues: {
       loanPreference: loanDetails.loanPreference || 'C',
@@ -80,7 +86,7 @@ export default function LoanDetails() {
       loanAmount: loanDetails.loanAmount || '',
       loanTenure: loanDetails.loanTenure || '',
       specialistCode: loanDetails.specialistCode || '',
-      specialistName: loanDetails.specialistCode || '',
+      specialistName:isRmUser ? rmcode: loanDetails.specialistCode || '',
     },
     validationSchema,
 
@@ -156,7 +162,7 @@ export default function LoanDetails() {
                     label={t('preApproval.loanDetails.specialistCode.label')}
                     placeholder={t('preApproval.loanDetails.specialistCode.placeholder')}
                   /> */}
-                  <RmDropdown
+                {!isRmUser &&  <RmDropdown
                     name="specialistCode"
                     value={
                       values.specialistCode
@@ -170,7 +176,7 @@ export default function LoanDetails() {
                     onBlur={handleBlur}
                     label={t('preApproval.loanDetails.specialistCode.label')}
                     placeholder={t('preApproval.loanDetails.specialistCode.placeholder')}
-                  />
+                  />}
                 </FormControl>
 
                 <FormControl error={touched.loanAmount && Boolean(errors.loanAmount)}>

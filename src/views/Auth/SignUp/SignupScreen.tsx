@@ -78,7 +78,7 @@ const SignupScreen = () => {
         emiratesId: values.emiratesId,
         mobileNumber: `971${values.phoneNumber}`,
         emailId: values.email,
-        journeyType: 'CUSTOMER',
+        journeyType: 'CUSTOMER', 
       },
       (res: any) => {
         console.log('SIGN_UP_RES', res);
@@ -343,6 +343,20 @@ const SignupScreen = () => {
                 fullWidth
               >
                 {t('signUpScreen.signIn')}
+              </AppButton>
+
+              <AppButton
+               sx={{
+                marginTop: 1.5,
+             
+              }}
+                onClick={() => {
+                  navigate('/RmLogin');
+                }}
+                withBorder
+                fullWidth
+              >
+                {'RM Login'}
               </AppButton>
             </CardContent>
           </Card>

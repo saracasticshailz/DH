@@ -25,7 +25,7 @@ export interface AuthState {
   applicationRefNumber: string | null;
   displayMessage: string | null;
   addinfoReqFlag: string | null;
-  lapsRefNumber: number | null;
+  lapsRefNumber: string | null;
   customerName: string | null;
   customerMobileNumber: string | null;
   emiratesId: string | null;
@@ -201,6 +201,22 @@ export const customerAuthSlice = createSlice({
         state.loanApplicationStatus = action.payload.loanApplicationStatus;
       }
     },
+    updateCustomerType: (state, action: PayloadAction<CustomerType>) => {
+      state.customerType = action.payload
+    },
+
+    updateRmCreatedUserProfileDetails:(state, action: PayloadAction<{
+      lapsRefNumber?: string;
+      applicationRefNumber?: string;      
+    }>) => {
+      if (action.payload.lapsRefNumber !== undefined) {
+        state.lapsRefNumber = action.payload.lapsRefNumber;
+      }
+      if (action.payload.applicationRefNumber !== undefined) {
+        state.applicationRefNumber = action.payload.applicationRefNumber;
+      }
+    
+    }
   },
 });
 
@@ -215,9 +231,10 @@ export const {
   updateCustomerMobileNumberAndNameAndEmiratedId,
   updateLapsApplicationNo,
   updateApplicationDetailsAfterPayment,
+  updateCustomerType,
+  updateRmCreatedUserProfileDetails
 } = customerAuthSlice.actions;
 
-// Export selectors
 export const selectAuth = (state: RootState) => state.customerAuth;
 export const selectIsAuthenticated = (state: RootState) => state.customerAuth.isAuthenticated;
 export const selectApplicationDetails = (state: RootState) => ({

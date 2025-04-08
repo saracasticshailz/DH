@@ -108,6 +108,7 @@
   "loginScreen": {
     "title": "Login",
     "email": "Email",
+    "password": "Password",
     "phoneNumber": "Phone number",
     "dontHaveProfile": "Don't have a profile?",
     "letsGetYouStarted": "LET'S GET YOU STARTED",
