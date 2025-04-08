@@ -1,8 +1,6 @@
 import { useCallback, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { IS_DEBUG } from '@/config';
 import { AppLoading } from '@/components';
-// import { useAuthWatchdog, useIsAuthenticated } from '@/hooks';
 import PRIVATE_ROUTES from './PrivateRoutes';
 import PUBLIC_ROUTES from './PublicRoutes';
 import { useAuthWatchdog, useIsAuthenticated } from '@/hooks';

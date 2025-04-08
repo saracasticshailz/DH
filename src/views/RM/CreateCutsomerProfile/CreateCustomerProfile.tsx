@@ -5,11 +5,17 @@ import { Box, Container, Typography, InputAdornment, Paper } from '@mui/material
 import { Formik, Form, Field, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '@/components/common/TextInput';
-import { AppButton } from '@/components';
+import { AppButton, CommonDialog } from '@/components';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setPreApprovalStep, updateCreateCustomerProfile } from '@/store/slices/MortgageSlice';
 import type { RootState } from '@/store';
 import { useTranslation } from 'react-i18next';
+import { MOD_CONSTANTS } from '@/utils/apiConstants';
+//@ts-ignore
+import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
+import API from '@/utils/apiEnpoints';
+import { useState } from 'react';
+import { updateCustomerMobileNumberAndNameAndEmiratedId, updateRmCreatedUserProfileDetails } from '@/store/slices/CustomerAuthSlice';
+import { setPreApprovalStep } from '@/store/slices/MortgageSlice';
 
 interface CustomerProfileFormValues {
   name: string;
@@ -31,12 +37,10 @@ const validationSchema = Yup.object({
   emiratesId: Yup.string()
     .required('Emirates ID is required')
     .test('is-valid-id', 'Emirates ID must be valid', (value) => {
-      // Allow more flexible Emirates ID format
       return /^[0-9-\s]+$/.test(value);
     }),
 });
 
-// Debug component to show form values and errors during development
 const FormDebug = () => {
   const formik = useFormikContext();
   const { t } = useTranslation();
@@ -56,8 +60,9 @@ const CreateCustomerProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
+  const  [dialogText,setDialogText]=useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
-  // Get initial values from Redux store if available
   const initialValues: CustomerProfileFormValues = {
     name: '',
     phoneNumber: '',
@@ -66,20 +71,73 @@ const CreateCustomerProfile: React.FC = () => {
   };
 
   const handleSubmit = (values: CustomerProfileFormValues, { setSubmitting }: any) => {
-    // Format phone number before submitting (remove any non-digit characters)
-    const formattedValues = {
-      ...values,
-      phoneNumber: values.phoneNumber.replace(/\D/g, ''),
-    };
+     setSubmitting(false);
+      modNetwork(
+        API.SIGNUP_API, // CREATE USER API
+        {
+          name: values.name,
+          emiratesId: values.emiratesId,
+          mobileNumber: `971${values.phoneNumber}`,
+          emailId: values.email,
+          journeyType: 'RM', 
+        },
+        (res: any) => {
+          console.log('CREATE USER BY RM', res);
+  
+          if (res.oprstatus == 0 && res.returnCode == 0) {
 
-    dispatch(updateCreateCustomerProfile(formattedValues));
-    dispatch(setPreApprovalStep(preApproval.activeStep + 1));
-    console.log('Form values:', formattedValues);
-    setSubmitting(false);
+            updateCustomerMobileNumberAndNameAndEmiratedId({
+              mobileNumber: `971${values.phoneNumber}`,
+              customerName: values.name,
+              emiratesId: values.emiratesId,
+            });
+
+            dispatch(updateRmCreatedUserProfileDetails({
+              lapsRefNumber: res.lapsRefNumber,
+              applicationRefNumber: res.mobileMasked, //AS COMING FROM BE
+           
+            }));
+            dispatch(setPreApprovalStep(preApproval.activeStep + 1));
+          } else {
+            console.log('ERROR', res);
+            try {
+              if (typeof res.errmsg === 'string') {
+                const errorObj = JSON.parse(res.errmsg);
+                setDialogText(errorObj.errMsg_EN || 'An error occurred');
+              } else if (Array.isArray(res.errmsg) && res.errmsg.length > 0) {
+                setDialogText(res.errmsg[0] || 'An error occurred');
+              } else {
+                setDialogText('Unknow error occurred. Please try again.');
+              }
+            } catch (error) {
+              setDialogText(res.errmsg);
+            }
+          }
+        },
+        '',
+        '',
+        '',
+        MOD_CONSTANTS.REGISTER
+      );
+    
   };
 
   return (
     <Container maxWidth="md">
+       {showAlert && (
+        <CommonDialog
+          open={showAlert}
+          onClose={(): void => {
+            setShowAlert(false);
+          }}
+          onPrimaryAction={(): void => {
+            setShowAlert(false);
+          }}
+          title={dialogText}
+          description={dialogText}
+          primaryButtonText={dialogText}
+        />
+      )}
       <Paper
         elevation={0}
         sx={{
@@ -121,7 +179,7 @@ const CreateCustomerProfile: React.FC = () => {
             onSubmit={handleSubmit}
             enableReinitialize
           >
-            {({ isSubmitting, isValid, dirty, errors, touched, handleChange, handleBlur, values }) => (
+            {({ isSubmitting, errors, touched, handleChange, handleBlur, values }) => (
               <Form>
                 <Box sx={{ display: 'grid', gap: 3 }}>
                   <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 3 }}>
@@ -141,7 +199,6 @@ const CreateCustomerProfile: React.FC = () => {
                       />
                     </Box>
 
-                    {/* Phone Number Field */}
                     <Box>
                       <Field
                         as={TextInput}
@@ -166,7 +223,6 @@ const CreateCustomerProfile: React.FC = () => {
                   </Box>
 
                   <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 3 }}>
-                    {/* Email Field */}
                     <Box>
                       <Field
                         as={TextInput}
@@ -224,6 +280,7 @@ const CreateCustomerProfile: React.FC = () => {
                     >
                     {t('preApproval.incomeDetails.buttons.cancel')}
                     </AppButton>
+
                     <AppButton
                       type="submit"
                       disabled={isSubmitting}
@@ -241,8 +298,6 @@ const CreateCustomerProfile: React.FC = () => {
                     </AppButton>
                   </Box>
                 </Box>
-
-                {/* Debug component - remove in production */}
                 <FormDebug />
               </Form>
             )}

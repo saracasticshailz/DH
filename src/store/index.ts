@@ -5,6 +5,7 @@ import valuationReducer from './slices/ValuationSlice';
 import mortgageSlice from './slices/MortgageSlice';
 import customerAuthSlice from './slices/CustomerAuthSlice';
 import rmDashSlice from './slices/RmDashboardSlice';
+import  rmAuthSlice  from './slices/RmAuthSlice';
 
 const persistConfig = {
   key: 'root',
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   mortgage: mortgageSlice,
   customerAuth: customerAuthSlice,
   rmDashboard: rmDashSlice,
+  rmAuth:rmAuthSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

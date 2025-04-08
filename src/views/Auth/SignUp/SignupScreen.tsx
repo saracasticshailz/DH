@@ -80,7 +80,7 @@ const SignupScreen = () => {
         emiratesId: values.emiratesId,
         mobileNumber: `971${values.phoneNumber}`,
         emailId: values.email,
-        journeyType: 'CUSTOMER',
+        journeyType: 'CUSTOMER', 
       },
       (res: any) => {
         console.log('SIGN_UP_RES', res);
@@ -374,24 +374,6 @@ const SignupScreen = () => {
           description={isEmailVerification ? t('otpModal.enterEmailOtp') : t('otpModal.enterPhoneOtp')}
         />
       )}
-      {/* {showDialog && (
-        <CommonDialog
-          open={showDialog}
-          onClose={(): void => {
-            setShowAlert(false);
-          }}
-          onPrimaryAction={(): void => {
-            throw new Error('Function not implemented.');
-          }}
-          onSecondaryAction={(): void => {
-            setShowDialog(false);
-          }}
-          title={t("signUpScreen.cancelPre-ApprovalApplication")}
-          description={t("signUpScreen.AreYouSureYouWantToCancelYourprogress")}
-          primaryButtonText={t("signUpScreen.yesCancel")}
-          secondaryButtonText={t("signUpScreen.continuePre-approval")}
-        />
-      )} */}
     </Box>
   );
 };

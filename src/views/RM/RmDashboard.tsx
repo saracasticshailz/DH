@@ -18,7 +18,7 @@ import TableFilters, { type FilterConfig, type FilterValues } from '@/components
 import modNetwork from '../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
-import { isLoading } from '@/store/slices/CustomerAuthSlice';
+import { isLoading, updateCustomerType } from '@/store/slices/CustomerAuthSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import NextActionDetailsModal from '@/components/modal/rm/NextActionDetailsModal';
 import { setApplications, setError, setLoading } from '@/store/slices/RmDashboardSlice';
@@ -26,6 +26,8 @@ import { getLoanStatusText } from '@/utils/helper';
 import { IconButton } from '@mui/material';
 import { ChevronRight } from 'lucide-react';
 import { setValuationActiveStep } from '@/store/slices/ValuationSlice';
+import { useLocation } from 'react-router-dom';
+import { setRmData } from '@/store/slices/RmAuthSlice';
 
 // Filter configurations
 const filterConfigs: FilterConfig[] = [
@@ -82,7 +84,8 @@ const RmDashboard: React.FC = () => {
   // const [applications, setApplications] = useState<Application[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
-
+const location = useLocation();
+const { email} = location.state || {};
   const handleFilter = (values: FilterValues) => {
     setFilterValues(values);
   };
@@ -135,153 +138,75 @@ const RmDashboard: React.FC = () => {
   ];
 
   const fetchTableData = () => {
-    const restemp = {
-      rmCode: 'C106794',
-      oprstatus: 0,
-      rmMobile: '971562910316',
-      returnCode: '0',
-      rmEmailId: 'HeenaRajwani.ext@adcb.com',
-      opstatus: 0,
-      applicationDetails: [
-        {
-          applicationReferenceNo: 'LP-ML-00014335',
-          customerType: 'ETB',
-          applicationStatus: 'PP',
-          applicationNo: 'BYUT0005678',
-          applicationSubmittedDate: '2025-03-05 10:09:24.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-00014335',
-          customerName: 'ONE N THREE  FIFTY ONE  NINETY SEVEN',
-          lastUpdated: '2025-03-05 10:09:24.0',
-          status: null,
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143209',
-          customerType: 'ETB',
-          applicationStatus: 'UP',
-          applicationNo: 'BYUT0005674',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143209',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143358',
-          customerType: 'ETB',
-          applicationStatus: 'PR',
-          applicationNo: 'BYUT00056788',
-          applicationSubmittedDate: '2025-03-05 10:09:24.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143358',
-          customerName: 'ONE N THREE  FIFTY ONE  NINETY SEVEN',
-          lastUpdated: '2025-03-05 10:09:24.0',
+    // const restemp = {
+    //   rmCode: 'C106794',
+    //   oprstatus: 0,
+    //   rmMobile: '971562910316',
+    //   returnCode: '0',
+    //   rmEmailId: 'HeenaRajwani.ext@adcb.com',
+    //   opstatus: 0,
+    //   applicationDetails: [
+    //     {
+    //       applicationReferenceNo: 'LP-ML-000143203',
+    //       customerType: 'ETB',
+    //       applicationStatus: 'OI',
+    //       applicationNo: 'BYUT00056743',
+    //       applicationSubmittedDate: '2025-02-20 16:48:15.0',
+    //       emailId: 'e***l@***.com',
+    //       mobileNo: '***954',
+    //       leadReferenceNo: 'LP-ML-000143203',
+    //       customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+    //       lastUpdated: '2025-03-05 10:09:24.0',
 
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143207',
-          customerType: 'ETB',
-          applicationStatus: 'PC',
-          applicationNo: 'BYUT00056747',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143207',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
+    //       orderDetails: null,
+    //     },
+    //     {
+    //       applicationReferenceNo: 'LP-ML-000143202',
+    //       customerType: 'ETB',
+    //       applicationStatus: 'VC',
+    //       applicationNo: 'BYUT00056742',
+    //       applicationSubmittedDate: '2025-02-20 16:48:15.0',
+    //       emailId: 'e***l@***.com',
+    //       mobileNo: '***954',
+    //       leadReferenceNo: 'LP-ML-000143202',
+    //       customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
+    //       lastUpdated: '2025-03-05 10:09:24.0',
 
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143206',
-          customerType: 'ETB',
-          applicationStatus: 'NO',
-          applicationNo: 'BYUT00056746',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143206',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
-
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143205',
-          customerType: 'ETB',
-          applicationStatus: 'DU',
-          applicationNo: 'BYUT00056745',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143205',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
-
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143204',
-          customerType: 'ETB',
-          applicationStatus: 'CP',
-          applicationNo: 'BYUT00056744',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143204',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
-
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143203',
-          customerType: 'ETB',
-          applicationStatus: 'OI',
-          applicationNo: 'BYUT00056743',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143203',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
-
-          orderDetails: null,
-        },
-        {
-          applicationReferenceNo: 'LP-ML-000143202',
-          customerType: 'ETB',
-          applicationStatus: 'VC',
-          applicationNo: 'BYUT00056742',
-          applicationSubmittedDate: '2025-02-20 16:48:15.0',
-          emailId: 'e***l@***.com',
-          mobileNo: '***954',
-          leadReferenceNo: 'LP-ML-000143202',
-          customerName: 'ONE N SIX  FORTY TWO  THREE  FOUR',
-          lastUpdated: '2025-03-05 10:09:24.0',
-
-          orderDetails: null,
-        },
-      ],
-      rmName: 'MAHJOOB MUSTAFA',
-      httpStatusCode: 0,
-    };
-    dispatch(setApplications(restemp.applicationDetails));
+    //       orderDetails: null,
+    //     },
+    //   ],
+    //      rmCode: 'C106794',
+    //   oprstatus: 0,
+    //   rmMobile: '971562910316',
+    //   returnCode: '0',
+    //   rmEmailId: 'HeenaRajwani.ext@adcb.com',
+    //   opstatus: 0,
+    //   rmName: 'MAHJOOB MUSTAFA',
+    //   httpStatusCode: 0,
+    // };
+    // dispatch(setApplications(restemp.applicationDetails));
+    
+    dispatch(updateCustomerType('RM'));
 
     modNetwork(
       API.FETCH_RM_DASHBOARD,
-      { searchParameterType: 'RMCODE', searchParameterValue: 'C121010' },
+      { searchParameterType: 'RMCODE', searchParameterValue: email }, // searchParameterValue: 'C121010' 
       (res: any) => {
         if (res.oprstatus == 0 && res.returnCode == 0) {
           console.log('FETCH_RM_DASHBOARD LOADING', res);
-          // Update Redux store instead of local state
+
           dispatch(setApplications(res.applicationDetails));
+          const rmData = {
+            rmCode: res.rmCode,
+            oprstatus: res.oprstatus,
+            rmMobile: res.rmMobile,
+            returnCode: res.returnCode,
+            rmEmailId: res.rmEmailId,
+            opstatus: res.opstatus,
+            rmName: res.rmName,
+          }
+          dispatch(updateCustomerType('RM'));
+          dispatch(setRmData(rmData))
           dispatch(setLoading(false));
           dispatch(setError(null));
         } else {

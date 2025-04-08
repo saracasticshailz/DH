@@ -13,7 +13,7 @@ interface CommonDialogProps {
   title: string;
   description: string;
   primaryButtonText: string;
-  secondaryButtonText: string;
+  secondaryButtonText?: string;
   primaryButtonColor?: string;
   hideCloseButton?: boolean;
   maxWidth?: string | number;
