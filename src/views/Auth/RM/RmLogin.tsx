@@ -1,66 +1,57 @@
-'use client';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
-import { Formik, Form } from 'formik';
-import TextInput from '@/components/common/TextInput';
-import { AuthFooter, AuthHeader } from '@/components/common/AppLayout';
-import { IMG } from '@/assets/images';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { AppButton } from '@/components';
-import { COLORS } from '@/theme/colors';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+"use client"
+import Box from "@mui/material/Box"
+
+import Grid from "@mui/material/Grid"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+import { useEffect, useState } from "react"
+import { Formik, Form, Field } from "formik"
+import TextInput from "@/components/common/TextInput"
+import { AuthFooter, AuthHeader } from "@/components/common/AppLayout"
+import { IMG } from "@/assets/images"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
+import { AppButton } from "@/components"
+import { COLORS } from "@/theme/colors"
+import MenuItem from "@mui/material/MenuItem"
 
 const RmLoginScreen = () => {
-  const { t } = useTranslation();
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslation()
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       navigator.serviceWorker
-        .register('/public/service-worker.js')
+        .register("/public/service-worker.js")
         .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope);
+          console.log("Service Worker registered with scope:", registration.scope)
         })
         .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
+          console.error("Service Worker registration failed:", error)
+        })
     }
-  }, []);
+  }, [])
 
-  // Updated initialValues to include email and password
   const initialValues = {
-    phoneNumber: '',
-    email: '',
-    password: '',
-  };
+    phoneNumber: "",
+    email: "",
+  }
 
   const handleSubmit = (values: any) => {
-    console.log('Form Data:', values);
-    navigate('/Dashboard');
-  };
-
-  const navigate = useNavigate();
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    console.log("Form Data:", values)
+    navigate("/RmDashboard", {
+      state: { email: values.email },
+    })
+  }
 
   return (
     <Box
       sx={{
-        maxWidth: '1600px',
-        width: '100%',
-        margin: 'auto',
-        paddingX: { xs: '1rem', md: '1.125rem', lg: '2rem' },
+        maxWidth: "1600px",
+        width: "100%",
+        margin: "auto",
+        paddingX: { xs: "1rem", md: "1.125rem", lg: "2rem" },
       }}
     >
       <AuthHeader />
@@ -73,7 +64,7 @@ const RmLoginScreen = () => {
       >
         <Grid size={{ xs: 12, md: 8 }}>
           <img
-            src={IMG.LoginImage || '/placeholder.svg'}
+            src={IMG.LoginImage || "/placeholder.svg"}
             alt="ADCB"
             loading="lazy"
             className="rounded-3xl max-w-full"
@@ -92,82 +83,38 @@ const RmLoginScreen = () => {
               }}
             >
               <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {({ values, handleChange }) => (
+                {({ submitForm }) => (
                   <Form className="mb-10">
-                    {/* Email field */}
-                    <TextInput
-                      name="email"
-                      value={values.email}
-                      onChange={handleChange}
-                      placeholder="Enter your email address"
-                      label={t('loginScreen.emailAddress') || 'Email address'}
-                      type="email"
-                      fullWidth
-                      margin="normal"
-                      onBlur={function (event: React.FocusEvent<HTMLInputElement>): void {
-                        // Handle blur event if needed
-                      }}
-                    />
+                    <Field name="email">
+                      {({ field }: any) => (
+                        <TextInput
+                          {...field}
+                          label={t("loginScreen.email") || "Email address"}
+                          placeholder="Select your email address"
+                          select
+                          fullWidth
+                          margin="normal"
+                        >
+                          <MenuItem value="HeenaRajwani.ext@adcb.com">HeenaRajwani.ext@adcb.com</MenuItem>
+                          <MenuItem value="veeramani.sampath@adcb.com">veeramani.sampath@adcb.com</MenuItem>
+                          <MenuItem value="shaileshsunil.ext@adcb.com">shaileshsunil.ext@adcb.com</MenuItem>
+                        </TextInput>
+                      )}
+                    </Field>
 
-                    {/* Password field */}
-                    <TextInput
-                      name="password"
-                      value={values.password}
-                      onChange={handleChange}
-                      placeholder="Enter password"
-                      label={t('loginScreen.password') || 'Password'}
-                      type={showPassword ? 'text' : 'password'}
-                      fullWidth
-                      margin="normal"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              aria-label="toggle password visibility"
-                              onClick={handleClickShowPassword}
-                              edge="end"
-                            >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      onBlur={function (event: React.FocusEvent<HTMLInputElement>): void {
-                        // Handle blur event if needed
-                      }}
-                    />
-
-                    <AppButton onClick={() => setAuthModalOpen(true)}>{t('loginScreen.proceed')}</AppButton>
+                    <AppButton onClick={() => submitForm()} style={{ marginTop: "16px" }}>
+                      {t("loginScreen.proceed") || "Proceed"}
+                    </AppButton>
                   </Form>
                 )}
               </Formik>
-              <Typography
-                sx={{
-                  textAlign: 'center',
-                  paddingY: 1.5,
-                  color: '#000',
-                }}
-              >
-                {t('loginScreen.dontHaveProfile')}
-              </Typography>
-
-              <AppButton
-                onClick={() => {
-                  console.log('Sign In');
-                  navigate('/Dashboard');
-                }}
-                withBorder
-                fullWidth
-              >
-                {t('loginScreen.letsGetYouStarted')}
-              </AppButton>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
       <AuthFooter />
     </Box>
-  );
-};
+  )
+}
 
-export default RmLoginScreen;
+export default RmLoginScreen

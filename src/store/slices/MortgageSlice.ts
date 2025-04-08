@@ -12,12 +12,6 @@ const initialState: MortgageState = {
     activeStep: 0,
     maxSteps: 5,
     completedSteps: [],
-    createCustomerProfile: {
-      name: '',
-      phoneNumber: '',
-      email: '',
-      emiratesId: '',
-    },
     personalDetails: {
       customerName: '',
       gender: '',
@@ -106,7 +100,6 @@ const mortgageSlice = createSlice({
   name: 'mortgage',
   initialState,
   reducers: {
-    // Journey Level Actions
     setActiveJourney: (state, action: PayloadAction<'preApproval' | 'propertyValuation' | 'finalOffer'>) => {
       state.activeJourney = action.payload;
     },
@@ -121,7 +114,6 @@ const mortgageSlice = createSlice({
       };
     },
 
-    // Pre-approval Actions
     setPreApprovalStep: (state, action: PayloadAction<number>) => {
       state.preApproval.activeStep = action.payload;
     },
@@ -131,12 +123,12 @@ const mortgageSlice = createSlice({
       }
     },
 
-    updateCreateCustomerProfile: (
-      state,
-      action: PayloadAction<Partial<MortgageState['preApproval']['createCustomerProfile']>>
-    ) => {
-      state.preApproval.createCustomerProfile = { ...state.preApproval.createCustomerProfile, ...action.payload };
-    },
+    // updateCreateCustomerProfile: (
+    //   state,
+    //   action: PayloadAction<Partial<MortgageState['preApproval']['createCustomerProfile']>>
+    // ) => {
+    //   state.preApproval.createCustomerProfile = { ...state.preApproval.createCustomerProfile, ...action.payload };
+    // },
 
     updateLoanDetails: (state, action: PayloadAction<Partial<MortgageState['preApproval']['loanDetails']>>) => {
       state.preApproval.loanDetails = { ...state.preApproval.loanDetails, ...action.payload };
@@ -151,7 +143,6 @@ const mortgageSlice = createSlice({
       state.preApproval.incomeDetails = { ...state.preApproval.incomeDetails, ...action.payload };
     },
 
-    // Property Valuation Actions
     setPropertyValuationStep: (state, action: PayloadAction<number>) => {
       state.propertyValuation.valuationActiveStep = action.payload;
     },
@@ -179,7 +170,6 @@ const mortgageSlice = createSlice({
       state.propertyValuation.payment = { ...state.propertyValuation.payment, ...action.payload };
     },
 
-    // Common Actions
     setSubmitting: (state, action: PayloadAction<boolean>) => {
       state.isSubmitting = action.payload;
     },
@@ -204,7 +194,6 @@ export const {
   updateAccessDetails,
   updateDocuments,
   updatePayment,
-  updateCreateCustomerProfile,
   setSubmitting,
   setError,
   resetMortgage,
