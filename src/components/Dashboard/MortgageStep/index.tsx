@@ -143,14 +143,14 @@ export default function MortgageStep({
   return (
     <StepContainer>
       <StepContent>
-        <Box sx={{ display: 'flex', flexDirection: 'row', mb: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', mb: 1 ,}}>
           <Card
             sx={{
               display: 'flex',
               mb: 3,
               borderLeft: `4px solid ${active ? '#E31B23' : '#9E9E9E'}`,
               boxShadow: 'none',
-              borderBottom: 'none',
+              backgroundColor:'transparent',
             }}
           >
             <Box sx={{ mb: 2, ml: 2 }}>

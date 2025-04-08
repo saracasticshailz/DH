@@ -16,6 +16,8 @@ import { AppButton } from '@/components';
 import { COLORS } from '@/theme/colors';
 import { useAppDispatch } from '@/hooks/redux.js';
 import { loginSuccess, updateProfile } from '@/store/slices/CustomerAuthSlice.js';
+import BG_Card from '@/assets/icon/svg/bgdesktopnarrow.svg';
+import { CardMedia } from '@mui/material';
 
 //@ts-ignore
 import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
@@ -117,6 +119,8 @@ const LoginScreen = () => {
 
   const navigate = useNavigate();
 
+  console.log('authModalOpen ',authModalOpen);
+
   return (
     <Box
       sx={{
@@ -141,8 +145,23 @@ const LoginScreen = () => {
           <Card
             variant="outlined"
             className="!rounded-2xl shadow-sm h-full"
-            style={{ backgroundColor: COLORS.WHITE_SECONDARY }}
+            style={{ backgroundColor: 'transparent',
+              border: 'none',
+              boxShadow: 'none',
+             }}
           >
+            <CardMedia
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover', // This ensures the image covers the area while maintaining its aspect ratio
+                borderRadius: '24px', // Optional, if you want rounded corners
+                overflow: 'hidden', // To ensure the content does not overflow the borders
+              }}
+              component={'image'}
+              image={BG_Card}
+              height="100%"
+            >
             <CardContent
               sx={{
                 paddingY: { md: 6 },
@@ -195,6 +214,7 @@ const LoginScreen = () => {
                 {t('loginScreen.letsGetYouStarted')}
               </AppButton>
             </CardContent>
+            </CardMedia>
           </Card>
         </Grid>
       </Grid>

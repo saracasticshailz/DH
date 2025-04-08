@@ -11,15 +11,18 @@ export const StepBar = styled(Box)<{ active?: boolean }>(({ active }) => ({
 export const StepContainer = styled(Box)({
   padding: 24,
   borderBottom: '1px solid #EAEAEA',
+  backgroundColor:'transparent'
 });
 
 export const StepContent = styled(Box)({
   display: 'flex',
   alignItems: 'flex-start',
+  backgroundColor:'transparent'
 });
 
 export const StepWithButtonContainer = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
+  backgroundColor:'transparent'
 });
