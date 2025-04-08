@@ -13,6 +13,8 @@ import { COLORS } from '@/theme/colors';
 import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { setValuationActiveStep } from '@/store/slices/ValuationSlice';
+import BG_Card from '@/assets/icon/svg/bgdesktopwide.svg';
+import { CardMedia } from '@mui/material';
 
 import {
   // getCustomerJourneyStatus,
@@ -159,12 +161,14 @@ export default function MortgageDashboard() {
     navigate('/PropertyValuation');
   };
 
+  console.log('dashbaord ',journeyStatus);
   const isActive = t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
     | 'InProgress'
     | 'Rejected'
     | 'Complete'
     | 'Pending'
     | undefined;
+    console.log('dashbaord isActive',isActive);
 
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>
@@ -184,7 +188,25 @@ export default function MortgageDashboard() {
                 </Typography>
               </HeroSection>
 
-              <Box sx={{ bgcolor: 'white', borderRadius: '24px 24px 0 0', mt: -3 }}>
+              <Box sx={{borderRadius: '24px 24px 0 0', mt: -3,
+              ml:-0.8,marginRight:-0.8, 
+              mb:-0.8,
+                 }}>
+              <CardMedia
+              sx={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'transparent',
+                //objectFit: 'cover', // This ensures the image covers the area while maintaining its aspect ratio
+                borderRadius: '24px', // Optional, if you want rounded corners
+                //overflow: 'hidden',
+                //backgroundPosition:'center'
+                 // To ensure the content does not overflow the borders
+              }}
+              component={'image'}
+              image={BG_Card}
+              
+            >
                 <MortgageStep
                   title={t('dashboardScreen.steps.preApproval.title')}
                   description={
@@ -237,6 +259,7 @@ export default function MortgageDashboard() {
                   fetchOrderData={fetchOrderData}
                   journeyStatus={journeyStatus}
                 />
+                </CardMedia>
               </Box>
             </StyledCard>
           </Grid>

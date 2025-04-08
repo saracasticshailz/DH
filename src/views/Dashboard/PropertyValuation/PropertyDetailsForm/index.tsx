@@ -24,6 +24,8 @@ import { useEffect } from 'react';
 import { saveFormData, getFormData } from '@/utils/offlineStorage';
 import TextInput from '@/components/common/TextInput';
 import { COLORS } from '@/theme/colors';
+import BG_Card from '@/assets/icon/svg/bgdesktopwide.svg';
+import { CardMedia } from '@mui/material';
 
 const validationSchema = Yup.object({
   propertyType: Yup.string().required('Property type is required'),
@@ -66,12 +68,22 @@ const PropertyDetailsForm: React.FC = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
+      <CardMedia
+              sx={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'transparent',
+                borderRadius: '24px', // Optional, if you want rounded corners
+              }}
+              component={'image'}
+              image={BG_Card}
+            >
       <Box
         sx={{
           p: { xs: 2, md: 3 },
-          backgroundColor: 'background.paper',
+          //backgroundColor: 'background.paper',
           borderRadius: 2,
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.05)',
+         // boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.05)',
         }}
       >
         <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
@@ -93,6 +105,7 @@ const PropertyDetailsForm: React.FC = () => {
 
         <Grid container spacing={{ xs: 2, md: 3 }}>
           <Grid size={{ xs: 12 }}>
+            
             <FormControl component="fieldset" sx={{ width: '100%' }}>
               <FormLabel component="legend" sx={{ mb: 1, color: '#5d656b', fontWeight: 500 }}>
                 {t('valuation.propertyDetails.propertyType.title')}
@@ -234,6 +247,7 @@ const PropertyDetailsForm: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
+      </CardMedia>
     </form>
   );
 };

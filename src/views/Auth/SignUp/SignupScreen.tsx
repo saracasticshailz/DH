@@ -23,11 +23,13 @@ import {
 } from '@/store/slices/CustomerAuthSlice.js';
 import { useAppDispatch } from '@/hooks/redux.js';
 import API from '@/utils/apiEnpoints';
+import BG_Card from '@/assets/icon/svg/bgdesktopnarrow.svg';
 
 //@ts-ignore
 import modNetwork from '../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import { usePaymentCheckout } from '@/hooks/usePaymentCheckout';
+import { CardMedia } from '@mui/material';
 
 const SignupScreen = () => {
   const { t } = useTranslation();
@@ -123,11 +125,7 @@ const SignupScreen = () => {
   const handleOTPSubmit = async (enteredOtp: string) => {
     modNetwork(
       API.OTP_VERIFY_API,
-      {
-        lapsRefNumber: lapsRefNumber,
-        otpType: isEmailVerification ? 'E' : 'M',
-        custOtp: enteredOtp,
-      },
+      { lapsRefNumber: lapsRefNumber, otpType: isEmailVerification ? 'E' : 'M', custOtp: enteredOtp },
       (res: any) => {
         console.log('OTP_VERIFY_API', res);
 
@@ -150,9 +148,7 @@ const SignupScreen = () => {
           // navigate('/RmDashboard', {
           //   state: { preventBack: true },
           // });
-          navigate('/Dashboard', {
-            state: { preventBack: true },
-          });
+          navigate('/Dashboard', { state: { preventBack: true } });
         } else {
           // navigate('/Dashboard');
 
@@ -176,12 +172,7 @@ const SignupScreen = () => {
 
   return (
     <Box
-      sx={{
-        maxWidth: '1600px',
-        width: '100%',
-        margin: 'auto',
-        paddingX: { xs: '1rem', md: '1.125rem', lg: '2rem' },
-      }}
+      sx={{ maxWidth: '1600px', width: '100%', margin: 'auto', paddingX: { xs: '1rem', md: '1.125rem', lg: '2rem' } }}
     >
       <AuthHeader />
       {isLoading && <AppLoading />}
@@ -201,13 +192,7 @@ const SignupScreen = () => {
           secondaryButtonText={''}
         />
       )}
-      <Grid
-        container
-        spacing={4}
-        sx={{
-          paddingY: 4,
-        }}
-      >
+      <Grid container spacing={4} sx={{ paddingY: 4 }}>
         <Grid size={{ xs: 12, md: 8 }}>
           <Box sx={{ position: 'relative', borderRadius: '24px', overflow: 'hidden' }}>
             <img
@@ -229,136 +214,148 @@ const SignupScreen = () => {
             >
               <Typography
                 variant="h2"
-                sx={{
-                  color: 'white',
-                  fontWeight: 700,
-                  fontSize: { xs: '2rem', md: '2.5rem' },
-                  lineHeight: 1.2,
-                  mb: 1,
-                }}
+                sx={{ color: 'white', fontWeight: 700, fontSize: { xs: '2rem', md: '2.5rem' }, lineHeight: 1.2, mb: 1 }}
               >
                 {t('signUpScreen.createYourProfile')}
               </Typography>
-              <Typography
-                variant="body1"
-                sx={{
-                  color: 'white',
-                  fontSize: { xs: '0.875rem', sm: '1rem' },
-                }}
-              >
+              <Typography variant="body1" sx={{ color: 'white', fontSize: { xs: '0.875rem', sm: '1rem' } }}>
                 {t('signUpScreen.createYourProfileDescription')}
               </Typography>
             </Box>
           </Box>
         </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
+        
+        <Grid
+          // sx={{border: 'none',backgroundColor: 'transparent' ,
+          //   //backgroundImage: `url(${IMG.BGDesktopNarrow})`,
+          //   backgroundImage: `url(${BG_Card})`,
+          //  backgroundPosition:'center',
+          //  backgroundSize: "cover",objectFit: 'cover',
+          //  backgroundRepeat: "no-repeat",
+          //  borderRadius: '24px',
+          //  ObjectFit:'cover'
+ 
+          // }}
+          // sx={{
+          //   display: 'flex',  // Use flex if you want to center content inside the Grid
+          //   justifyContent: 'center',
+          //   alignItems: 'center',
+          //   border: 'none',
+          //   backgroundColor: 'transparent',
+            
+          //   //backgroundImage: `url(${BG_Card})`,
+          //   backgroundPosition: 'center',
+          //   backgroundSize: 'cover',
+          //   backgroundRepeat: 'no-repeat',
+          //   borderRadius: '24px',
+          //   width: '100%',
+          //   height: '200px', // Adjust as needed
+          // }}
+          size={{ xs: 12, md: 4 }}
+        >
           <Card
             variant="outlined"
             className="!rounded-2xl shadow-sm h-full"
-            style={{ backgroundColor: COLORS.WHITE_SECONDARY }}
+            style={{
+              border: 'none',
+              // backgroundImage: `url(${IMG.BGDesktopNarrow})`,
+              // backgroundRepeat: "no-repeat",
+              // backgroundSize: "contain",
+              // backgroundPosition:'center',
+              backgroundColor: 'transparent',
+              boxShadow: 'none',
+              //  borderRadius: '24px',
+              //  objectFit: 'cover',
+              //  overflow: 'hidden',
+              width: '100%', // Ensure it takes the full width available
+              height: '100%', // Ensure it takes the full height of its parent
+            }}
           >
-            <CardContent
+            <CardMedia
               sx={{
-                paddingY: { md: 6 },
-                paddingX: { md: 4 },
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover', // This ensures the image covers the area while maintaining its aspect ratio
+                borderRadius: '24px', // Optional, if you want rounded corners
+                overflow: 'hidden',
+                 // To ensure the content does not overflow the borders
               }}
+              component={'image'}
+              image={BG_Card}
+              height="100%"
             >
-              <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {({ values, handleChange }) => (
-                  <Form className="mb-10">
-                    <TextInput
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      placeholder={t('signUpScreen.enterYourName')}
-                      label={t('signUpScreen.name')}
-                      onBlur={() => {}}
-                    />
-                    <TextInput
-                      name="phoneNumber"
-                      countryCode="+971"
-                      value={values.phoneNumber}
-                      onChange={handleChange}
-                      placeholder={t('000 000 000')}
-                      label={t('signUpScreen.phoneNumber')}
-                      onBlur={() => {}}
-                    />
-                    <TextInput
-                      name="email"
-                      placeholder={t('signUpScreen.enterYourEmail')}
-                      value={values.email}
-                      onChange={handleChange}
-                      label={t('signUpScreen.email')}
-                      onBlur={() => {}}
-                    />
-                    <TextInput
-                      name="emiratesId"
-                      placeholder={t('signUpScreen.enterYourEid')}
-                      value={values.emiratesId}
-                      onChange={handleChange}
-                      label={t('signUpScreen.eId')}
-                      onBlur={() => {}}
-                    />
-                    {errorMessage && (
-                      <Typography
-                        sx={{
-                          color: 'error.main',
-                          marginY: 2,
-                          textAlign: 'center',
+              <CardContent sx={{ paddingY: { md: 6 }, paddingX: { md: 4 } }}>
+                <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                  {({ values, handleChange }) => (
+                    <Form className="mb-10">
+                      <TextInput
+                        name="name"
+                        value={values.name}
+                        onChange={handleChange}
+                        placeholder={t('signUpScreen.enterYourName')}
+                        label={t('signUpScreen.name')}
+                        onBlur={() => {}}
+                      />
+                      <TextInput
+                        name="phoneNumber"
+                        countryCode="+971"
+                        value={values.phoneNumber}
+                        onChange={handleChange}
+                        placeholder={t('000 000 000')}
+                        label={t('signUpScreen.phoneNumber')}
+                        onBlur={() => {}}
+                      />
+                      <TextInput
+                        name="email"
+                        placeholder={t('signUpScreen.enterYourEmail')}
+                        value={values.email}
+                        onChange={handleChange}
+                        label={t('signUpScreen.email')}
+                        onBlur={() => {}}
+                      />
+                      <TextInput
+                        name="emiratesId"
+                        placeholder={t('signUpScreen.enterYourEid')}
+                        value={values.emiratesId}
+                        onChange={handleChange}
+                        label={t('signUpScreen.eId')}
+                        onBlur={() => {}}
+                      />
+                      {errorMessage && (
+                        <Typography sx={{ color: 'error.main', marginY: 2, textAlign: 'center' }}>
+                          {errorMessage}
+                        </Typography>
+                      )}
+
+                      <AppButton
+                        type="submit"
+                        onClick={() => {
+                          // This will trigger form validation before submission
+                          // You can keep this empty or add additional logic
                         }}
+                        disabled={isLoading}
                       >
-                        {errorMessage}
-                      </Typography>
-                    )}
+                        {isLoading ? t('common.loading') : t('signUpScreen.createYourProfile')}
+                      </AppButton>
+                    </Form>
+                  )}
+                </Formik>
+                <Typography sx={{ textAlign: 'center', paddingY: 1.5, color: '#000' }}>
+                  {t('signUpScreen.alreadyAMember')}
+                </Typography>
 
-                    <AppButton
-                      type="submit"
-                      onClick={() => {
-                        // This will trigger form validation before submission
-                        // You can keep this empty or add additional logic
-                      }}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? t('common.loading') : t('signUpScreen.createYourProfile')}
-                    </AppButton>
-                  </Form>
-                )}
-              </Formik>
-              <Typography
-                sx={{
-                  textAlign: 'center',
-                  paddingY: 1.5,
-                  color: '#000',
-                }}
-              >
-                {t('signUpScreen.alreadyAMember')}
-              </Typography>
-
-              <AppButton
-                onClick={() => {
-                  console.log('Login');
-                  navigate('/Login');
-                }}
-                withBorder
-                fullWidth
-              >
-                {t('signUpScreen.signIn')}
-              </AppButton>
-
-              <AppButton
-               sx={{
-                marginTop: 1.5,
-             
-              }}
-                onClick={() => {
-                  navigate('/RmLogin');
-                }}
-                withBorder
-                fullWidth
-              >
-                {'RM Login'}
-              </AppButton>
-            </CardContent>
+                <AppButton
+                  onClick={() => {
+                    console.log('Sign In');
+                    navigate('/Login');
+                  }}
+                  withBorder
+                  fullWidth
+                >
+                  {t('signUpScreen.signIn')}
+                </AppButton>
+              </CardContent>
+            </CardMedia>
           </Card>
         </Grid>
       </Grid>

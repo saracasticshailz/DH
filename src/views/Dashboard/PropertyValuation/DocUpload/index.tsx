@@ -13,6 +13,8 @@ import type { RootState } from '@/store';
 import { useAppSelector } from '@/hooks/redux';
 import { selectAuth } from '@/store/slices/CustomerAuthSlice';
 import { getFileName } from '@/utils/commonFunctions';
+import { setPreApprovalStep } from '@/store/slices/MortgageSlice';
+import { useNavigate } from 'react-router-dom';
 import {
   generateJsonDocumentList,
   generateJsonDocumentRemove,
@@ -21,6 +23,9 @@ import {
 import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
+import BG_Card from '@/assets/icon/svg/bgdesktopwide.svg';
+import Trash from '@/assets/icon/svg/Trash.svg';
+import { CardMedia } from '@mui/material';
 
 interface DocumentValues {
   propertyAddress: File | null;
@@ -58,9 +63,26 @@ const generateValidationSchema = (fields: any[]) => {
 const DocumentUploadForm: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [documentListData, setDocumentListData] = useState<any[]>([]);
+  const [documentListData, setDocumentListData] = useState<any[]>([
+    { code: 'floorplans', name: 'Floor Plans', id: '30.0', requirementType: 'Mandatory' },
+    { code: 'oqood', name: 'Oqood', id: '33.0', requirementType: 'Optional' },
+    {
+      code: 'salespurchaseagreement',
+      name: 'Sales Purchase Agreement (SPA)',
+      id: '34.0',
+      requirementType: 'Mandatory',
+    },
+    {
+      code: 'memorandumofunderstanding',
+      name: 'Memorandum of Understanding (MOU)',
+      id: '35.0',
+      requirementType: 'Optional',
+    },
+    { code: 'additionaldocuments', name: 'Additional Documents', id: '36.0', requirementType: 'Optional' },
+  ]);
   const userDetails = useAppSelector(selectAuth);
   const fetchdata: any[] = [];
+  const navigate = useNavigate();
 
   const documents = useSelector((state: RootState) => state.valuation.documents);
   const validationSchema = generateValidationSchema(documentListData);
@@ -75,7 +97,7 @@ const DocumentUploadForm: React.FC = () => {
     onSubmit: (values) => {
       dispatch(updateDocuments(values));
       console.log('onsubmit click');
-      //dispatch(setValuationActiveStep(3)); // Move to Review step
+      dispatch(setValuationActiveStep(3)); // Move to Review step
     },
   });
 
@@ -90,10 +112,7 @@ const DocumentUploadForm: React.FC = () => {
         const matchingItem2 = arr2.find((item2) => item2.documentTypeId == item1.id);
         if (matchingItem2) {
           // If there's a match, merge the two objects
-          return {
-            ...matchingItem2,
-            ...item1,
-          };
+          return { ...matchingItem2, ...item1 };
         }
         // If no match, return the item from arr1 as is
         return item1;
@@ -146,9 +165,7 @@ const DocumentUploadForm: React.FC = () => {
     // Make the fetch call to get the token
     return fetch(tokenUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data,
     })
       .then((response) => response.json())
@@ -266,6 +283,10 @@ const DocumentUploadForm: React.FC = () => {
   const handleFileDelete = (field: keyof DocumentValues) => () => {
     formik.setFieldValue(field, null);
   };
+  function handleCancel(): void {
+    dispatch(setPreApprovalStep(0));
+    navigate(-1);
+  }
 
   const renderFileInput = (field: keyof DocumentValues, label: string, documentObject: any) => {
     const file = formik.values[field];
@@ -276,34 +297,48 @@ const DocumentUploadForm: React.FC = () => {
         <Typography variant="subtitle2" gutterBottom>
           {label}
         </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            width: '100%',
+            flexDirection: 'row',
+            borderColor: '#BEC1C4',
+            borderWidth: 1, // Add a 2px solid black border
+            borderRadius: '8px', // Add 10px rounded corners
+          }}
+        >
           <Button
-            variant="outlined"
+            //variant="outlined"
             component="label"
             fullWidth
             color={error ? 'error' : 'primary'}
             sx={{
               borderColor: '#BEC1C4',
               color: '#273239',
-              '&:hover': {
-                borderColor: '#273239',
-                bgcolor: 'transparent',
-              },
+              width: '240px',
+              height: '48px',
+              '&:hover': { borderColor: '#273239', bgcolor: 'transparent' },
             }}
           >
             {/* {file ? file.name : t('valuation.documentUpload.choosefile')} */}
             {documentObject?.documentLink
-              ? getFileName(documentObject.documentLink)?.trim()
+              ? getFileName(documentObject.documentLink)?.trim().slice(0, 25)
               : file
-                ? file.name
+                ? file.name.trim().slice(0, 25)
                 : t('valuation.documentUpload.choosefile')}
             <input type="file" hidden accept=".pdf,.jpg,.png" onChange={handleFileChange(field)} />
           </Button>
-          {file && (
-            <IconButton onClick={handleFileDelete(field)} color="error" size="small">
-              <Delete />
-            </IconButton>
-          )}
+          
+            {/* // <IconButton onClick={handleFileDelete(field)} color="error" size="small">
+            //   <Delete />
+            // </IconButton> */}
+
+        <Button onClick={handleFileDelete(field)}  size="small" >
+              <img src={Trash} alt="Delete" />
+            </Button>
+          
         </Box>
         {error && (
           <Typography color="error" variant="caption">
@@ -316,63 +351,86 @@ const DocumentUploadForm: React.FC = () => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Box sx={{ p: 3 }}>
-        <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-          {t('valuation.documentUpload.title')}
-        </Typography>
+      <CardMedia
+        sx={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'transparent',
+          borderRadius: '24px', // Optional, if you want rounded corners
+        }}
+        component={'image'}
+        image={BG_Card}
+      >
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+            {t('valuation.documentUpload.title')}
+          </Typography>
 
-        <Alert severity="info" sx={{ mb: 3 }}>
-          {t('valuation.documentUpload.noteDocumentMaxandFileType')}
-        </Alert>
+          <Alert severity="info" sx={{ mb: 3 }}>
+            {t('valuation.documentUpload.noteDocumentMaxandFileType')}
+          </Alert>
 
-        <Grid container spacing={3}>
-          {documentListData.map((field) => renderFileInput(field.code, field.name, field))}
-        </Grid>
+          <Grid container spacing={4}>
+            {documentListData.map((field) => renderFileInput(field.code, field.name, field))}
+          </Grid>
 
-        <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            onClick={handleBack}
-            variant="outlined"
+          <Box
             sx={{
-              borderColor: '#BEC1C4',
-              color: '#273239',
-              '&:hover': {
-                borderColor: '#273239',
-                bgcolor: 'transparent',
-              },
+              mt: 10,
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: { xs: 'column', sm: 'row' },
+              width: '100%',
             }}
           >
-            {t('preApproval.incomeDetails.buttons.back')}
-          </Button>
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: '#BEC1C4',
-                color: '#273239',
-                '&:hover': {
-                  borderColor: '#273239',
-                  bgcolor: 'transparent',
-                },
-              }}
-            >
-              {t('preApproval.incomeDetails.buttons.cancel')}
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                bgcolor: '#E31B23',
-                '&:hover': {
-                  bgcolor: '#CC181F',
-                },
-              }}
-            >
-              {t('preApproval.incomeDetails.buttons.continue')}
-            </Button>
+            <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' }, width: '100%' }}>
+              <Button
+                onClick={handleBack}
+                variant="outlined"
+                sx={{
+                  borderColor: '#BEC1C4',
+                  color: '#273239',
+                  height: '48px',
+                  borderRadius: '8px',
+                  width: { xs: '100%', sm: '180px' }, // Full width on mobile, 160px on desktop
+                  '&:hover': { borderColor: '#273239', bgcolor: 'transparent' },
+                }}
+              >
+                {t('preApproval.incomeDetails.buttons.back')}
+              </Button>
+              <Button
+                onClick={handleCancel}
+                sx={{
+                  borderColor: '#BEC1C4',
+                  color: '#273239',
+                  height: '48px',
+                  borderRadius: '5px',
+                  width: { xs: '100%', sm: '120px' }, // Full width on mobile, 160px on desktop
+                  '&:hover': { borderColor: '#273239', bgcolor: 'transparent' },
+                }}
+              >
+                {t('preApproval.incomeDetails.buttons.cancel')}
+              </Button>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row-reverse' }, width: '100%' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  height: '48px',
+                  color: 'white',
+                  bgcolor: '#E31B23',
+                  borderRadius: '8px',
+                  width: { xs: '100%', sm: '180px' }, // Full width on mobile, 160px on desktop
+                  '&:hover': { bgcolor: '#CC181F' },
+                }}
+              >
+                {t('preApproval.incomeDetails.buttons.continue')}
+              </Button>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </CardMedia>
     </form>
   );
 };

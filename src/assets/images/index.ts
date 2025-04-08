@@ -15,6 +15,7 @@ import LocationIcon from './png/location.png';
 import ImageProgressBarBg from './png/imageProgressBg.png';
 import EmailIcon from './png/email.png';
 import PhoneIcon from './png/phone.png';
+import BGDesktopNarrow from './png/bgdesktopnarrow.png';
 
 export const IMG = {
   signupImage,
@@ -33,5 +34,6 @@ export const IMG = {
   LocationIcon,
   ImageProgressBarBg,
   EmailIcon,
-  PhoneIcon
+  PhoneIcon,
+  BGDesktopNarrow
 };

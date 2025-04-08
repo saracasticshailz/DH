@@ -20,6 +20,7 @@ import API from '@/utils/apiEnpoints';
 //@ts-ignore
 import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
+import { getLableAndCheckValue } from '@/utils/commonFunctions';
 
 interface ReviewSection {
   label: string;
@@ -113,7 +114,8 @@ const Section: React.FC<{
                       wordBreak: 'break-word',
                     }}
                   >
-                    {item.value}
+                    {/* {item.value} */}
+                    {getLableAndCheckValue(item.label,item.value)}
                   </Typography>
                 </>
               )}
@@ -216,7 +218,7 @@ const PreApprovalReview = () => {
   };
 
   const handleCancel = () => {
-    //dispatch(setPreApprovalStep(0));
+    dispatch(setPreApprovalStep(0));
     navigate(-1);
   };
 
