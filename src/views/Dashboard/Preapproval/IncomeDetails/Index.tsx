@@ -55,8 +55,30 @@ export default function IncomeDetailsForm() {
   const [submitted, setSubmitted] = useState(false);
   const { preApproval } = useAppSelector((state: RootState) => state.mortgage);
 
+
+  function convertObjectValuesToString(inputObj: { [x: string]: any; hasOwnProperty: (arg0: string) => any; }) {
+    const convertedObj:any = {};
+  
+    for (const key in inputObj) {
+      if (inputObj.hasOwnProperty(key)) {
+        const value = inputObj[key];
+  
+        if (typeof value === 'boolean') {
+          // Keep boolean values as is
+          convertedObj[key] = value;
+        } else {
+          // Convert all other values to string
+          convertedObj[key] = String(value);
+        }
+      }
+    }
+  
+    return convertedObj;
+  }
+
   const handleSubmit = (values: any) => {
-    dispatch(updateIncomeDetails(values));
+    const finalValues = convertObjectValuesToString(values);
+    dispatch(updateIncomeDetails(finalValues));
     // // dispatch(completeJourney('preApproval'));
     // // setSubmitted(true);
     dispatch(setPreApprovalStep(preApproval.activeStep + 1));
