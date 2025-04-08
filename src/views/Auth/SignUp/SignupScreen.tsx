@@ -354,6 +354,19 @@ const SignupScreen = () => {
                 >
                   {t('signUpScreen.signIn')}
                 </AppButton>
+                <AppButton
+               sx={{
+                marginTop: 1.5,
+             
+              }}
+                onClick={() => {
+                  navigate('/RmLogin');
+                }}
+                withBorder
+                fullWidth
+              >
+                {'RM Login'}
+              </AppButton>
               </CardContent>
             </CardMedia>
           </Card>
