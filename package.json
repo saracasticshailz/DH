@@ -15,7 +15,7 @@
     "format": "prettier ./src --write",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "concurrently \"npm run dev\" \"npm run server\"",
+    "start": "npm run dev",
     "type": "tsc",
     "test:jest": "jest",
     "test:vitest": "vitest",
