@@ -49,7 +49,7 @@ const LoginScreen = () => {
     }
   }, []);
 
-  const initialValues = { phoneNumber: '501312334' }; //'501312334',  // //542334366
+  const initialValues = { phoneNumber: '542334366' }; //504567893 //'501312334',  // //542334366
 
   const handleSubmit = async (values: any) => {
     //RESPONSE
@@ -119,7 +119,7 @@ const LoginScreen = () => {
 
   const navigate = useNavigate();
 
-  console.log('authModalOpen ',authModalOpen);
+  console.log('authModalOpen ', authModalOpen);
 
   return (
     <Box
@@ -145,10 +145,7 @@ const LoginScreen = () => {
           <Card
             variant="outlined"
             className="!rounded-2xl shadow-sm h-full"
-            style={{ backgroundColor: 'transparent',
-              border: 'none',
-              boxShadow: 'none',
-             }}
+            style={{ backgroundColor: 'transparent', border: 'none', boxShadow: 'none' }}
           >
             <CardMedia
               sx={{
@@ -162,58 +159,58 @@ const LoginScreen = () => {
               image={BG_Card}
               height="100%"
             >
-            <CardContent
-              sx={{
-                paddingY: { md: 6 },
-                paddingX: { md: 4 },
-              }}
-            >
-              <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {({ values, handleChange }) => (
-                  <Form className="mb-10">
-                    <TextInput
-                      name={'phoneNumber'}
-                      countryCode="+971"
-                      value={values.phoneNumber}
-                      onChange={handleChange}
-                      placeholder={t('000000000')}
-                      label={t('loginScreen.phoneNumber')}
-                      onBlur={() => undefined}
-                    />
-
-                    <AppButton
-                      type="submit"
-                      onClick={() => {
-                        // This will trigger form validation before submission
-                        // You can keep this empty or add additional logic
-                      }}
-                    >
-                      {t('loginScreen.proceed')}
-                    </AppButton>
-                  </Form>
-                )}
-              </Formik>
-              <Typography
+              <CardContent
                 sx={{
-                  textAlign: 'center',
-                  paddingY: 1.5,
-                  color: '#000',
+                  paddingY: { md: 6 },
+                  paddingX: { md: 4 },
                 }}
               >
-                {t('loginScreen.dontHaveProfile')}
-              </Typography>
+                <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                  {({ values, handleChange }) => (
+                    <Form className="mb-10">
+                      <TextInput
+                        name={'phoneNumber'}
+                        countryCode="+971"
+                        value={values.phoneNumber}
+                        onChange={handleChange}
+                        placeholder={t('000000000')}
+                        label={t('loginScreen.phoneNumber')}
+                        onBlur={() => undefined}
+                      />
 
-              <AppButton
-                onClick={() => {
-                  console.log('Sign In');
-                  navigate('/');
-                }}
-                withBorder
-                fullWidth
-              >
-                {t('loginScreen.letsGetYouStarted')}
-              </AppButton>
-            </CardContent>
+                      <AppButton
+                        type="submit"
+                        onClick={() => {
+                          // This will trigger form validation before submission
+                          // You can keep this empty or add additional logic
+                        }}
+                      >
+                        {t('loginScreen.proceed')}
+                      </AppButton>
+                    </Form>
+                  )}
+                </Formik>
+                <Typography
+                  sx={{
+                    textAlign: 'center',
+                    paddingY: 1.5,
+                    color: '#000',
+                  }}
+                >
+                  {t('loginScreen.dontHaveProfile')}
+                </Typography>
+
+                <AppButton
+                  onClick={() => {
+                    console.log('Sign In');
+                    navigate('/');
+                  }}
+                  withBorder
+                  fullWidth
+                >
+                  {t('loginScreen.letsGetYouStarted')}
+                </AppButton>
+              </CardContent>
             </CardMedia>
           </Card>
         </Grid>

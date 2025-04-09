@@ -34,7 +34,6 @@ export default function MortgageDashboard() {
   const [fetchOrderData, setFetchOrderData] = useState(null);
   const applicationDetails = useAppSelector(selectApplicationDetails);
   const customerDetails = useAppSelector(selectCustomerDetails);
-  const [lapsRefNumber, setlapsRefNumber] = useState('');
   const selectRMDetails_ = useAppSelector(selectRMDetails);
   const journeyStatus: any = applicationDetails.loanApplicationStatus;
   const customerName: any = customerDetails.customerName;
@@ -123,7 +122,7 @@ export default function MortgageDashboard() {
     modNetwork(
       API.RESEND_APPROVALS,
       {
-        lapsRefNumber: lapsRefNumber + '_P', // If approvalType is V, we need to send lapsRefNumber+Valuation_OrderRefno"
+        lapsRefNumber: userDetails.lapsRefNumber + '_P', // If approvalType is V, we need to send lapsRefNumber+Valuation_OrderRefno"
       },
       (res: any) => {
         console.log(API.RESEND_APPROVALS, res);
@@ -161,14 +160,14 @@ export default function MortgageDashboard() {
     navigate('/PropertyValuation');
   };
 
-  console.log('dashbaord ',journeyStatus);
+  console.log('dashbaord ', journeyStatus);
   const isActive = t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
     | 'InProgress'
     | 'Rejected'
     | 'Complete'
     | 'Pending'
     | undefined;
-    console.log('dashbaord isActive',isActive);
+  console.log('dashbaord isActive', isActive);
 
   return (
     <Box sx={{ bgcolor: COLORS.OFF_WHITE_BG, minHeight: '100vh' }}>
@@ -188,77 +187,73 @@ export default function MortgageDashboard() {
                 </Typography>
               </HeroSection>
 
-              <Box sx={{borderRadius: '24px 24px 0 0', mt: -3,
-              ml:-0.8,marginRight:-0.8, 
-              mb:-0.8,
-                 }}>
-              <CardMedia
-              sx={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'transparent',
-                //objectFit: 'cover', // This ensures the image covers the area while maintaining its aspect ratio
-                borderRadius: '24px', // Optional, if you want rounded corners
-                //overflow: 'hidden',
-                //backgroundPosition:'center'
-                 // To ensure the content does not overflow the borders
-              }}
-              component={'image'}
-              image={BG_Card}
-              
-            >
-                <MortgageStep
-                  title={t('dashboardScreen.steps.preApproval.title')}
-                  description={
-                    journeyStatus !== 'PR' &&
-                    journeyStatus !== 'PP' &&
-                    journeyStatus !== 'IN_PROGRESS' &&
-                    journeyStatus !== '' //Blank scenario handled
-                      ? t('dashboardScreen.steps.preApproval.congratulations')
-                      : journeyStatus == 'IN_PROGRESS'
-                        ? t('dashboardScreen.steps.preApproval.inProgressDescription')
-                        : t('dashboardScreen.steps.preApproval.description')
-                  }
-                  subDescription={t('dashboardScreen.steps.preApproval.subDescription')}
-                  buttonText={t('preapprovalButton.' + journeyStatus, { defaultValue: 'APPLY' })}
-                  active={true}
-                  onButtonClick={handlePreapprovalAction}
-                  fetchOrderData={fetchOrderData}
-                  journeyStatus={journeyStatus}
-                  applnstatus={
-                    t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
-                      | 'InProgress'
-                      | 'Rejected'
-                      | 'Complete'
-                      | 'Pending'
-                      | undefined
-                  } // Type assertion here
-                />
+              <Box sx={{ borderRadius: '24px 24px 0 0', mt: -3, ml: -0.8, marginRight: -0.8, mb: -0.8 }}>
+                <CardMedia
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'transparent',
+                    //objectFit: 'cover', // This ensures the image covers the area while maintaining its aspect ratio
+                    borderRadius: '24px', // Optional, if you want rounded corners
+                    //overflow: 'hidden',
+                    //backgroundPosition:'center'
+                    // To ensure the content does not overflow the borders
+                  }}
+                  component={'image'}
+                  image={BG_Card}
+                >
+                  <MortgageStep
+                    title={t('dashboardScreen.steps.preApproval.title')}
+                    description={
+                      journeyStatus !== 'PR' &&
+                      journeyStatus !== 'PP' &&
+                      journeyStatus !== 'IN_PROGRESS' &&
+                      journeyStatus !== '' //Blank scenario handled
+                        ? t('dashboardScreen.steps.preApproval.congratulations')
+                        : journeyStatus == 'IN_PROGRESS'
+                          ? t('dashboardScreen.steps.preApproval.inProgressDescription')
+                          : t('dashboardScreen.steps.preApproval.description')
+                    }
+                    subDescription={t('dashboardScreen.steps.preApproval.subDescription')}
+                    buttonText={t('preapprovalButton.' + journeyStatus, { defaultValue: 'APPLY' })}
+                    active={true}
+                    onButtonClick={handlePreapprovalAction}
+                    fetchOrderData={fetchOrderData}
+                    journeyStatus={journeyStatus}
+                    applnstatus={
+                      t('preapprovalSubStatus.' + journeyStatus, { defaultValue: undefined }) as
+                        | 'InProgress'
+                        | 'Rejected'
+                        | 'Complete'
+                        | 'Pending'
+                        | undefined
+                    } // Type assertion here
+                  />
 
-                <MortgageStep
-                  title={t('dashboardScreen.steps.propertyValuation.title')}
-                  description={t('dashboardScreen.steps.propertyValuation.description')}
-                  buttonText={t('valuationButton.' + journeyStatus, { defaultValue: 'NA' })}
-                  onButtonClick={handleValuationAction}
-                  fetchOrderData={fetchOrderData}
-                  journeyStatus={journeyStatus}
-                  active={isActive === 'Complete' ? true : false}
-                  applnstatus={
-                    t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
-                      | 'InProgress'
-                      | 'Rejected'
-                      | 'Complete'
-                      | 'Pending'
-                      | undefined
-                  } // Type assertion here
-                />
+                  <MortgageStep
+                    title={t('dashboardScreen.steps.propertyValuation.title')}
+                    description={t('dashboardScreen.steps.propertyValuation.description')}
+                    buttonText={t('valuationButton.' + journeyStatus, { defaultValue: 'NA' })}
+                    onButtonClick={handleValuationAction}
+                    fetchOrderData={fetchOrderData}
+                    journeyStatus={journeyStatus}
+                    active={isActive === 'Complete' ? true : false}
+                    applnstatus={
+                      t('valuationSubStatus.' + journeyStatus, { defaultValue: undefined }) as
+                        | 'InProgress'
+                        | 'Rejected'
+                        | 'Complete'
+                        | 'Pending'
+                        | undefined
+                    } // Type assertion here
+                  />
 
-                <MortgageStep
-                  title={t('dashboardScreen.steps.finalOffer.title')}
-                  description={t('dashboardScreen.steps.finalOffer.description')}
-                  fetchOrderData={fetchOrderData}
-                  journeyStatus={journeyStatus}
-                />
+                  <MortgageStep
+                    title={t('dashboardScreen.steps.finalOffer.title')}
+                    description={t('dashboardScreen.steps.finalOffer.description')}
+                    fetchOrderData={fetchOrderData}
+                    journeyStatus={journeyStatus}
+                  />
                 </CardMedia>
               </Box>
             </StyledCard>
