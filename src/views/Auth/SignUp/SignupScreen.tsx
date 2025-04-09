@@ -357,6 +357,8 @@ const SignupScreen = () => {
                 <AppButton
                sx={{
                 marginTop: 1.5,
+                height: '48px',
+                borderRadius:'8px'
              
               }}
                 onClick={() => {
