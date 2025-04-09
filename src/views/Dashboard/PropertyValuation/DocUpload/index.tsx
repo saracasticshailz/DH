@@ -1,10 +1,9 @@
 'use client';
 
-//import type React from 'react';
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Grid, Typography, Button, Alert, IconButton } from '@mui/material';
+import { Box, Typography, Button, Alert } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,14 +18,15 @@ import {
   generateJsonDocumentList,
   generateJsonDocumentRemove,
 } from '@/views/Dashboard/PropertyValuation/JsonRequests/PropertyValuationDocument';
-//@ts-ignore
-import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
+import Grid from '@mui/material/Grid';
+
 import API from '@/utils/apiEnpoints';
 import { MOD_CONSTANTS } from '@/utils/apiConstants';
 import BG_Card from '@/assets/icon/svg/bgdesktopwide.svg';
-import Trash from '@/assets/icon/svg/Trash.svg';
+import Trash from '@/assets/icon/svg/trash.svg';
 import { CardMedia } from '@mui/material';
-
+//@ts-ignore
+import modNetwork from '../../../../../lib/konyLib/common/modules/modNetwork';
 interface DocumentValues {
   propertyAddress: File | null;
   titleDeed: File | null;
@@ -35,7 +35,6 @@ interface DocumentValues {
   oqood: File | null;
   additionalDocuments: File | null;
 }
-
 const validationSchema = Yup.object({
   propertyAddress: Yup.mixed().required('Property address document is required'),
   titleDeed: Yup.mixed().required('Title deed is required'),
@@ -43,12 +42,9 @@ const validationSchema = Yup.object({
   floorPlan: Yup.mixed().required('Floor plan is required'),
 });
 
-// Generate dynamic validation schema based on input array
 const generateValidationSchema = (fields: any[]) => {
   const validationSchema = Yup.object().shape(
     fields.reduce((acc, { code, requirementType, name }) => {
-      // If the field is mandatory, make it required
-      console.log('code is manadte ', name, requirementType);
       if (requirementType === 'Mandatory') {
         acc[code] = Yup.string().required(`${name} is required`);
       } else {
@@ -87,9 +83,9 @@ const DocumentUploadForm: React.FC = () => {
   const documents = useSelector((state: RootState) => state.valuation.documents);
   const validationSchema = generateValidationSchema(documentListData);
 
-  const client_id = 'your-client-id'; // Replace with your client ID
-  const client_secret = 'your-client-secret'; // Replace with your client secret
-  const grant_type = 'client_credentials'; // Replace with the grant type
+  const client_id = 'your-client-id';
+  const client_secret = 'your-client-secret';
+  const grant_type = 'client_credentials';
 
   const formik = useFormik<DocumentValues>({
     initialValues: documents,
@@ -97,7 +93,7 @@ const DocumentUploadForm: React.FC = () => {
     onSubmit: (values) => {
       dispatch(updateDocuments(values));
       console.log('onsubmit click');
-      dispatch(setValuationActiveStep(3)); // Move to Review step
+      dispatch(setValuationActiveStep(3));
     },
   });
 
@@ -106,26 +102,16 @@ const DocumentUploadForm: React.FC = () => {
   }, []);
 
   function mergeArraysById(arr1: any[], arr2: any[]) {
-    // Iterate over arr1 and try to merge with matching documentTypeId from arr2
     return arr1
       .map((item1) => {
         const matchingItem2 = arr2.find((item2) => item2.documentTypeId == item1.id);
-        if (matchingItem2) {
-          // If there's a match, merge the two objects
-          return { ...matchingItem2, ...item1 };
-        }
-        // If no match, return the item from arr1 as is
-        return item1;
+        return matchingItem2 ? { ...matchingItem2, ...item1 } : item1;
       })
-      .concat(
-        // After mapping, we also add items from arr2 that don't match any item in arr1
-        arr2.filter((item2) => !arr1.some((item1) => item1.id === item2.documentTypeId))
-      );
+      .concat(arr2.filter((item2) => !arr1.some((item1) => item1.id === item2.documentTypeId)));
   }
 
   const documentFetch = () => {
-    const document = { bankReferenceId: '1234' }; //userDetails.lapsRefNumber
-    //const finalJson = generateJsonDocumentFetch(document);
+    const document = { bankReferenceId: '1234' };
     orderApiCall(document, API.PROPERTY_VALUATION_DOCS_FETCH, 'fetch');
   };
   const documentList = () => {
@@ -135,84 +121,58 @@ const DocumentUploadForm: React.FC = () => {
   };
   const documentUpload = (file: any) => {
     const document = { bankReferenceId: '1234' };
-    //const finalJson = generateJsonDocumentUpload(document);
     orderApiCall(document, API.PROPERTY_VALUATION_DOCS_UPLOAD, 'upload');
   };
-
   const documentRemove = () => {
     const document = { bankReferenceId: '1234', documentId: '' };
     const finalJson = generateJsonDocumentRemove(document);
     orderApiCall(finalJson, API.PROPERTY_VALUATION_DOCS_REMOVE, 'remove');
   };
 
-  // Prepare the data for the POST request
   const data = new URLSearchParams();
   data.append('client_id', client_id);
   data.append('client_secret', client_secret);
   data.append('grant_type', grant_type);
 
-  // Make the fetch call to get the token
-  // Function to fetch the token
-  function fetchToken(client_id, client_secret, grant_type) {
-    const tokenUrl = 'https://your-api-url.com/token'; // Replace with your token URL
-
-    // Prepare the data for the POST request
+  function fetchToken(client_id: string, client_secret: string, grant_type: string) {
+    const tokenUrl = 'https://your-api-url.com/token';
     const data = new URLSearchParams();
     data.append('client_id', client_id);
     data.append('client_secret', client_secret);
     data.append('grant_type', grant_type);
 
-    // Make the fetch call to get the token
     return fetch(tokenUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data,
     })
       .then((response) => response.json())
-      .then((data) => {
-        // Return the token
-        return data.access_token; // Assuming the token is in the access_token field
-      })
+      .then((data) => data.access_token)
       .catch((error) => {
         console.error('Error fetching token:', error);
         throw error;
       });
   }
 
-  // Function to upload file with Bearer token and additional parameter
   function uploadFileWithToken(token: any, file: string | Blob, extraParam: string | Blob) {
-    const uploadUrl = 'https://your-api-url.com/upload'; // Replace with your file upload URL
-
-    // Prepare the form data for the file upload and additional parameter
+    const uploadUrl = 'https://your-api-url.com/upload';
     const formData = new FormData();
-    formData.append('file', file); // Append the file
-    formData.append('extra_param', extraParam); // Append any additional parameter
+    formData.append('file', file);
+    formData.append('extra_param', extraParam);
 
-    // Make the fetch call to upload the file
-    return fetch(uploadUrl, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass the token as a Bearer token
-      },
-      body: formData, // Form data automatically sets the content type to multipart/form-data
-    })
+    return fetch(uploadUrl, { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formData })
       .then((response) => response.json())
-      .then((data) => {
-        console.log('File uploaded successfully:', data);
-        return data; // Return the upload response data
-      })
+      .then((data) => data)
       .catch((error) => {
         console.error('Error uploading file:', error);
         throw error;
       });
   }
 
-  // Fetch the token
   fetchToken(client_id, client_secret, grant_type)
     .then((token) => {
-      // Use the token to upload the file once it's received
-      const file = ''; // Get the selected file from the input
-      const extraParam = ''; // Get the selected file from the input
+      const file = '';
+      const extraParam = '';
       if (file) {
         return uploadFileWithToken(token, file, extraParam);
       } else {
@@ -220,22 +180,18 @@ const DocumentUploadForm: React.FC = () => {
       }
     })
     .then((uploadResponse) => {
-      // Handle the response from the upload
       console.log('Upload Response:', uploadResponse);
     })
     .catch((error) => {
-      // Handle any errors
       console.error('Error:', error);
     });
 
   const orderApiCall = async (finalJson: any, apiName: string, type: string) => {
-    /* type may be fetch, list, upload or remove */
     modNetwork(
       apiName,
       { ...finalJson },
       (res: any) => {
         if (res.oprstatus == 0 && res.returnCode == 0) {
-          /* empty */
           if (type === 'list') {
             if (res.docsList && fetchdata.length > 0) {
               const merged = mergeArraysById(res.docsList, fetchdata[0]);
@@ -250,15 +206,7 @@ const DocumentUploadForm: React.FC = () => {
             }
           }
         } else {
-          // navigate('/Dashboard');
-
-          // Create new state
-          //setDialogText(res.errMsg_EN);
           console.log('Error Message ', res.errmsg);
-
-          //setDialogTitle('ERROR')
-          //setDialogPrimaryAction('OK');
-          //setShowAlert(true);
         }
       },
       '',
@@ -268,10 +216,7 @@ const DocumentUploadForm: React.FC = () => {
     );
   };
 
-  const handleBack = () => {
-    dispatch(setValuationActiveStep(1)); // Go back to Access Details
-  };
-
+  const handleBack = () => dispatch(setValuationActiveStep(1));
   const handleFileChange = (field: keyof DocumentValues) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.currentTarget.files?.[0];
     if (file) {
@@ -279,21 +224,18 @@ const DocumentUploadForm: React.FC = () => {
       documentUpload(file);
     }
   };
-
-  const handleFileDelete = (field: keyof DocumentValues) => () => {
-    formik.setFieldValue(field, null);
-  };
-  function handleCancel(): void {
+  const handleFileDelete = (field: keyof DocumentValues) => () => formik.setFieldValue(field, null);
+  const handleCancel = () => {
     dispatch(setPreApprovalStep(0));
     navigate(-1);
-  }
+  };
 
   const renderFileInput = (field: keyof DocumentValues, label: string, documentObject: any) => {
     const file = formik.values[field];
     const error = formik.touched[field] && formik.errors[field];
 
     return (
-      <Grid key={field} item xs={12} md={6}>
+      <Grid key={field} size={{ xs: 12, md: 6 }}>
         <Typography variant="subtitle2" gutterBottom>
           {label}
         </Typography>
@@ -305,12 +247,11 @@ const DocumentUploadForm: React.FC = () => {
             width: '100%',
             flexDirection: 'row',
             borderColor: '#BEC1C4',
-            borderWidth: 1, // Add a 2px solid black border
-            borderRadius: '8px', // Add 10px rounded corners
+            borderWidth: 1,
+            borderRadius: '8px',
           }}
         >
           <Button
-            //variant="outlined"
             component="label"
             fullWidth
             color={error ? 'error' : 'primary'}
@@ -322,7 +263,6 @@ const DocumentUploadForm: React.FC = () => {
               '&:hover': { borderColor: '#273239', bgcolor: 'transparent' },
             }}
           >
-            {/* {file ? file.name : t('valuation.documentUpload.choosefile')} */}
             {documentObject?.documentLink
               ? getFileName(documentObject.documentLink)?.trim().slice(0, 25)
               : file
@@ -330,15 +270,10 @@ const DocumentUploadForm: React.FC = () => {
                 : t('valuation.documentUpload.choosefile')}
             <input type="file" hidden accept=".pdf,.jpg,.png" onChange={handleFileChange(field)} />
           </Button>
-          
-            {/* // <IconButton onClick={handleFileDelete(field)} color="error" size="small">
-            //   <Delete />
-            // </IconButton> */}
 
-        <Button onClick={handleFileDelete(field)}  size="small" >
-              <img src={Trash} alt="Delete" />
-            </Button>
-          
+          <Button onClick={handleFileDelete(field)} size="small">
+            <img src={Trash} alt="Delete" />
+          </Button>
         </Box>
         {error && (
           <Typography color="error" variant="caption">
@@ -352,12 +287,7 @@ const DocumentUploadForm: React.FC = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <CardMedia
-        sx={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'transparent',
-          borderRadius: '24px', // Optional, if you want rounded corners
-        }}
+        sx={{ width: '100%', height: '100%', backgroundColor: 'transparent', borderRadius: '24px' }}
         component={'image'}
         image={BG_Card}
       >
@@ -392,7 +322,7 @@ const DocumentUploadForm: React.FC = () => {
                   color: '#273239',
                   height: '48px',
                   borderRadius: '8px',
-                  width: { xs: '100%', sm: '180px' }, // Full width on mobile, 160px on desktop
+                  width: { xs: '100%', sm: '180px' },
                   '&:hover': { borderColor: '#273239', bgcolor: 'transparent' },
                 }}
               >
@@ -405,7 +335,7 @@ const DocumentUploadForm: React.FC = () => {
                   color: '#273239',
                   height: '48px',
                   borderRadius: '5px',
-                  width: { xs: '100%', sm: '120px' }, // Full width on mobile, 160px on desktop
+                  width: { xs: '100%', sm: '120px' },
                   '&:hover': { borderColor: '#273239', bgcolor: 'transparent' },
                 }}
               >
@@ -421,7 +351,7 @@ const DocumentUploadForm: React.FC = () => {
                   color: 'white',
                   bgcolor: '#E31B23',
                   borderRadius: '8px',
-                  width: { xs: '100%', sm: '180px' }, // Full width on mobile, 160px on desktop
+                  width: { xs: '100%', sm: '180px' },
                   '&:hover': { bgcolor: '#CC181F' },
                 }}
               >
