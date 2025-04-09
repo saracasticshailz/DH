@@ -56,6 +56,7 @@ export default function MortgageDashboard() {
         bankReferenceId: '1234',
       },
       (res: any) => {
+        
         // {
         //   "oprstatus": 0,
         //   "address": {
@@ -181,7 +182,7 @@ export default function MortgageDashboard() {
             <StyledCard>
               <HeroSection>
                 <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                  {t('dashboardScreen.hero.welcome')} {customerName}
+                  {t('dashboardScreen.hero.welcome')} {customerName || ''}
                 </Typography>
                 <Typography variant="h3" sx={{ fontWeight: 700 }}>
                   {t('dashboardScreen.hero.title')}

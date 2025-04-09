@@ -69,10 +69,10 @@ export default function MortgageStep({
     if (applnstatus !== undefined) {
       return (
         <Chip
-          label={style.label}
+          label={style && style.label? style.label :''}
           sx={{
-            bgcolor: style.bgcolor,
-            color: style.color,
+            bgcolor: style && style.label?style.bgcolor: 'white',
+            color: style && style.color? style.color : 'white',
             height: '24px',
             fontSize: '12px',
             fontWeight: 500,
@@ -194,8 +194,9 @@ export default function MortgageStep({
                         <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold' }}>
                           {t('valuation.propertyDetails.propertyAddress')}
                         </Typography>
-                        <Typography sx={{ fontSize: '0.8rem' }}>
-                          {[
+                       <Typography sx={{ fontSize: '0.8rem' }}>
+                       {fetchOrderData && fetchOrderData.address ? (
+                          [
                             fetchOrderData.address.houseNoFlatNo,
                             fetchOrderData.address.floor,
                             fetchOrderData.address.buildingName,
@@ -206,7 +207,7 @@ export default function MortgageStep({
                             fetchOrderData.address.country,
                           ]
                             .filter(Boolean) // Filters out any empty strings or falsy values
-                            .join(', ')}{' '}
+                            .join(', ')) : null}
                           {/* Join the non-empty values with a comma */}
                         </Typography>
                       </Box>
